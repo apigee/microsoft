@@ -19,7 +19,7 @@
       "type": "string",
       "defaultValue": "/License/license.txt",
       "metadata": {
-        "description": "Copy the license file in ftp to license.txt of provide license file name in the format provided by Apigee."
+        "description": "Copy the license file in ftp to license.txt or provide license file name in the format provided by Apigee."
       }
     },
     "ftpEdgeBinaryPath": {
