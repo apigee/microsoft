@@ -2,6 +2,34 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    "ftpServer": {
+      "type": "string",
+      "defaultValue": "ftp.apigee.com",
+      "metadata": {
+        "description": "FTP Server details received from Apigee"
+      }
+    },
+    "ftpUserName": {
+      "type": "string"
+    },
+    "ftpPassword": {
+      "type": "securestring"
+    },
+    "ftpLicenseFile": {
+      "type": "string",
+      "defaultValue": "/License/license.txt",
+      "metadata": {
+        "description": "Copy the license file in ftp to license.txt of provide license file name in the format provided by Apigee."
+      }
+    },
+    "ftpEdgeBinaryPath": {
+      "type": "string",
+      "defaultValue": "/apigee_enterprise_OPDK/API_Services/apigee-edge-4.15.07.03.zip",
+      "metadata": {
+        "description": "This script is tested on 15.07.03."
+      }
+
+    },
     "location": {
       "type": "string",
       "defaultValue": "West US",
@@ -13,7 +41,7 @@
         "South East Asia"
       ],
       "metadata": {
-        "description": "Deployment location"
+        "description": "Deployment location of where Apigee will be installed"
       }
     },
     "vmSize": {
@@ -54,25 +82,7 @@
     "adminPassword": {
       "type": "securestring"
     },
-    "ftpServer": {
-      "type": "string",
-      "defaultValue": "ftp.apigee.com"
-    },
-    "ftpUserName": {
-      "type": "string"
-    },
-    "ftpPassword": {
-      "type": "securestring"
-    },
-    "ftpLicenseFile": {
-      "type": "string",
-      "defaultValue": "/License/license.txt"
-    },
-    "ftpEdgeBinaryPath": {
-      "type": "string",
-      "defaultValue": "/apigee_enterprise_OPDK/API_Services/apigee-edge-4.15.07.03.zip"
-    },
-     "apigeeSuperAdmin": {
+    "apigeeSuperAdmin": {
       "type": "string",
       "defaultValue": "opdk@apigee.com"
     },
@@ -264,7 +274,7 @@
         "typeHandlerVersion": "1.2",
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/rajeshm7910/apigee-azure-template/master/install-apigee.sh"
+            "https://raw.githubusercontent.com/apigee/microsoft/master/azure-apigee-extension/install-apigee.sh"
           ],
           "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('ftpUserName'),' ',base64(parameters('ftpPassword')),' ',parameters('ftpLicenseFile'),' ',parameters('apigeeSuperAdmin'),' ',parameters('apigeeSuperAdminPassword'),' ',parameters('apigeeOrgName'),' ',parameters('apigeeOrgEnv'),' ',parameters('apigeeEnvVhost'),' ',parameters('apigeeEnvVhostPort'),' ',reference(variables('publicIPAddressName')).dnsSettings.fqdn,' ',parameters('ftpServer'),' ',parameters('ftpEdgeBinaryPath'),' ',parameters('edgeVersion'))]"
         }
