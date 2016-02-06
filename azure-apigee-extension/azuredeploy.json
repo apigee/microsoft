@@ -133,15 +133,15 @@
     }
   },
   "variables": {
-    "nicName": "myVMNic",
+    "nicName": "[concat('myVMNic-',parameters('vmDnsName'))]",
     "addressPrefix": "10.0.0.0/16",
     "subnet1Name": "Subnet-1",
     "subnet1Prefix": "10.0.0.0/24",
-    "publicIPAddressName": "myPublicIP",
+    "publicIPAddressName": "[concat('myPublicIP-',parameters('vmDnsName'))]",
     "publicIPAddressType": "Dynamic",
     "vmStorageAccountContainerName": "vhds",
     "vmName": "[parameters('vmDnsName')]",
-    "virtualNetworkName": "MyVNET",
+    "virtualNetworkName": "[concat('MyVNET-',parameters('vmDnsName'))]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "storageAccountType": "Standard_LRS",
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
