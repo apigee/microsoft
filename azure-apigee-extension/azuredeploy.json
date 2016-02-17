@@ -108,7 +108,7 @@
     },
     "staticIp": {
       "type": "string",
-      "defaultValue": "10.1.0.7"
+      "defaultValue": "10.0.0.7"
     },
     "imagePublisher": {
       "type": "string",
