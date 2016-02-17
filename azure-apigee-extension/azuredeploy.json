@@ -106,6 +106,10 @@
       "type": "string",
       "defaultValue": "9001"
     },
+    "staticIp": {
+      "type": "string",
+      "defaultValue": "10.1.0.7"
+    },
     "imagePublisher": {
       "type": "string",
       "defaultValue": "OpenLogic",
@@ -205,7 +209,8 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAllocationMethod": "Static",
+              "privateIPAddress": "[parameters('staticIp')]",
               "publicIPAddress": {
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
               },
