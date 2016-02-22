@@ -192,7 +192,6 @@
       "type": "Microsoft.Compute/virtualMachines",
       "location": "westus",
       "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', parameters('newStorageAccountName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
         ],
     },
