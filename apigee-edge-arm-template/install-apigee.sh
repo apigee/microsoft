@@ -1,4 +1,3 @@
-FILE_BASEPATH="https://raw.githubusercontent.com/apigee/microsoft/master/azure-apigee-extension"
 USER_NAME=$1
 APW=$2
 ORG_NAME=$3
@@ -7,8 +6,6 @@ VHOST_NAME=$5
 VHOST_PORT=$6
 VHOST_ALIAS=$7
 EDGE_VERSION=$8
-
-
 
 cd /tmp
 
