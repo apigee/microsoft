@@ -177,7 +177,7 @@
           }
         },
         "osProfile": {
-          "computerName": "[parameters('vmName')]",
+          "computerName": "[variables('vmName')]",
           "adminUsername": "[parameters('adminUsername')]",
           "adminPassword": "[parameters('adminPassword')]"
         },
@@ -188,7 +188,7 @@
         },
         "provisioningState": 0
       },
-      "name": "[parameters('vmName')]",
+      "name": "[variables('vmName')]",
       "type": "Microsoft.Compute/virtualMachines",
       "location": "westus"
     },
