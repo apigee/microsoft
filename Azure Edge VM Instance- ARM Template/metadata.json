@@ -1,0 +1,7 @@
+{
+  "itemDisplayName": "Deploy Apigee on Azure CentOS",
+  "description": "This template allows you to deploy Apigee Edge on Azure. Once the Edge is successfully provisioned, installation can be verified by accessing the link http://<FQDN name or public IP>:9000/ ",
+  "summary": "Deploy Apigee Edge on Azure CentOS",
+  "githubUsername": "rajeshm7910",
+  "dateUpdated": "2016-02-05"
+}

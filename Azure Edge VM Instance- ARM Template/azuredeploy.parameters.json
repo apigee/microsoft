@@ -1,0 +1,54 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "West US"
+    },
+    "newStorageAccountName": {
+      "value": ""
+    },
+    "vmDnsName": {
+      "value": "sampleDns"
+    },
+    "adminUserName": {
+      "value": "admin"
+    },
+    "adminPassword": {
+      "value": ""
+    },
+    "ftpServer": {
+      "value": "ftp.apigee.com"
+    },
+    "ftpUserName": {
+      "value": "apigee"
+    },
+    "ftpPassword": {
+      "value": ""
+    }, 
+    "ftpLicenseFile": {
+      "value": "/License/license.txt"
+    },
+    "ftpEdgeBinaryPath": {
+      "value": "/apigee_enterprise_OPDK/API_Services/apigee-edge-4.15.07.03.zip"
+    },
+     "apigeeSuperAdmin": {
+      "value": "opdk@apigee.com"
+    },
+    "apigeeSuperAdminPassword": {
+      "value": ".Apigee123"
+    },
+     "apigeeOrgName": {
+      "value": "demo"
+    },
+    "apigeeOrgEnv": {
+      "value": "test"
+    },
+    "apigeeEnvVhost": {
+      "value": "default"
+    },
+    "apigeeEnvVhostPort": {
+      "value": "9001"
+    }
+  }
+}
