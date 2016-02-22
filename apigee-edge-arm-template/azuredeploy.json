@@ -40,19 +40,13 @@
         "description": "Size of the Virtual Machine."
       }
     },
-    "newStorageAccountName": {
-      "type": "string",
-      "metadata": {
-        "description": "Name of the Storage Account"
-      }
-    },
     "vmDnsName": {
       "type": "string",
-      "default": "apigeeedgetrail"
+      "defaultValue": "apigeeedgetrail"
     },
     "adminUserName": {
       "type": "string",
-      "default": "apigeetrail"
+      "defaultValue": "apigeetrail"
     },
     "adminPassword": {
       "type": "securestring"
