@@ -190,7 +190,11 @@
       },
       "name": "[variables('vmName')]",
       "type": "Microsoft.Compute/virtualMachines",
-      "location": "westus"
+      "location": "westus",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', parameters('newStorageAccountName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+        ],
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
