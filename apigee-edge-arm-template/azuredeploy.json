@@ -82,15 +82,15 @@
     }
   },
   "variables": {
-    "nicName": "ApigeeVMNic",
+    "nicName": "[concat('ApigeeVMNic-',parameters('vmDnsName'))]",
     "addressPrefix": "10.0.0.0/16",
     "subnet1Name": "Subnet-1",
     "subnet1Prefix": "10.0.0.0/24",
-    "publicIPAddressName": "ApigeePublicIP",
+    "publicIPAddressName": "[concat('ApigeePublicIP-',parameters('vmDnsName'))]",
     "publicIPAddressType": "Dynamic",
     "vmStorageAccountContainerName": "vhds",
     "vmName": "[parameters('vmDnsName')]",
-    "virtualNetworkName": "ApigeeVNET",
+    "virtualNetworkName": "[concat('ApigeeVNET-',parameters('vmDnsName'))]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "storageAccountType": "Standard_LRS",
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
