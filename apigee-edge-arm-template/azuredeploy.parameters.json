@@ -1,0 +1,39 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "West US"
+    },
+    "newStorageAccountName": {
+      "value": "apigeetrailcli"
+    },
+    "vmDnsName": {
+      "value": "apigeetrailcli"
+    },
+    "adminUserName": {
+      "value": "apigeetrail"
+    },
+    "adminPassword": {
+      "value": ".Apigee123"
+    },
+     "apigeeSuperAdmin": {
+      "value": "opdk@apigee.com"
+    },
+    "apigeeSuperAdminPassword": {
+      "value": ".Apigee123"
+    },
+     "apigeeOrgName": {
+      "value": "demo"
+    },
+    "apigeeOrgEnv": {
+      "value": "test"
+    },
+    "apigeeEnvVhost": {
+      "value": "default"
+    },
+    "apigeeEnvVhostPort": {
+      "value": "9001"
+    }
+  }
+}

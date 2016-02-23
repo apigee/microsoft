@@ -1,0 +1,1 @@
+echo "hello" > /tmp/hello.txt
