@@ -169,10 +169,10 @@
             "name": "apigee-edge-trail-aio-osDisk.7a58844c-0e2c-4dc8-aaba-8fb09168ff00.vhd",
             "createOption": "FromImage",
             "image": {
-              "uri": "http://apigeeedgetrail.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigee-edge-trail-aio-osDisk.7a58844c-0e2c-4dc8-aaba-8fb09168ff00.vhd"
+              "uri": "http://apigeeedgetrail.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigee-edge-trail-aio-osDisk.cdecbfc5-588e-440f-8267-0828a7fce34a.vhd"
             },
             "vhd": {
-              "uri": "http://apigeeedgetrail.blob.core.windows.net/vmcontainer42270289-c683-411c-966f-60720f4bac9d/osDisk.42270289-c683-411c-966f-60720f4bac9d.vhd"
+              "uri": "http://apigeeedgetrail.blob.core.windows.net/vmcontainer5caecbb5-b197-4b0e-b969-a7a7bddc1f72/osDisk.5caecbb5-b197-4b0e-b969-a7a7bddc1f72.vhd"
             },
             "caching": "ReadWrite"
           }
