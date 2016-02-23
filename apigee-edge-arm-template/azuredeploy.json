@@ -49,7 +49,8 @@
       "defaultValue": "apigeetrail"
     },
     "adminPassword": {
-      "type": "securestring"
+      "type": "securestring",
+      "defaultValue": ".Apigee123"
     },
     "apigeeSuperAdmin": {
       "type": "string",
@@ -193,7 +194,7 @@
       "location": "westus",
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
-        ],
+        ]
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
