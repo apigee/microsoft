@@ -211,9 +211,9 @@
         "typeHandlerVersion": "1.2",
         "settings": {
           "fileUris": [
-            "https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template/install-apigee.sh"
+            "https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template/test.sh"
           ],
-          "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('apigeeSuperAdmin'),' ',parameters('apigeeSuperAdminPassword'),' ',parameters('apigeeOrgName'),' ',parameters('apigeeOrgEnv'),' ',parameters('apigeeEnvVhost'),' ',parameters('apigeeEnvVhostPort'),' ','reference(variables('publicIPAddressName')).dnsSettings.fqdn',' ',parameters('edgeVersion'))]"
+          "commandToExecute": "[concat('sh test.sh',' ')]"
         }
       }
     }
