@@ -22,9 +22,9 @@
   
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'),'/newuserscript')]",
+      "name": "testhelloscript",
       "apiVersion": "2015-05-01-preview",
-      "location": "[parameters('location')]",
+      "location": "West US",
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
         "type": "CustomScriptForLinux",
