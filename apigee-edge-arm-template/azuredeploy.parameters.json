@@ -5,11 +5,8 @@
     "location": {
       "value": "West US"
     },
-    "newStorageAccountName": {
-      "value": "apigeetrailcli"
-    },
     "vmDnsName": {
-      "value": "apigeetrailcli"
+      "value": "apigeeedgetrail"
     },
     "adminUserName": {
       "value": "apigeetrail"
