@@ -9,7 +9,10 @@ VHOST_PORT=$6
 VHOST_ALIAS=$7
 EDGE_VERSION=$8
 
+echo 'script execution started at:'>>/tmp/armscript.log
+echo $(date)>>/tmp/armscript.log
 echo 'Inititalized variables, ' $USER_NAME, $VHOST_ALIAS, $EDGE_VERSION >>/tmp/armscript.log
+
 
 cd /tmp
 
@@ -33,4 +36,7 @@ echo 'installing unpacked edge binaries' >> /tmp/armscript.log
 #update the setup-org
 cp -fr /tmp/setup-org.sh /opt/apigee4/bin/setup-org.sh
 /opt/apigee4/bin/setup-org.sh ${USER_NAME} ${APW} ${ORG_NAME} ${ENV_NAME} ${VHOST_NAME} ${VHOST_PORT} ${VHOST_ALIAS}
+
+echo 'script execution ended at:'>>/tmp/armscript.log
+echo $(date)>>/tmp/armscript.log
 

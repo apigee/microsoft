@@ -31,6 +31,9 @@
     },
     "apigeeEnvVhostPort": {
       "value": "9001"
+    },
+    "edgeVersion": {
+      "value": "4.15.07.03"
     }
   }
 }
