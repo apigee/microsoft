@@ -11,7 +11,7 @@ EDGE_VERSION=$8
 
 echo 'script execution started at:'>>/tmp/armscript.log
 echo $(date)>>/tmp/armscript.log
-echo 'Inititalized variables, ' $USER_NAME, $VHOST_ALIAS, $EDGE_VERSION >>/tmp/armscript.log
+echo 'Inititalized variables, ' $VHOST_ALIAS, $EDGE_VERSION >>/tmp/armscript.log
 
 
 cd /tmp
@@ -33,6 +33,15 @@ echo 'in edge folder, installing' >> /tmp/armscript.log
 
 echo 'installing unpacked edge binaries' >> /tmp/armscript.log
 /opt/apigee4/share/installer/apigee-setup.sh -p aio -f /tmp/opdk.conf
+
+
+
+#/opt/apigee4/share/installer/apigee-setup.sh -p ds -f /tmp/opdk.conf
+
+#/opt/apigee4/share/installer/apigee-setup.sh -p rmp -f /tmp/opdk.conf
+
+#/opt/apigee4/share/installer/apigee-setup.sh -p sax -f /tmp/opdk.conf
+
 #update the setup-org
 cp -fr /tmp/setup-org.sh /opt/apigee4/bin/setup-org.sh
 /opt/apigee4/bin/setup-org.sh ${USER_NAME} ${APW} ${ORG_NAME} ${ENV_NAME} ${VHOST_NAME} ${VHOST_PORT} ${VHOST_ALIAS}

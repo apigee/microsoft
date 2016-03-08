@@ -13,12 +13,24 @@ FTP_SERVER=${11}
 FTP_EDGE_BINARY_PATH=${12}
 EDGE_VERSION=${13}
 
-
 FTP_PASSWORD=`echo ${FTP_PASSWORD} | base64 --decode`
+
+mkdir -p /tmp/apigee
+cd /tmp/apigee
+
 
 yum install wget -y
 yum install unzip -y
 yum install curl -y
+
+yum install python-setuptools -y
+easy_install pip -y
+pip install boto
+yum install libselinux-python -y
+pip install httplib2
+
+
+
 
 setenforce 0 >> /tmp/setenforce.out
 cat /etc/selinux/config > /tmp/beforeSelinux.out
@@ -32,12 +44,48 @@ chkconfig iptables off
 
 curl -v -j -O -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.rpm"
 rpm -i jdk-7u79-linux-x64.rpm
-curl -o /tmp/apigee-edge-${EDGE_VERSION}.zip -u "${FTP_USER}:${FTP_PASSWORD}" "${FTP_SERVER}${FTP_EDGE_BINARY_PATH}"
-curl -o /tmp/license.txt -u "${FTP_USER}:${FTP_PASSWORD}" "${FTP_SERVER}${LICENSE_PATH}"
-curl -o /tmp/setup-org.sh "${FILE_BASEPATH}/setup-org.sh"
-curl -o /tmp/opdk.conf "${FILE_BASEPATH}/opdk.conf"
-curl -o /tmp/CentOS-Base.repo "${FILE_BASEPATH}/CentOS-Base.repo"
-cp -fr /tmp/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
+curl -o /tmp/apigee/apigee-edge-${EDGE_VERSION}.zip -u "${FTP_USER}:${FTP_PASSWORD}" "${FTP_SERVER}${FTP_EDGE_BINARY_PATH}"
+curl -o /tmp/apigee/license.txt -u "${FTP_USER}:${FTP_PASSWORD}" "${FTP_SERVER}${LICENSE_PATH}"
+curl -o /tmp/apigee/apig/setup-org.sh "${FILE_BASEPATH}/setup-org.sh"
+curl -o /tmp/apigee/opdk.conf "${FILE_BASEPATH}/opdk.conf"
+curl -o /tmp/apigee/CentOS-Base.repo "${FILE_BASEPATH}/CentOS-Base.repo"
+cp -fr /tmp/apigee/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
+
+yum install gcc -y
+
+wget 'http://www.python.org/ftp/python/2.7.6/Python-2.7.6.tar.xz'
+xz -d Python-2.7.6.tar.xz
+tar -xvf Python-2.7.6.tar
+cd Python-2.7.6
+./configure --prefix=/usr/local 
+make
+make altinstall
+cd /tmp/apigee
+echo 'Python updated' >> /tmp/armtemplateoutput.log
+/tmp/apigee/python --version >> /tmp/armtemplateoutput.log
+
+wget --no-check-certificate 'https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz'
+tar -xvf setuptools-1.4.2.tar.gz
+cd setuptools-1.4.2
+/tmp/apigee/Python-2.7.6/python setup.py install
+
+cd /tmp/apigee
+wget https://bootstrap.pypa.io/get-pip.py
+/tmp/apigee/Python-2.7.6/python get-pip.py
+
+yum install python-setuptools -y
+
+/usr/local/bin/pip install boto
+yum install libselinux-python -y
+/usr/local/bin/pip install httplib2
+/usr/local/bin/pip install simplejson
+
+
+/usr/local/bin/pip install ansible
+
+echo 'installed ansible' >> /tmp/armtemplateoutput.log
+
+
 
 
 #cd /tmp

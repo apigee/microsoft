@@ -11,7 +11,7 @@
     "adminUserName": {
       "value": "apigeetrail"
     },
-    "adminPassword": {
+    "adminPassword": {  
       "value": ".Apigee123"
     },
      "apigeeSuperAdmin": {
