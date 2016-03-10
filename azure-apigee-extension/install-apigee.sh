@@ -46,12 +46,14 @@ curl -v -j -O -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" "http:
 rpm -i jdk-7u79-linux-x64.rpm
 curl -o /tmp/apigee/apigee-edge-${EDGE_VERSION}.zip -u "${FTP_USER}:${FTP_PASSWORD}" "${FTP_SERVER}${FTP_EDGE_BINARY_PATH}"
 curl -o /tmp/apigee/license.txt -u "${FTP_USER}:${FTP_PASSWORD}" "${FTP_SERVER}${LICENSE_PATH}"
-curl -o /tmp/apigee/apig/setup-org.sh "${FILE_BASEPATH}/setup-org.sh"
+curl -o /tmp/apigee/setup-org.sh "${FILE_BASEPATH}/setup-org.sh"
 curl -o /tmp/apigee/opdk.conf "${FILE_BASEPATH}/opdk.conf"
 curl -o /tmp/apigee/CentOS-Base.repo "${FILE_BASEPATH}/CentOS-Base.repo"
 cp -fr /tmp/apigee/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
 
 yum install gcc -y
+yum install zlib-devel -y
+yum install openssl openssl-devel -y
 
 wget 'http://www.python.org/ftp/python/2.7.6/Python-2.7.6.tar.xz'
 xz -d Python-2.7.6.tar.xz
@@ -62,7 +64,7 @@ make
 make altinstall
 cd /tmp/apigee
 echo 'Python updated' >> /tmp/armtemplateoutput.log
-/tmp/apigee/python --version >> /tmp/armtemplateoutput.log
+/tmp/apigee/Python-2.7.6/python --version >> /tmp/armtemplateoutput.log
 
 wget --no-check-certificate 'https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz'
 tar -xvf setuptools-1.4.2.tar.gz
@@ -85,18 +87,19 @@ yum install libselinux-python -y
 
 echo 'installed ansible' >> /tmp/armtemplateoutput.log
 
+sed -i 's/\/sbin:\/bin:\/usr\/sbin:\/usr\/bin/\/usr\/local\/bin:\/tmp\/apigee\/Python-2.7.6:\/sbin:\/bin:\/usr\/sbin:\/usr\/bin/g' /etc/sudoers
 
 
-
-#cd /tmp
+cd /tmp/apigee
+unzip apigee-edge-${EDGE_VERSION}.zip
+cd apigee-edge-${EDGE_VERSION}
+./apigee-install.sh -j /usr/java/default -r /opt -d /opt
 
 #sed -i s/ADMIN_EMAIL=/ADMIN_EMAIL="${USER_NAME}"/g opdk.conf
 #sed -i s/APIGEE_ADMINPW=/APIGEE_ADMINPW="${APW}"/g opdk.conf
 #sed -i s/APIGEE_LDAPPW=/APIGEE_LDAPPW="${APW}"/g opdk.conf
 
-#unzip apigee-edge-${EDGE_VERSION}.zip
-#cd apigee-edge-${EDGE_VERSION}
-#./apigee-install.sh -j /usr/java/default -r /opt -d /opt
+
 #/opt/apigee4/share/installer/apigee-setup.sh -p aio -f /tmp/opdk.conf
 #update the setup-org
 #cp -fr /tmp/setup-org.sh /opt/apigee4/bin/setup-org.sh

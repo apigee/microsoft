@@ -43,7 +43,7 @@ echo 'installing unpacked edge binaries' >> /tmp/armscript.log
 #/opt/apigee4/share/installer/apigee-setup.sh -p sax -f /tmp/opdk.conf
 
 #update the setup-org
-cp -fr /tmp/setup-org.sh /opt/apigee4/bin/setup-org.sh
+cp -fr /tmp/apigee/setup-org.sh /opt/apigee4/bin/setup-org.sh
 /opt/apigee4/bin/setup-org.sh ${USER_NAME} ${APW} ${ORG_NAME} ${ENV_NAME} ${VHOST_NAME} ${VHOST_PORT} ${VHOST_ALIAS}
 
 echo 'script execution ended at:'>>/tmp/armscript.log
