@@ -90,10 +90,10 @@ echo 'installed ansible' >> /tmp/armtemplateoutput.log
 sed -i 's/\/sbin:\/bin:\/usr\/sbin:\/usr\/bin/\/usr\/local\/bin:\/tmp\/apigee\/Python-2.7.6:\/sbin:\/bin:\/usr\/sbin:\/usr\/bin/g' /etc/sudoers
 
 
-cd /tmp/apigee
-unzip apigee-edge-${EDGE_VERSION}.zip
-cd apigee-edge-${EDGE_VERSION}
-./apigee-install.sh -j /usr/java/default -r /opt -d /opt
+# cd /tmp/apigee
+# unzip apigee-edge-${EDGE_VERSION}.zip
+# cd apigee-edge-${EDGE_VERSION}
+# ./apigee-install.sh -j /usr/java/default -r /opt -d /opt
 
 #sed -i s/ADMIN_EMAIL=/ADMIN_EMAIL="${USER_NAME}"/g opdk.conf
 #sed -i s/APIGEE_ADMINPW=/APIGEE_ADMINPW="${APW}"/g opdk.conf

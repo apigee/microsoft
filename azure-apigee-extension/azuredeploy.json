@@ -90,7 +90,7 @@
       "type": "securestring",
       "defaultValue": ".Apigee123"
     },
-     "apigeeOrgName": {
+    "apigeeOrgName": {
       "type": "string",
       "defaultValue": "demo"
     },
@@ -152,147 +152,124 @@
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
 
   },
-  "resources": [
-    {
-      "type": "Microsoft.Storage/storageAccounts",
-      "name": "[parameters('newStorageAccountName')]",
-      "apiVersion": "2015-05-01-preview",
-      "location": "[parameters('location')]",
-      "properties": {
-        "accountType": "[variables('storageAccountType')]"
-      }
-    },
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[variables('publicIPAddressName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
-        "dnsSettings": {
-          "domainNameLabel": "[parameters('vmDnsName')]"
-        }
-      }
-    },
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/virtualNetworks",
-      "name": "[variables('virtualNetworkName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[variables('addressPrefix')]"
-          ]
-        },
-        "subnets": [
-          {
-            "name": "[variables('subnet1Name')]",
-            "properties": {
-              "addressPrefix": "[variables('subnet1Prefix')]"
-            }
-          }
-        ]
-      }
-    },
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Network/networkInterfaces",
-      "name": "[variables('nicName')]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
-        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
-      ],
-      "properties": {
-        "ipConfigurations": [
-          {
-            "name": "ipconfig1",
-            "properties": {
-              "privateIPAllocationMethod": "Dynamic",
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
-              },
-              "subnet": {
-                "id": "[variables('subnet1Ref')]"
-              }
-            }
-          }
-        ]
-      }
-    },
-    {
-      "apiVersion": "2015-05-01-preview",
-      "type": "Microsoft.Compute/virtualMachines",
-      "name": "[variables('vmName')]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', parameters('newStorageAccountName'))]",
-        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
-      ],
-      "properties": {
-        "hardwareProfile": {
-          "vmSize": "[parameters('vmSize')]"
-        },
-        "osProfile": {
-          "computerName": "[variables('vmName')]",
-          "adminUsername": "[parameters('adminUsername')]",
-          "adminPassword": "[parameters('adminPassword')]"
-        },
-        "storageProfile": {
-          "imageReference": {
-            "publisher": "[parameters('imagePublisher')]",
-            "offer": "[parameters('imageOffer')]",
-            "sku": "[parameters('imageSKU')]",
-            "version": "latest"
-          },
-          "osDisk": {
-            "name": "osdisk1",
-            "vhd": {
-              "uri": "[concat('http://',parameters('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/','osdisk1spec.vhd')]"
-            },
-            "caching": "ReadWrite",
-            "createOption": "FromImage"
-          },
-          "dataDisks": [{
-              "name": "dataDisk0",
-              "diskSizeGB": "500",
-              "lun": 0,
-              "vhd": {
-                "Uri": "[concat('http://',parameters('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/','dataDisk0.vhd')]"
-              },
-              "caching": "ReadWrite",
-              "createOption": "Empty"
-            }]
-        },
-        "networkProfile": {
-          "networkInterfaces": [
-            {
-              "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
-            }
-          ]
-        }
-      }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'),'/newuserscript')]",
-      "apiVersion": "2015-05-01-preview",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
-      ],
-      "properties": {
-        "publisher": "Microsoft.OSTCExtensions",
-        "type": "CustomScriptForLinux",
-        "typeHandlerVersion": "1.2",
-        "settings": {
-          "fileUris": [
-            "https://raw.githubusercontent.com/apigee/microsoft/master/azure-apigee-extension/install-apigee.sh"
-          ],
-          "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('ftpUserName'),' ',base64(parameters('ftpPassword')),' ',parameters('ftpLicenseFile'),' ',parameters('apigeeSuperAdmin'),' ',parameters('apigeeSuperAdminPassword'),' ',parameters('apigeeOrgName'),' ',parameters('apigeeOrgEnv'),' ',parameters('apigeeEnvVhost'),' ',parameters('apigeeEnvVhostPort'),' ',reference(variables('publicIPAddressName')).dnsSettings.fqdn,' ',parameters('ftpServer'),' ',parameters('ftpEdgeBinaryPath'),' ',parameters('edgeVersion'))]"
-        }
+  "resources": [{
+    "type": "Microsoft.Storage/storageAccounts",
+    "name": "[parameters('newStorageAccountName')]",
+    "apiVersion": "2015-05-01-preview",
+    "location": "[parameters('location')]",
+    "properties": {
+      "accountType": "[variables('storageAccountType')]"
+    }
+  }, {
+    "apiVersion": "2015-05-01-preview",
+    "type": "Microsoft.Network/publicIPAddresses",
+    "name": "[variables('publicIPAddressName')]",
+    "location": "[parameters('location')]",
+    "properties": {
+      "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+      "dnsSettings": {
+        "domainNameLabel": "[parameters('vmDnsName')]"
       }
     }
-  ]
+  }, {
+    "apiVersion": "2015-05-01-preview",
+    "type": "Microsoft.Network/virtualNetworks",
+    "name": "[variables('virtualNetworkName')]",
+    "location": "[parameters('location')]",
+    "properties": {
+      "addressSpace": {
+        "addressPrefixes": [
+          "[variables('addressPrefix')]"
+        ]
+      },
+      "subnets": [{
+        "name": "[variables('subnet1Name')]",
+        "properties": {
+          "addressPrefix": "[variables('subnet1Prefix')]"
+        }
+      }]
+    }
+  }, {
+    "apiVersion": "2015-05-01-preview",
+    "type": "Microsoft.Network/networkInterfaces",
+    "name": "[variables('nicName')]",
+    "location": "[parameters('location')]",
+    "dependsOn": [
+      "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
+      "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+    ],
+    "properties": {
+      "ipConfigurations": [{
+        "name": "ipconfig1",
+        "properties": {
+          "privateIPAllocationMethod": "Dynamic",
+          "publicIPAddress": {
+            "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
+          },
+          "subnet": {
+            "id": "[variables('subnet1Ref')]"
+          }
+        }
+      }]
+    }
+  }, {
+    "apiVersion": "2015-05-01-preview",
+    "type": "Microsoft.Compute/virtualMachines",
+    "name": "[variables('vmName')]",
+    "location": "[parameters('location')]",
+    "dependsOn": [
+      "[concat('Microsoft.Storage/storageAccounts/', parameters('newStorageAccountName'))]",
+      "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+    ],
+    "properties": {
+      "hardwareProfile": {
+        "vmSize": "[parameters('vmSize')]"
+      },
+      "osProfile": {
+        "computerName": "[variables('vmName')]",
+        "adminUsername": "[parameters('adminUsername')]",
+        "adminPassword": "[parameters('adminPassword')]"
+      },
+      "storageProfile": {
+        "imageReference": {
+          "publisher": "[parameters('imagePublisher')]",
+          "offer": "[parameters('imageOffer')]",
+          "sku": "[parameters('imageSKU')]",
+          "version": "latest"
+        },
+        "osDisk": {
+          "name": "osdisk1",
+          "vhd": {
+            "uri": "[concat('http://',parameters('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/','osdisk1spec.vhd')]"
+          },
+          "caching": "ReadWrite",
+          "createOption": "FromImage"
+        }
+      },
+      "networkProfile": {
+        "networkInterfaces": [{
+          "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
+        }]
+      }
+    }
+  }, {
+    "type": "Microsoft.Compute/virtualMachines/extensions",
+    "name": "[concat(variables('vmName'),'/newuserscript')]",
+    "apiVersion": "2015-05-01-preview",
+    "location": "[parameters('location')]",
+    "dependsOn": [
+      "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+    ],
+    "properties": {
+      "publisher": "Microsoft.OSTCExtensions",
+      "type": "CustomScriptForLinux",
+      "typeHandlerVersion": "1.2",
+      "settings": {
+        "fileUris": [
+          "https://raw.githubusercontent.com/apigee/microsoft/master/azure-apigee-extension/install-apigee.sh"
+        ],
+        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('ftpUserName'),' ',base64(parameters('ftpPassword')),' ',parameters('ftpLicenseFile'),' ',parameters('apigeeSuperAdmin'),' ',parameters('apigeeSuperAdminPassword'),' ',parameters('apigeeOrgName'),' ',parameters('apigeeOrgEnv'),' ',parameters('apigeeEnvVhost'),' ',parameters('apigeeEnvVhostPort'),' ',reference(variables('publicIPAddressName')).dnsSettings.fqdn,' ',parameters('ftpServer'),' ',parameters('ftpEdgeBinaryPath'),' ',parameters('edgeVersion'))]"
+      }
+    }
+  }]
 }
