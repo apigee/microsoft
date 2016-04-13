@@ -1,4 +1,3 @@
-}
 {
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
@@ -48,12 +47,12 @@
     "templateBaseUrl": "https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template/",
     "tshirtSizeXSmall": {
       "vmSize": "Standard_A3",
-      "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
+      "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
       "datastoreInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
-      "managementTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.json')]"
+      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.json')]"
 
     },
     "tshirtSizeMedium": {
@@ -63,7 +62,7 @@
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
-      "managementTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.json')]"
+      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.json')]"
 
     },
     "tshirtSizeLarge": {
@@ -73,22 +72,22 @@
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'internal-instances.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
-      "managementTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.parameters.json')]"
+      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.parameters.json')]"
 
     },
     "tshirtSize": "[variables(concat('tshirtSize', parameters('tshirtSize')))]",
 
-    "nicName": "[concat('ApigeeVMNic-',parameters('vmDnsName'))]",
+    "nicName": "[concat('ApigeeVMNic-',parameters('apigeeDeploymentName'))]",
     "addressPrefix": "10.0.0.0/16",
     "subnet1Name": "Subnet-1",
     "subnet1Prefix": "10.0.0.0/24",
-    "publicIPAddressName": "[concat('ApigeeManagementPublicIP-',parameters('vmDnsName'))]",
-    "publicIPDNSName": "[concat(parameters('vmDnsName'), '-management')]",
-    "runtimePublicIPAddressName": "[concat('ApigeeRuntimePublicIP-',parameters('vmDnsName'))]",
+    "publicIPAddressName": "[concat('ApigeeManagementPublicIP-',parameters('apigeeDeploymentName'))]",
+    "publicIPDNSName": "[concat(parameters('apigeeDeploymentName'), '-management')]",
+    "runtimePublicIPAddressName": "[concat('ApigeeRuntimePublicIP-',parameters('apigeeDeploymentName'))]",
     "publicIPAddressType": "Dynamic",
     "vmStorageAccountContainerName": "vhds",
-    "vmName": "[parameters('vmDnsName')]",
-    "virtualNetworkName": "[concat('ApigeeVNET-',parameters('vmDnsName'))]",
+    "vmName": "[parameters('apigeeDeploymentName')]",
+    "virtualNetworkName": "[concat('ApigeeVNET-',parameters('apigeeDeploymentName'))]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "storageAccountType": "Standard_LRS",
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
@@ -169,7 +168,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('tshirtSize').datastoreInstancesTemplateUrl]",
+          "uri": "[variables('tshirtSize').qpidInstancesTemplateUrl]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -204,7 +203,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('tshirtSize').datastoreInstancesTemplateUrl]",
+          "uri": "[variables('tshirtSize').analyticsInstancesTemplateUrl]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -239,7 +238,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('tshirtSize').datastoreInstancesTemplateUrl]",
+          "uri": "[variables('tshirtSize').rmpInstancesTemplateUrl]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -284,7 +283,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('tshirtSize').datastoreInstancesTemplateUrl]",
+          "uri": "[variables('tshirtSize').managementInstancesTemplateUrl]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {

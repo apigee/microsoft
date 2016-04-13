@@ -123,7 +123,7 @@
             "createOption": "FromImage"
           }
         },
-        
+
 
         "networkProfile": {
           "networkInterfaces": [{

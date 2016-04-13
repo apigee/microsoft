@@ -38,11 +38,6 @@
   },
   "variables": {},
   "resources": [],
-  "outputs": {}
-        }
-      }
-    }
-  ],
   "outputs": {
     "ip1": {
       "value": "empty",

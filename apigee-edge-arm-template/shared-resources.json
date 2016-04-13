@@ -68,7 +68,7 @@
           "domainNameLabel": "[variables('publicIPDNSName')]"
         }
       }
-    },  {
+    }, {
       "apiVersion": "2015-05-01-preview",
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[variables('virtualNetworkName')]",
