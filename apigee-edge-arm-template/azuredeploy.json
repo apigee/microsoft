@@ -1,0 +1,318 @@
+}
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+
+    "location": {
+      "type": "string",
+      "defaultValue": "West US",
+      "allowedValues": [
+        "East US",
+        "West US",
+        "West Europe",
+        "East Asia",
+        "South East Asia"
+      ],
+      "metadata": {
+        "description": "Deployment location of where Apigee will be installed"
+      }
+    },
+    "tshirtSize": {
+      "type": "string",
+      "defaultValue": "XSmall",
+      "allowedValues": [
+        "XSmall",
+        "Medium",
+        "Large"
+      ],
+      "metadata": {
+        "description": "T-shirt size of the Apigee deployment"
+      }
+    },
+
+
+    "apigeeDeploymentName": {
+      "type": "string",
+      "defaultValue": "apigeeedgetrial"
+    },
+    "adminUserName": {
+      "type": "string",
+      "defaultValue": "apigeetrial"
+    },
+    "sshKey": {
+      "type": "string"
+    }
+  },
+  "variables": {
+    "templateBaseUrl": "https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template/",
+    "tshirtSizeXSmall": {
+      "vmSize": "Standard_A3",
+      "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
+      "datastoreInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
+      "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
+      "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
+      "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
+      "managementTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.json')]"
+
+    },
+    "tshirtSizeMedium": {
+
+      "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
+      "datastoreInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
+      "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
+      "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
+      "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
+      "managementTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.json')]"
+
+    },
+    "tshirtSizeLarge": {
+
+      "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
+      "datastoreInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'internal-instances.json')]",
+      "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'internal-instances.json')]",
+      "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
+      "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
+      "managementTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.parameters.json')]"
+
+    },
+    "tshirtSize": "[variables(concat('tshirtSize', parameters('tshirtSize')))]",
+
+    "nicName": "[concat('ApigeeVMNic-',parameters('vmDnsName'))]",
+    "addressPrefix": "10.0.0.0/16",
+    "subnet1Name": "Subnet-1",
+    "subnet1Prefix": "10.0.0.0/24",
+    "publicIPAddressName": "[concat('ApigeeManagementPublicIP-',parameters('vmDnsName'))]",
+    "publicIPDNSName": "[concat(parameters('vmDnsName'), '-management')]",
+    "runtimePublicIPAddressName": "[concat('ApigeeRuntimePublicIP-',parameters('vmDnsName'))]",
+    "publicIPAddressType": "Dynamic",
+    "vmStorageAccountContainerName": "vhds",
+    "vmName": "[parameters('vmDnsName')]",
+    "virtualNetworkName": "[concat('ApigeeVNET-',parameters('vmDnsName'))]",
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
+    "storageAccountType": "Standard_LRS",
+    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
+    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
+    "runtimePublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))]"
+
+  },
+  "resources": [
+
+    {
+      "name": "shared",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('tshirtSize').sharedTemplateUrl]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "vmDnsName": {
+            "value": "[parameters('apigeeDeploymentName')]"
+          },
+          "vmtypeprefix": {
+            "value": "datastore"
+          },
+          "adminUserName": {
+            "value": "[parameters('adminUserName')]"
+          },
+          "machineSettings": {},
+          "sshKey": {
+            "value": "not used"
+          }
+        }
+      }
+    }, {
+      "name": "datastoreInstances",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('tshirtSize').datastoreInstancesTemplateUrl]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "vmDnsName": {
+            "value": "[parameters('apigeeDeploymentName')]"
+          },
+          "vmtypeprefix": {
+            "value": "datastore"
+          },
+          "adminUserName": {
+            "value": "[parameters('adminUserName')]"
+          },
+          "machineSettings": {
+            "value": {
+              "vmSize": "Standard_A4",
+              "diskSize": "250",
+              "vmCount": 2
+            }
+          },
+          "sshKey": {
+            "value": "[parameters('sshKey')]"
+          }
+        }
+      }
+    }, {
+      "name": "qpidInstances",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('tshirtSize').datastoreInstancesTemplateUrl]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "vmDnsName": {
+            "value": "[parameters('apigeeDeploymentName')]"
+          },
+          "vmtypeprefix": {
+            "value": "qpid"
+          },
+          "adminUserName": {
+            "value": "[parameters('adminUserName')]"
+          },
+          "machineSettings": {
+            "value": {
+              "vmSize": "Standard_A2",
+              "diskSize": "250",
+              "vmCount": 2
+            }
+          },
+          "sshKey": {
+            "value": "[parameters('sshKey')]"
+          }
+        }
+      }
+    }, {
+      "name": "analyticsInstances",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('tshirtSize').datastoreInstancesTemplateUrl]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "vmDnsName": {
+            "value": "[parameters('apigeeDeploymentName')]"
+          },
+          "vmtypeprefix": {
+            "value": "analytics"
+          },
+          "adminUserName": {
+            "value": "[parameters('adminUserName')]"
+          },
+          "machineSettings": {
+            "value": {
+              "vmSize": "Standard_A3",
+              "diskSize": "500",
+              "vmCount": 2
+            }
+          },
+          "sshKey": {
+            "value": "[parameters('sshKey')]"
+          }
+        }
+      }
+    }, {
+      "name": "rmpInstances",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('tshirtSize').datastoreInstancesTemplateUrl]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "vmDnsName": {
+            "value": "[parameters('apigeeDeploymentName')]"
+          },
+          "vmtypeprefix": {
+            "value": "rmp"
+          },
+          "adminUserName": {
+            "value": "[parameters('adminUserName')]"
+          },
+          "machineSettings": {
+            "value": {
+              "vmSize": "Standard_A3",
+              "diskSize": "250",
+              "vmCount": 2
+            }
+          },
+          "sshKey": {
+            "value": "[parameters('sshKey')]"
+          }
+        }
+      }
+    },
+
+    {
+      "name": "managementInstances",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'shared')]",
+        "[concat('Microsoft.Resources/deployments/', 'datastoreInstances')]",
+        "[concat('Microsoft.Resources/deployments/', 'qpidInstances')]",
+        "[concat('Microsoft.Resources/deployments/', 'analyticsInstances')]",
+        "[concat('Microsoft.Resources/deployments/', 'rmpInstances')]"
+
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('tshirtSize').datastoreInstancesTemplateUrl]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "location": {
+            "value": "[parameters('location')]"
+          },
+          "vmDnsName": {
+            "value": "[parameters('apigeeDeploymentName')]"
+          },
+          "vmtypeprefix": {
+            "value": "management"
+          },
+          "adminUserName": {
+            "value": "[parameters('adminUserName')]"
+          },
+          "machineSettings": {
+            "value": {
+              "vmSize": "Standard_A4",
+              "diskSize": "250",
+              "vmCount": 1
+            }
+          },
+          "sshKey": {
+            "value": "[parameters('sshKey')]"
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {}
+}

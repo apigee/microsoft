@@ -1,0 +1,147 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "West US",
+      "allowedValues": [
+        "East US",
+        "West US",
+        "West Europe",
+        "East Asia",
+        "South East Asia"
+      ],
+      "metadata": {
+        "description": "Deployment location of where Apigee will be installed"
+      }
+    },
+    "vmDnsName": {
+      "type": "string",
+      "defaultValue": "apigeeedgetrial"
+    },
+    "vmtypeprefix": {
+      "type": "string",
+      "defaultValue": "multinode"
+    },
+    "adminUserName": {
+      "type": "string",
+      "defaultValue": "apigeetrial"
+    },
+    "machineSettings": {
+      "type": "object"
+    },
+    "sshKey": {
+      "type": "string"
+    }
+
+  },
+  "variables": {
+    "nicName": "[concat('ApigeeVMNic-',parameters('vmDnsName'))]",
+    "addressPrefix": "10.0.0.0/16",
+    "subnet1Name": "Subnet-1",
+    "subnet1Prefix": "10.0.0.0/24",
+    "publicIPAddressName": "[concat('ApigeePublicIP-',parameters('vmDnsName'))]",
+    "publicIPAddressType": "Dynamic",
+    "vmStorageAccountContainerName": "vhds",
+    "vmName": "[parameters('vmDnsName')]",
+    "virtualNetworkName": "[concat('ApigeeVNET-',parameters('vmDnsName'))]",
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
+    "storageAccountType": "Standard_LRS",
+    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
+    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
+    "vmCount": "[parameters('machineSettings').vmCount]",
+    "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]"
+
+  },
+  "resources": [
+
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(variables('nicName'), parameters('vmtypeprefix'), copyindex())]",
+      "location": "[parameters('location')]",
+      "copy": {
+        "name": "nicCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
+      "properties": {
+        "ipConfigurations": [{
+          "name": "ipconfig1",
+          "properties": {
+            "privateIPAllocationMethod": "Dynamic",
+            "subnet": {
+              "id": "[variables('subnet1Ref')]"
+            }
+          }
+        }]
+      }
+    }, {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex())]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), parameters('vmtypeprefix'), copyindex())]"
+      ],
+      "copy": {
+        "name": "vmCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
+      "properties": {
+
+        "hardwareProfile": {
+          "vmSize": "[parameters('machineSettings').vmSize]"
+        },
+        "osProfile": {
+          "computerName": "[variables('vmName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "linuxConfiguration": {
+            "disablePasswordAuthentication": "true",
+            "ssh": {
+              "publicKeys": [{
+                "path": "[variables('sshKeyPath')]",
+                "keyData": "[parameters('sshKey')]"
+              }]
+            }
+
+          }
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "apigee",
+            "offer": "apigee-edge",
+            "sku": "apigee-edge-4-15-07",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "osdisk1",
+            "vhd": {
+              "uri": "[concat('http://',parameters('vmDnsName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        
+
+        "networkProfile": {
+          "networkInterfaces": [{
+            "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nicName'), parameters('vmtypeprefix'), copyindex()) )]"
+          }]
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "ip1": {
+      "value": "[reference(concat(variables('nicName'), parameters('vmtypeprefix'), 0).ipConfigurations[0].properties.privateIPAddress]",
+      "type": "string"
+    },
+    "ip2": {
+      "value": "[reference(concat(variables('nicName'), parameters('vmtypeprefix'), 1).ipConfigurations[0].properties.privateIPAddress]",
+      "type": "string"
+    }
+  }
+
+}

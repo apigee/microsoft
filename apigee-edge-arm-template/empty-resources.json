@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "West US",
+      "allowedValues": [
+        "East US",
+        "West US",
+        "West Europe",
+        "East Asia",
+        "South East Asia"
+      ],
+      "metadata": {
+        "description": "Deployment location of where Apigee will be installed"
+      }
+    },
+    "vmDnsName": {
+      "type": "string",
+      "defaultValue": "apigeeedgetrial"
+    },
+    "vmtypeprefix": {
+      "type": "string",
+      "defaultValue": "multinode"
+    },
+    "adminUserName": {
+      "type": "string",
+      "defaultValue": "apigeetrial"
+    },
+    "machineSettings": {
+      "type": "object"
+    },
+    "sshKey": {
+      "type": "string"
+    }
+
+  },
+  "variables": {},
+  "resources": [],
+  "outputs": {}
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "ip1": {
+      "value": "empty",
+      "type": "string"
+    },
+    "ip2": {
+      "value": "empty",
+      "type": "string"
+    }
+  }
+
+}
