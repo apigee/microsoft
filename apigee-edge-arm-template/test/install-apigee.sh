@@ -3,18 +3,18 @@ echo 'executing the install script' >>/tmp/armscript.log
 USER_NAME=$1
 APW=$2
 ORG_NAME=$3
-ENV_NAME=$4
-VHOST_NAME=$5
-VHOST_PORT=$6
-VHOST_ALIAS=$7
-EDGE_VERSION=$8
+VHOST_ALIAS=$4
+ENV_NAME='test'
+VHOST_NAME='default'
+VHOST_PORT='9002'
+EDGE_VERSION='4.15.07.03'
 
 echo 'script execution started at:'>>/tmp/armscript.log
 echo $(date)>>/tmp/armscript.log
 echo 'Inititalized variables, ' $VHOST_ALIAS, $EDGE_VERSION >>/tmp/armscript.log
 
 
-cd /tmp
+cd /tmp/apigee
 
 echo 'in tmp folder' >> /tmp/armscript.log
 

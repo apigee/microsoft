@@ -1,0 +1,236 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    
+    "location": {
+      "type": "string",
+      "defaultValue": "West US",
+      "allowedValues": [
+        "East US",
+        "West US",
+        "West Europe",
+        "East Asia",
+        "South East Asia"
+      ],
+      "metadata": {
+        "description": "Deployment location of where Apigee will be installed"
+      }
+    },
+    "vmSize": {
+      "type": "string",
+      "defaultValue": "Standard_A3",
+      "allowedValues": [
+        "Standard_A3",
+        "Standard_A6",
+        "Standard_A7",
+        "Standard_A8",
+        "Standard_A9",
+        "Standard_A10",
+        "Standard_A11",
+        "Standard_D2",
+        "Standard_D3",
+        "Standard_D4",
+        "Standard_D11",
+        "Standard_D12",
+        "Standard_D13",
+        "Standard_D14"
+      ],
+      "metadata": {
+        "description": "Size of the Virtual Machine."
+      }
+    },
+    "newStorageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the Storage Account"
+      },
+      "defaultValue": "apigeetrailstorage"
+    },
+    "vmDnsName": {
+      "type": "string",
+      "defaultValue": "apigeeedgetrail"
+    },
+    "adminUserName": {
+      "type": "string",
+      "defaultValue": "apigeetrail"
+    },
+    "adminPassword": {
+      "type": "securestring",
+      "defaultValue": ".Apigee123"
+    },
+    "apigeeSuperAdmin": {
+      "type": "string",
+      "defaultValue": "opdk@apigee.com"
+    },
+    "apigeeSuperAdminPassword": {
+      "type": "securestring",
+      "defaultValue": ".Apigee123"
+    },
+     "apigeeOrgName": {
+      "type": "string",
+      "defaultValue": "demo"
+    },
+    "apigeeOrgEnv": {
+      "type": "string",
+      "defaultValue": "test"
+    },
+    "apigeeEnvVhost": {
+      "type": "string",
+      "defaultValue": "default"
+    },
+    "apigeeEnvVhostPort": {
+      "type": "string",
+      "defaultValue": "9001"
+    },
+    "edgeVersion": {
+      "type": "string",
+      "defaultValue": "4.15.07.03"
+    }
+  },
+  "variables": {
+    "nicName": "[concat('ApigeeVMNic-',parameters('vmDnsName'))]",
+    "addressPrefix": "10.0.0.0/16",
+    "subnet1Name": "Subnet-1",
+    "subnet1Prefix": "10.0.0.0/24",
+    "publicIPAddressName": "[concat('ApigeePublicIP-',parameters('vmDnsName'))]",
+    "publicIPAddressType": "Dynamic",
+    "vmStorageAccountContainerName": "vhds",
+    "vmName": "[parameters('vmDnsName')]",
+    "virtualNetworkName": "[concat('ApigeeVNET-',parameters('vmDnsName'))]",
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
+    "storageAccountType": "Standard_LRS",
+    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
+    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
+
+  },
+  "resources": [
+  {
+      "type": "Microsoft.Storage/storageAccounts",
+      "name": "[parameters('newStorageAccountName')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[parameters('location')]",
+      "properties": {
+        "accountType": "[variables('storageAccountType')]"
+      }
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[variables('publicIPAddressName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('vmDnsName')]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[variables('virtualNetworkName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('addressPrefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('subnet1Name')]",
+            "properties": {
+              "addressPrefix": "[variables('subnet1Prefix')]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2015-05-01-preview",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[variables('nicName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
+        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
+              },
+              "subnet": {
+                "id": "[variables('subnet1Ref')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[parameters('vmSize')]"
+        },
+        "storageProfile": {
+          "osDisk": {
+            "osType": "Linux",
+            "name": "apigee-edge-trail-aio-osDisk.7a58844c-0e2c-4dc8-aaba-8fb09168ff00.vhd",
+            "createOption": "FromImage",
+            "image": {
+              "uri": "http://apigeeedgetrail.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigee-edge-trail-aio-osDisk.cdecbfc5-588e-440f-8267-0828a7fce34a.vhd"
+            },
+            "vhd": {
+              "uri": "http://apigeeedgetrail.blob.core.windows.net/vmcontainer5caecbb5-b197-4b0e-b969-a7a7bddc1f72/osDisk.5caecbb5-b197-4b0e-b969-a7a7bddc1f72.vhd"
+            },
+            "caching": "ReadWrite"
+          }
+        },
+        "osProfile": {
+          "computerName": "[variables('vmName')]",
+          "adminUsername": "[parameters('adminUsername')]",
+          "adminPassword": "[parameters('adminPassword')]"
+        },
+        "networkProfile": {
+          "networkInterfaces": [{
+            "id": "[resourceId('Microsoft.Network/networkInterfaces',variables('nicName'))]"
+          }]
+        },
+        "provisioningState": 0
+      },
+      "name": "[variables('vmName')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "westus",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+        ]
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'),'/newuserscript')]",
+      "apiVersion": "2015-05-01-preview",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'))]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.2",
+        "settings": {
+          "fileUris": [
+            "https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template/install-apigee.sh"
+          ],
+          "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('apigeeSuperAdmin'),' ',parameters('apigeeSuperAdminPassword'),' ',parameters('apigeeOrgName'),' ',parameters('apigeeOrgEnv'),' ',parameters('apigeeEnvVhost'),' ',parameters('apigeeEnvVhostPort'),' ','reference(variables('publicIPAddressName')).dnsSettings.fqdn',' ',parameters('edgeVersion'))]"
+        }
+      }
+    }
+  ]
+}

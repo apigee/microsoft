@@ -105,3 +105,7 @@ sed -i 's/\/sbin:\/bin:\/usr\/sbin:\/usr\/bin/\/usr\/local\/bin:\/tmp\/apigee\/P
 #cp -fr /tmp/setup-org.sh /opt/apigee4/bin/setup-org.sh
 #/opt/apigee4/bin/setup-org.sh ${USER_NAME} ${APW} ${ORG_NAME} ${ENV_NAME} ${VHOST_NAME} ${VHOST_PORT} ${VHOST_ALIAS}
 
+/opt/apigee4/bin/setup-org.sh opdk@apigee.com Secret123 demo test default 9001 apigeeedge9node.westus.cloudapp.azure.com
+
+
+
