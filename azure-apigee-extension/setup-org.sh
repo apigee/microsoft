@@ -66,7 +66,7 @@ while [ ${NEW_ENV} == "y" ]; do
 	#VHOST_PORT=""
 	#VHOST_NAME=""
 	#VHOST_ALIAS=""
-	. ${MYDIR}/add-env.sh -o ${ORG_NAME} -P "${APW}" -e "${ENV_NAME}" -v "${VHOST_NAME}" -p ${VHOST_PORT} -a "${VHOST_ALIAS}"
+	. ${MYDIR}/add-env.sh -o ${ORG_NAME} -P "${APW}" -A -e "${ENV_NAME}" -v "${VHOST_NAME}" -p ${VHOST_PORT} -a "${VHOST_ALIAS}"
 	echo; echo
 	NEW_ENV="n"
 	#NEW_ENV=`get_input "Add another environment y/n" type="y/n"  default="y"`
