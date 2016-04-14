@@ -138,6 +138,9 @@
       "name": "datastoreInstances",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'shared')]"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -173,6 +176,9 @@
       "name": "qpidInstances",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'shared')]"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -208,6 +214,9 @@
       "name": "analyticsInstances",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'shared')]"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -243,6 +252,9 @@
       "name": "rmpInstances",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Resources/deployments/', 'shared')]"
+      ],
       "properties": {
         "mode": "Incremental",
         "templateLink": {
