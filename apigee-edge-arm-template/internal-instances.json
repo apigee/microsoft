@@ -88,6 +88,11 @@
         "name": "vmCopyLoop",
         "count": "[variables('vmCount')]"
       },
+      "plan": {
+        "name": "apigee-edge-4-15-07",
+        "publisher": "apigee",
+        "product": "apigee-edge"
+      },
       "properties": {
 
         "hardwareProfile": {
@@ -117,7 +122,7 @@
           "osDisk": {
             "name": "osdisk1",
             "vhd": {
-              "uri": "[concat('http://',parameters('vmDnsName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
+              "uri": "[concat('http://',parameters('vmDnsName'),'.blob.core.windows.net/vhds/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), 'vm-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"

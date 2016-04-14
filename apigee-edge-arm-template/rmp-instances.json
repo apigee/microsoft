@@ -194,6 +194,11 @@
         "name": "vmCopyLoop",
         "count": "[variables('vmCount')]"
       },
+      "plan": {
+        "name": "apigee-edge-4-15-07",
+        "publisher": "apigee",
+        "product": "apigee-edge"
+      },
       "properties": {
 
         "availabilitySet": {
