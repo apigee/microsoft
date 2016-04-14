@@ -46,13 +46,13 @@
   "variables": {
     "templateBaseUrl": "https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template/",
     "tshirtSizeXSmall": {
-      "vmSize": "Standard_A3",
       "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
       "datastoreInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
-      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.json')]"
+      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.json')]",
+      "managementInstanceSize":"Standard_A3"
 
     },
     "tshirtSizeMedium": {
@@ -62,7 +62,8 @@
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
-      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.json')]"
+      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.json')]",
+      "managementInstanceSize":"Standard_A4"
 
     },
     "tshirtSizeLarge": {
@@ -72,7 +73,8 @@
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'internal-instances.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
-      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.parameters.json')]"
+      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.parameters.json')]",
+      "managementInstanceSize":"Standard_A4"
 
     },
     "tshirtSize": "[variables(concat('tshirtSize', parameters('tshirtSize')))]",
@@ -115,14 +117,20 @@
             "value": "[parameters('apigeeDeploymentName')]"
           },
           "vmtypeprefix": {
-            "value": "datastore"
+            "value": "shared"
           },
           "adminUserName": {
             "value": "[parameters('adminUserName')]"
           },
-          "machineSettings": {},
+          "machineSettings": {
+            "value": {
+              "vmSize": "Standard_A2",
+              "diskSize": "250",
+              "vmCount": 1
+            }
+          },
           "sshKey": {
-            "value": "not used"
+            "value": "[parameters('sshKey')]"
           }
         }
       }
@@ -301,7 +309,7 @@
           },
           "machineSettings": {
             "value": {
-              "vmSize": "Standard_A4",
+              "vmSize": "[variables('tshirtSize').managementInstanceSize]",
               "diskSize": "250",
               "vmCount": 1
             }
