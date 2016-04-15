@@ -59,7 +59,7 @@
     "lbName": "[concat('ApigeeLB-',parameters('vmDnsName'))]",
     "lbID": "[resourceId('Microsoft.Network/loadBalancers',variables('lbName'))]",
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/LoadBalancerFrontEnd')]",
-    "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/BackendPool1')]",
+    "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/RMPInstancePool')]",
     "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]",
     "availabilitySetName": "ApigeeRMPAvSet"
 
@@ -103,7 +103,7 @@
           }
         }],
         "backendAddressPools": [{
-          "name": "BackendPool1"
+          "name": "RMPInstancePool"
         }],
         "inboundNatRules": [],
         "loadBalancingRules": [{
@@ -175,10 +175,7 @@
               "id": "[variables('subnet1Ref')]"
             },
             "loadBalancerBackendAddressPools": [{
-              "id": "[concat(variables('lbID'), '/backendAddressPools/BackendPool1')]"
-            }],
-            "loadBalancerInboundNatRules": [{
-              "id": "[concat(variables('lbID'),'/inboundNatRules/RDP-VM', copyindex())]"
+              "id": "[concat(variables('lbID'), '/backendAddressPools/RMPInstancePool')]"
             }]
           }
         }]
