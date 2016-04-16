@@ -78,15 +78,65 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 	echo $(date)>>/tmp/armscript.log
 else
 	TOPOLOGY_TYPE=""
+	arr=$(echo $IN | tr ";" "\n")
+
+	IFS=,
+	hosts_ary=($HOST_NAMES)
+	hosts_ary_length=${#hosts_ary[@]}
+	echo $hosts_ary_length
+
+	cd /tmp/apigee/
+	curl -o /tmp/apigee/apigee_install_scripts.zip "${BASE_GIT_URL}/src/apigee_install_scripts.zip"
+	unzip -qo apigee_install_scripts.zip
+	
+
+	
+	
+
 	if [ "$DEPLOYMENT_TOPOLOGY" == "Medium"  ]; then
 		TOPOLOGY_TYPE=EDGE_5node
+		if [ "$hosts_ary_length" -lt 5 ]; then
+			echo "Not enough hosts defined: " $DEPLOYMENT_TOPOLOGY >> /tmp/armscript.log
+			exit 400
+		fi
+		TOPOLOGY_TYPE=EDGE_5node
+		cp -rf apigee_install_scripts/common/source/instance_EDGE_5node.json apigee_install_scripts/common/source/instance.json
+		cp -rf apigee_install_scripts/common/source/host2_EDGE_5node apigee_install_scripts/common/source/host2 
+		cp -rf apigee_install_scripts/common/source/hosts_EDGE_5node apigee_install_scripts/common/source/hosts 
 	elif [ "$DEPLOYMENT_TOPOLOGY" == "Large"  ]; then
+		if [ "$hosts_ary_length" -lt "9" ]; then
+			echo "Not enough hosts defined: " $DEPLOYMENT_TOPOLOGY >> /tmp/armscript.log
+			exit 400
+		fi
+		cp -rf apigee_install_scripts/common/source/instance_EDGE_9node.json apigee_install_scripts/common/source/instance.json 
+		cp -rf apigee_install_scripts/common/source/host2_EDGE_9node apigee_install_scripts/common/source/host2 
+		cp -rf apigee_install_scripts/common/source/hosts_EDGE_5node apigee_install_scripts/common/source/hosts 
 		TOPOLOGY_TYPE=EDGE_9node
 	else
 		echo "unsupported deployment: " $DEPLOYMENT_TOPOLOGY >> /tmp/armscript.log
 		exit 400
 	fi
 	echo "deployment topology: " $TOPOLOGY_TYPE >> /tmp/armscript.log
+
+
+	c=1
+	for i in "${hosts_ary[@]}"
+	do
+		key='HOST'+$c+'_INTERNALIP'
+
+		sed -i s/$key/$USER_NAME/g apigee_install_scripts/common/source/hosts
+		sed -i s/$key/$APW/g apigee_install_scripts/common/source/host2
+		sed -i s/$key/$APW/g apigee_install_scripts/common/source/instance.json
+		echo $i
+
+		((c++))
+	done
+
+	sed -i s/APIGEE_ADMIN_EMAIL/$1/g apigee_install_scripts/common/source/hosts
+	sed -i s/SSH_KEY_PATH/$1/g apigee_install_scripts/common/source/hosts
+	sed -i s/APIGEE_LDAP_PASSWORD/$1/g apigee_install_scripts/common/source/hosts
+
+
 
 
 
@@ -113,8 +163,8 @@ else
 	PARAMS="key_pair=new-opdk topology_type=${topology_type} installation_type=$installation_type workspace=${WORKSPACE} smtp_conf=${smtp_conf}  login_user=${login_user} package1_name=${installer}  jdk_version=${java_version} pem_key_path=$key_path mp_pod_name=${mp_pod_name} res_ouput_directory=$resource_path login_user=${login_user} file_system=$filesystem  disk_space=$disk_space apigee_repo_username=${apigee_repo_username} apigee_repo_password=${apigee_repo_password} apigee_stage=${apigee_stage} apigee_repo_url=${apigee_repo_url}"
 
 
-	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/update-hostnamei.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
-	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/mount_disk_azure.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
+	#/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/update-hostnamei.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
+	#/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/mount_disk_azure.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
 	# /usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/generate_silent_config.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
 	# /usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/installation_setup.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv
 	# /usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/install_apigee_multinode.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv
