@@ -46,9 +46,9 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 	echo "deploying a 1 node setup" >> /tmp/armscript.log
 
 
-	sed -i s/ADMIN_EMAIL=/ADMIN_EMAIL="${USER_NAME}"/g opdk.conf
-	sed -i s/APIGEE_ADMINPW=/APIGEE_ADMINPW="${APW}"/g opdk.conf
-	sed -i s/APIGEE_LDAPPW=/APIGEE_LDAPPW="${APW}"/g opdk.conf
+	sed -i.bak s/ADMIN_EMAIL=/ADMIN_EMAIL="${USER_NAME}"/g opdk.conf
+	sed -i.bak s/APIGEE_ADMINPW=/APIGEE_ADMINPW="${APW}"/g opdk.conf
+	sed -i.bak s/APIGEE_LDAPPW=/APIGEE_LDAPPW="${APW}"/g opdk.conf
 
 	echo 'sed commands done' >> /tmp/armscript.log
 
@@ -110,7 +110,7 @@ else
 		fi
 		cp -rf apigee_install_scripts/common/source/instance_EDGE_9node.json apigee_install_scripts/common/source/instance.json 
 		cp -rf apigee_install_scripts/common/source/host2_EDGE_9node apigee_install_scripts/common/source/host2 
-		cp -rf apigee_install_scripts/common/source/hosts_EDGE_5node apigee_install_scripts/common/source/hosts 
+		cp -rf apigee_install_scripts/common/source/hosts_EDGE_9node apigee_install_scripts/common/source/hosts 
 		TOPOLOGY_TYPE=EDGE_9node
 	else
 		echo "unsupported deployment: " $DEPLOYMENT_TOPOLOGY >> /tmp/armscript.log
@@ -122,19 +122,22 @@ else
 	c=1
 	for i in "${hosts_ary[@]}"
 	do
-		key='HOST'+$c+'_INTERNALIP'
+		key='HOST'$c'_INTERNALIP'
+		echo $key
+		cd /tmp/apigee/apigee_install_scripts/common/source
 
-		sed -i s/$key/$USER_NAME/g apigee_install_scripts/common/source/hosts
-		sed -i s/$key/$APW/g apigee_install_scripts/common/source/host2
-		sed -i s/$key/$APW/g apigee_install_scripts/common/source/instance.json
+		sed -i.bak s/${key}/${i}/g hosts
+		sed -i.bak s/${key}/${i}/g host2
+		sed -i.bak s/${key}/${i}/g instance.json
 		echo $i
 
 		((c++))
 	done
 
-	sed -i s/APIGEE_ADMIN_EMAIL/$1/g apigee_install_scripts/common/source/hosts
-	sed -i s/SSH_KEY_PATH/$1/g apigee_install_scripts/common/source/hosts
-	sed -i s/APIGEE_LDAP_PASSWORD/$1/g apigee_install_scripts/common/source/hosts
+	cd /tmp/apigee/apigee_install_scripts/common/vars
+	sed -i.bak s/APIGEE_ADMIN_EMAIL/$USER_NAME/g global.yml
+	sed -i.bak s/APIGEE_ADMIN_PASSWORD/$APW/g global.yml
+	sed -i.bak s/APIGEE_LDAP_PASSWORD/$APW/g global.yml
 
 
 
@@ -163,12 +166,12 @@ else
 	PARAMS="key_pair=new-opdk topology_type=${topology_type} installation_type=$installation_type workspace=${WORKSPACE} smtp_conf=${smtp_conf}  login_user=${login_user} package1_name=${installer}  jdk_version=${java_version} pem_key_path=$key_path mp_pod_name=${mp_pod_name} res_ouput_directory=$resource_path login_user=${login_user} file_system=$filesystem  disk_space=$disk_space apigee_repo_username=${apigee_repo_username} apigee_repo_password=${apigee_repo_password} apigee_stage=${apigee_stage} apigee_repo_url=${apigee_repo_url}"
 
 
-	#/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/update-hostnamei.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
-	#/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/mount_disk_azure.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
-	# /usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/generate_silent_config.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
-	# /usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/installation_setup.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv
-	# /usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/install_apigee_multinode.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv
-	# /usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/postgres_master_slave_conf.yml -M ${automation_path}/playbooks -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
+	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/update-hostnamei.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
+	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/mount_disk_azure.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
+	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/generate_silent_config.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
+	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/installation_setup.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv
+	/usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/install_apigee_multinode.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv
+	/usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/postgres_master_slave_conf.yml -M ${automation_path}/playbooks -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
 
 
 
