@@ -84,7 +84,7 @@ else
 
 	hosts_ary=($HOST_NAMES)
 	hosts_ary_length=${#hosts_ary[@]}
-	echo $hosts_ary_length
+	echo $hosts_ary_length  >>/tmp/armscript.log
 
 	cd /tmp/apigee/
 	curl -o /tmp/apigee/apigee_install_scripts.zip "${BASE_GIT_URL}/src/apigee_install_scripts.zip"
@@ -123,13 +123,13 @@ else
 	for i in "${hosts_ary[@]}"
 	do
 		key='HOST'$c'_INTERNALIP'
-		echo $key
+		echo $key  >>/tmp/armscript.log
 		cd /tmp/apigee/apigee_install_scripts/common/source
 
 		sed -i.bak s/${key}/${i}/g hosts
 		sed -i.bak s/${key}/${i}/g host2
 		sed -i.bak s/${key}/${i}/g instance.json
-		echo $i
+		echo $i  >>/tmp/armscript.log
 
 		((c++))
 	done
@@ -162,7 +162,7 @@ else
 	export ANSIBLE_HOST_KEY_CHECKING=False
 	#cp /tmp/apigee/apigee-edge-4.15.07.03.zip /tmp
 
-	echo "This is right before ansible-playbook"
+	echo "This is right before ansible-playbook"  >>/tmp/armscript.log
 	PARAMS="key_pair=new-opdk topology_type=${topology_type} installation_type=$installation_type workspace=${WORKSPACE} smtp_conf=${smtp_conf}  login_user=${login_user} package1_name=${installer}  jdk_version=${java_version} pem_key_path=$key_path mp_pod_name=${mp_pod_name} res_ouput_directory=$resource_path login_user=${login_user} file_system=$filesystem  disk_space=$disk_space apigee_repo_username=${apigee_repo_username} apigee_repo_password=${apigee_repo_password} apigee_stage=${apigee_stage} apigee_repo_url=${apigee_repo_url}"
 
 
