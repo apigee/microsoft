@@ -349,8 +349,8 @@
           "sshKey": {
             "value": "[parameters('sshKey')]"
           },
-          "apigeeScriptInputs": {
-            "value": "[concat('parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',reference(variables('publicIPAddressName')).dnsSettings.fqdn,' ',parameters('tshirtSize'),' ',reference(variables('runtimePublicIPAddressName')).dnsSettings.fqdn,' ',reference('datastoreInstances').outputs.ip1.value,','reference('datastoreInstances').outputs.ip2.value,' \"',parameters('licenseFileText'),'\" \"',parameters('sshPrivateKey'),'\")]"
+          "hostNmaes": {
+            "value": {"DS_IP1":"[reference('datastoreInstances').outputs.ip1.value]", "DS_IP2":"reference('datastoreInstances').outputs.ip2.value","":"","":""}
           }
         }
       }

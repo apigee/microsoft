@@ -34,8 +34,8 @@
     "sshKey": {
       "type": "string"
     },
-    "apigeeScriptInputs": {
-      "type": "string"
+    "hostNmaes": {
+      "type": "object"
     }
 
   },
@@ -159,7 +159,7 @@
         "fileUris": [
           "https://raw.githubusercontent.com/apigee/microsoft/master/azure-apigee-extension/install-apigee.sh"
         ],
-        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('apigeeScriptInputs'))]"
+        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUsername'))]"
       }
     }
   }
