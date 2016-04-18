@@ -17,6 +17,12 @@
     "sshKey": {
       "value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDJy8+03JLHcD4Tdg1Z3i1FBqjuzZDnutDdIoHBIUHEP2gKn0pIoDKw5XolWsqxz3WWdNEgHYo5JxAZZ3OmQsvb27Q2/Bp7iA0QuLqHWJP6OjMA8HJUh4CprvFUiG3RAd8/2625Uvgfa8rFD31tazZDxyXxRTuREGTXAbndspyoaTgrsTmJq2XzetUqqWWpMmXdANfD2q3oCw3dcgKhi9IEgq2P3827oiAD+W34w4vkzoVdLkNJ1jtRF3JM2uBKG/7RCmmi5JPUpuZTGsQKmfQ2gHgv6LbhcldJquuO05PYt0NTnKlEHY16jJ+jb/SJ+BC2zoEtjCkypEtB6D8LcoaMUiwmhLFkVWMj2yOfzcdo90TUHuX/ocWcgKUqN/0xfAI3lIiNNkMS2OxiFjmABUt0agciprk2/t2Qj5snszfo2tWir2Po2qiXaoI+33i93iKEUCyqkOaITbThYfrPEfEunmjUX7XC/j42N7s+zsL190WYZtt9Ikiqmp2XbabUG59ggwNfCtzWa7lb7MHeN9LjWMoBt+B+S9GYYuTy3+SuRCouKTOiIJ8WMgTDtzv2SVqz3aDJf1uN8V80cv0zjVOvgF3r3DaF+iQqESAYBk4rVAZPIKQrQQkr5nxWotJE1sIdEfDW0kdUxwt5Py8oCK7JUj+opnT/LkfsnZ8bYnwKAQ== apigeetrial"
     },
+    "apigeeAdminEmail": {
+      "value": "apigeetrial@apigee.com"
+    },
+    "apigeeAdminPassword": {
+      "value": "Apigee123"
+    },
     "licenseFileText": {
       "value": "RMyYwkY+VDGAMCdSf0Fygc3CBpgxzn0A3UBKrUuCP6VF4EhaeZsB4qwZDADTUYwmeS9fTlW2Mp6A
 qPmI6ao6k7xQ87UB1sdshuONENcVzVYXfxirQVHTL8Y5oKInIy3aNF3NeEkmHp7GYq8YZsBjK17q

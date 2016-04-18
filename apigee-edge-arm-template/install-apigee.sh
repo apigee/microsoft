@@ -26,7 +26,9 @@ LICENSE_TEXT=$8
 SSH_KEY=$9
 
 echo 'script execution started at:'>>/tmp/armscript.log
-echo $(date)>>/tmp/armscript.log
+echo $(date)
+
+echo "args: $*" >>/tmp/armscript.log
 echo 'Inititalized variables, ' $VHOST_ALIAS, $EDGE_VERSION, $DEPLOYMENT_TOPOLOGY, $LB_IP_ALIAS, "Hosts: " $HOST_NAMES  >>/tmp/armscript.log
 
 

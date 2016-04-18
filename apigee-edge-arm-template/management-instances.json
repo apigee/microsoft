@@ -33,6 +33,9 @@
     },
     "sshKey": {
       "type": "string"
+    },
+    "apigeeScriptInputs": {
+      "type": "string"
     }
 
   },
@@ -139,7 +142,27 @@
           }]
         }
       }
+    }, 
+    {
+    "type": "Microsoft.Compute/virtualMachines/extensions",
+    "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), 0,'/newuserscript')]",
+    "apiVersion": "2015-05-01-preview",
+    "location": "[parameters('location')]",
+    "dependsOn": [
+      "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), 0)]"
+    ],
+    "properties": {
+      "publisher": "Microsoft.OSTCExtensions",
+      "type": "CustomScriptForLinux",
+      "typeHandlerVersion": "1.2",
+      "settings": {
+        "fileUris": [
+          "https://raw.githubusercontent.com/apigee/microsoft/master/azure-apigee-extension/install-apigee.sh"
+        ],
+        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('apigeeScriptInputs'))]"
+      }
     }
+  }
   ]
 
 }
