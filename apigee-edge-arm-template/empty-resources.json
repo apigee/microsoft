@@ -46,6 +46,10 @@
     "ip2": {
       "value": "empty",
       "type": "string"
+    },
+    "runtimePublicDNSName": {
+      "value": "empty",
+      "type": "string"
     }
   }
 
