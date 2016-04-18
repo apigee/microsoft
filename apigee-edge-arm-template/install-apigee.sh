@@ -80,8 +80,10 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 else
 	TOPOLOGY_TYPE=""
 	#arr=$(echo $IN | tr ";" "\n")
-	#IFS=,
+	
 
+	# This sets the delimiter for the array as ','
+	IFS=,
 	hosts_ary=($HOST_NAMES)
 	hosts_ary_length=${#hosts_ary[@]}
 	echo $hosts_ary_length  >>/tmp/armscript.log
