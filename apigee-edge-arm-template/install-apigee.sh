@@ -1,4 +1,4 @@
-#sudo ./install-apigee.sh apigeetrial secret apigeetrial apigeetrial.apigee.net Medium apigeetrial.apigee.net 10.0.0.1,10.0.0.2,10.0.0.3,10.0.0.4,10.0.0.5 $LICENSE $SSH
+#sudo ./install-apigee.sh apigeetrial apigeetrial@apigee.com secret apigeetrial.apigee.net Medium apigeetrial.apigee.net 10.0.0.1,10.0.0.2,10.0.0.3,10.0.0.4,10.0.0.5 $LICENSE $SSH
 
 
 echo 'executing the install script' >>/tmp/armscript.log
@@ -6,8 +6,9 @@ echo 'executing the install script' >>/tmp/armscript.log
 BASE_GIT_URL='https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template/'
 
 USER_NAME=$1
-APW=$2
-ORG_NAME=$3
+ORG_NAME=$1
+APIGEE_ADMIN_EMAIL=$2
+APW=$3
 VHOST_ALIAS=$4
 ENV_NAME='test'
 VHOST_NAME='default'
@@ -46,7 +47,7 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 	echo "deploying a 1 node setup" >> /tmp/armscript.log
 
 
-	sed -i.bak s/ADMIN_EMAIL=/ADMIN_EMAIL="${USER_NAME}"/g opdk.conf
+	sed -i.bak s/ADMIN_EMAIL=/ADMIN_EMAIL="${APIGEE_ADMIN_EMAIL}"/g opdk.conf
 	sed -i.bak s/APIGEE_ADMINPW=/APIGEE_ADMINPW="${APW}"/g opdk.conf
 	sed -i.bak s/APIGEE_LDAPPW=/APIGEE_LDAPPW="${APW}"/g opdk.conf
 
@@ -72,25 +73,24 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 
 	#update the setup-org
 	cp -fr /tmp/apigee/setup-org.sh /opt/apigee4/bin/setup-org.sh
-	/opt/apigee4/bin/setup-org.sh ${USER_NAME} ${APW} ${ORG_NAME} ${ENV_NAME} ${VHOST_NAME} ${VHOST_PORT} ${VHOST_ALIAS}
+	/opt/apigee4/bin/setup-org.sh ${APIGEE_ADMIN_EMAIL} ${APW} ${ORG_NAME} ${ENV_NAME} ${VHOST_NAME} ${VHOST_PORT} ${VHOST_ALIAS}
 
 	echo 'script execution ended at:'>>/tmp/armscript.log
 	echo $(date)>>/tmp/armscript.log
 else
 	TOPOLOGY_TYPE=""
-	arr=$(echo $IN | tr ";" "\n")
+	#arr=$(echo $IN | tr ";" "\n")
+	#IFS=,
 
-	IFS=,
 	hosts_ary=($HOST_NAMES)
 	hosts_ary_length=${#hosts_ary[@]}
 	echo $hosts_ary_length
 
 	cd /tmp/apigee/
 	curl -o /tmp/apigee/apigee_install_scripts.zip "${BASE_GIT_URL}/src/apigee_install_scripts.zip"
+	
+	#This will override the required install scripts. Think of this as a patch on the install scripts
 	unzip -qo apigee_install_scripts.zip
-	
-
-	
 	
 
 	if [ "$DEPLOYMENT_TOPOLOGY" == "Medium"  ]; then
@@ -135,7 +135,7 @@ else
 	done
 
 	cd /tmp/apigee/apigee_install_scripts/common/vars
-	sed -i.bak s/APIGEE_ADMIN_EMAIL/$USER_NAME/g global.yml
+	sed -i.bak s/APIGEE_ADMIN_EMAIL/$APIGEE_ADMIN_EMAIL/g global.yml
 	sed -i.bak s/APIGEE_ADMIN_PASSWORD/$APW/g global.yml
 	sed -i.bak s/APIGEE_LDAP_PASSWORD/$APW/g global.yml
 
@@ -154,8 +154,8 @@ else
 	resource_path='/tmp/apigee'
 	smtp_conf=y
 
-	topology_type=$1
-	login_user=$2
+	topology_type=$TOPOLOGY_TYPE
+	login_user=$USER_NAME
 
 
 
