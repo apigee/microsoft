@@ -179,7 +179,7 @@
         "fileUris": [
           "https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template/install-apigee.sh"
         ],
-        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',' ',parameters('tshirtSize'),' ')]"
+        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'))]"
       }
     }
   }
