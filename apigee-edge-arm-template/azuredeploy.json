@@ -371,8 +371,8 @@
               "analytics_ip2": "reference('datastoreInstances').outputs.ip2.value]",
               "rmp_ip1": "[reference('datastoreInstances').outputs.ip1.value]",
               "rmp_ip2": "[reference('datastoreInstances').outputs.ip2.value]",
-              "management_public_ip": "[reference(variables('publicIPAddressName')).dnsSettings.fqdn]",
-              "runtime_public_ip": "[reference(variables('runtimePublicIPAddressName')).dnsSettings.fqdn]"
+              "management_public_ip": "[reference('shared').outputs.managementDNSName.value]",
+              "runtime_public_ip": "[reference('shared').outputs.runtimePublicDNSName.value]"
             }
           }
         }

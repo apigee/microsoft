@@ -97,5 +97,11 @@
         }]
       }
     }
-  ]
+  ],
+  "outputs": {
+    "managementDNSName": {
+      "value": "[reference(variables('publicIPAddressName')).dnsSettings.fqdn]",
+      "type": "string"
+    }
+  }
 }

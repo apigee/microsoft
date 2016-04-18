@@ -53,7 +53,7 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 
 	echo "deploying a 1 node setup" >> /tmp/armscript.log
 	cd /tmp/apigee
-	cp -fr opdk.conf /tmp/opdk.conf
+	
 
 
 	sed -i.bak s/ADMIN_EMAIL=/ADMIN_EMAIL="${APIGEE_ADMIN_EMAIL}"/g opdk.conf
@@ -61,6 +61,7 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 	sed -i.bak s/APIGEE_LDAPPW=/APIGEE_LDAPPW="${APW}"/g opdk.conf
 
 	echo 'sed commands done' >> /tmp/armscript.log
+	cp -fr opdk.conf /tmp/opdk.conf
 
 	unzip apigee-edge-${EDGE_VERSION}.zip
 	echo 'unzip done' >> /tmp/armscript.log
