@@ -179,7 +179,7 @@
         "fileUris": [
           "https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template/install-apigee.sh"
         ],
-        "commandToExecute": "sh install-apigee.sh apigeetrial apigeetrial@apigee.com secret apigeetrial.apigee.net XSmall apigeetrial.apigee.net 10.0.1.1,10.0.1.2,10.0.1.3,10.0.1.4,10.0.1.5 \"RMyYwkY+VDGAMCdSf0Fygc3CBpgxzn0A3UBKrUuCP6VF4EhaeZsB4qwZDADTUYwmeS9fTlW2Mp6A qPmI6ao6k7xQ87UB1sdshuONENcVzVYXfxirQVHTL8Y5oKInIy3aNF3NeEkmHp7GYq8YZsBjK17q JiuekNJqdMrRvTyRRS7QtsUSwxIvdc1kFP+fmmFqha9MY5dJaWFmuAdBDa6x6ElT/zsvfuTIVnS1 WrVwhjda+LrucdNHUikSi9VOp/kyyqqFyuP4ROBV78rbqBLg84rFNOC3D85jhcvLsQ3z2V9Nk7i+ eI4zIWenBBDus3t+CwRvPEpUMS08IzhpEycLKA==\" \"$SSH\""
+        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',parameters('hostNmaes.management_public_ip'),' ',parameters('tshirtSize'),' ',parameters('hostNmaes.runtime_public_ip'),' ',reference(concat(variables('nicName'), parameters('vmtypeprefix'), 0)).ipConfigurations[0].properties.privateIPAddress,':',parameters('hostNmaes.datastore_ip1'),':',parameters('hostNmaes.datastore_ip2'),':',parameters('hostNmaes.qpid_ip1'),':',parameters('hostNmaes.qpid_ip2'),':',parameters('hostNmaes.analytics_ip1'),':',parameters('hostNmaes.analytics_ip2'),':',parameters('hostNmaes.rmp_ip1'),':',parameters('hostNmaes.rmp_ip2'),' ',parameters('licenseFileText'),' ',parameters('sshPrivateKey'))]"
       }
     }
   }
