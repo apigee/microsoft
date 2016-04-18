@@ -45,6 +45,8 @@ echo $SSH_KEY > ../ssh_key.pem
 if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 
 	echo "deploying a 1 node setup" >> /tmp/armscript.log
+	cd /tmp/apigee
+	cp -fr opdk.conf /tmp/opdk.conf
 
 
 	sed -i.bak s/ADMIN_EMAIL=/ADMIN_EMAIL="${APIGEE_ADMIN_EMAIL}"/g opdk.conf
