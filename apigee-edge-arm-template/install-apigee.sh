@@ -17,6 +17,8 @@ EDGE_VERSION='4.15.07.03'
 
 
 
+
+
 DEPLOYMENT_TOPOLOGY=$5
 LB_IP_ALIAS=$6
 
@@ -24,6 +26,9 @@ HOST_NAMES=$7
 
 LICENSE_TEXT=$8
 SSH_KEY=$9
+
+LICENSE_TEXT=`echo ${LICENSE_TEXT} | base64 --decode`
+SSH_KEY=`echo ${SSH_KEY} | base64 --decode`
 
 echo 'script execution started at:'>>/tmp/armscript.log
 echo $(date)
