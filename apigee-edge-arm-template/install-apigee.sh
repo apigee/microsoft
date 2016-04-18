@@ -31,7 +31,7 @@ LICENSE_TEXT=`echo ${LICENSE_TEXT} | base64 --decode`
 SSH_KEY=`echo ${SSH_KEY} | base64 --decode`
 
 echo 'script execution started at:'>>/tmp/armscript.log
-echo $(date)
+echo $(date)>>/tmp/armscript.log
 
 echo "args: $*" >>/tmp/armscript.log
 echo 'Inititalized variables, ' $VHOST_ALIAS, $EDGE_VERSION, $DEPLOYMENT_TOPOLOGY, $LB_IP_ALIAS, "Hosts: " $HOST_NAMES  >>/tmp/armscript.log
