@@ -136,16 +136,18 @@ else
 	c=1
 	for i in "${hosts_ary[@]}"
 	do
-		key='HOST'$c'_INTERNALIP'
-		echo $key  >>/tmp/armscript.log
-		cd /tmp/apigee/apigee_install_scripts/common/source
+		if [[ ${i} != 'empty' ]]; then
+			key='HOST'$c'_INTERNALIP'
+			echo $key  >>/tmp/armscript.log
+			cd /tmp/apigee/apigee_install_scripts/common/source
 
-		sed -i.bak s/${key}/${i}/g hosts
-		sed -i.bak s/${key}/${i}/g host2
-		sed -i.bak s/${key}/${i}/g instance.json
-		echo $i  >>/tmp/armscript.log
+			sed -i.bak s/${key}/${i}/g hosts
+			sed -i.bak s/${key}/${i}/g host2
+			sed -i.bak s/${key}/${i}/g instance.json
+			echo $i  >>/tmp/armscript.log
 
-		((c++))
+			((c++))
+		fi
 	done
 
 	cd /tmp/apigee/apigee_install_scripts/common/vars
