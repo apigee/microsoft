@@ -34,6 +34,26 @@
     "sshKey": {
       "type": "string"
     },
+    "apigeeAdminEmail": {
+      "type": "string"
+    },
+    "apigeeAdminPassword": {
+      "type": "string"
+    },
+    "sshPrivateKey": {
+      "type": "string",
+      "defaultValue": "NOT_GIVEN",
+      "metadata": {
+        "description": "The private key for the username given. This is used to login to other instances if a multi node deployment is selected."
+      }
+    },
+    "licenseFileText": {
+      "type": "string",
+      "defaultValue": "NOT_GIVEN",
+      "metadata": {
+        "description": "Licnese file that is given to your organization by Apigee. Paste the content of the file here"
+      }
+    },
     "hostNmaes": {
       "type": "object"
     }
@@ -159,7 +179,7 @@
         "fileUris": [
           "https://raw.githubusercontent.com/apigee/microsoft/master/azure-apigee-extension/install-apigee.sh"
         ],
-        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUsername'))]"
+        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',parameters('hostNmaes.management_public_ip'),' ',parameters('tshirtSize'),' ',parameters('hostNmaes.runtime_public_ip'),' ',reference(concat(variables('nicName'), parameters('vmtypeprefix'), 0)).ipConfigurations[0].properties.privateIPAddress,':',parameters('hostNmaes.datastore_ip1'),':',parameters('hostNmaes.datastore_ip2'),':',parameters('hostNmaes.qpid_ip1'),':',parameters('hostNmaes.qpid_ip2'),':',parameters('hostNmaes.analytics_ip1'),':',parameters('hostNmaes.analytics_ip2'),':',parameters('hostNmaes.rmp_ip1'),':',parameters('hostNmaes.rmp_ip2'),' \"',parameters('licenseFileText'),'\" \"',parameters('sshPrivateKey'),'\")]"
       }
     }
   }

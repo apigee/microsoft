@@ -1,4 +1,4 @@
-#sudo ./install-apigee.sh apigeetrial apigeetrial@apigee.com secret apigeetrial.apigee.net Medium apigeetrial.apigee.net 10.0.0.1,10.0.0.2,10.0.0.3,10.0.0.4,10.0.0.5 $LICENSE $SSH
+#sudo ./install-apigee.sh apigeetrial apigeetrial@apigee.com secret apigeetrial.apigee.net Medium apigeetrial.apigee.net 10.0.0.1:10.0.0.2:10.0.0.3:10.0.0.4:10.0.0.5 $LICENSE $SSH
 
 
 echo 'executing the install script' >>/tmp/armscript.log
@@ -86,8 +86,8 @@ else
 	#arr=$(echo $IN | tr ";" "\n")
 	
 
-	# This sets the delimiter for the array as ','
-	IFS=,
+	# This sets the delimiter for the array as ':'
+	IFS=:
 	hosts_ary=($HOST_NAMES)
 	hosts_ary_length=${#hosts_ary[@]}
 	echo $hosts_ary_length  >>/tmp/armscript.log

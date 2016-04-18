@@ -349,8 +349,31 @@
           "sshKey": {
             "value": "[parameters('sshKey')]"
           },
+          "apigeeAdminEmail": {
+            "value": "[parameters('apigeeAdminEmail')]"
+          },
+          "apigeeAdminPassword": {
+            "value": "[parameters('apigeeAdminPassword')]"
+          },
+          "sshPrivateKey": {
+            "value": "[parameters('sshPrivateKey')]"
+          },
+          "licenseFileText": {
+            "value": "[parameters('licenseFileText')]"
+          },
           "hostNmaes": {
-            "value": {"DS_IP1":"[reference('datastoreInstances').outputs.ip1.value]", "DS_IP2":"reference('datastoreInstances').outputs.ip2.value","":"","":""}
+            "value": {
+              "datastore_ip1": "[reference('datastoreInstances').outputs.ip1.value]",
+              "datastore_ip2": "reference('datastoreInstances').outputs.ip2.value",
+              "qpid_ip1": "[reference('datastoreInstances').outputs.ip1.value]",
+              "qpid_ip2": "reference('datastoreInstances').outputs.ip2.value",
+              "analytics_ip1": "[reference('datastoreInstances').outputs.ip1.value]",
+              "analytics_ip2": "reference('datastoreInstances').outputs.ip2.value",
+              "rmp_ip1": "[reference('datastoreInstances').outputs.ip1.value]",
+              "rmp_ip2": "reference('datastoreInstances').outputs.ip2.value",
+              "management_public_ip": "reference(variables('publicIPAddressName')).dnsSettings.fqdn",
+              "runtime_public_ip": "reference(variables('runtimePublicIPAddressName')).dnsSettings.fqdn"
+            }
           }
         }
       }
