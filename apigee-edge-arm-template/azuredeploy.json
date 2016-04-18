@@ -365,14 +365,14 @@
             "value": {
               "datastore_ip1": "[reference('datastoreInstances').outputs.ip1.value]",
               "datastore_ip2": "reference('datastoreInstances').outputs.ip2.value]",
-              "qpid_ip1": "[reference('datastoreInstances').outputs.ip1.value]",
-              "qpid_ip2": "reference('datastoreInstances').outputs.ip2.value]",
-              "analytics_ip1": "[reference('datastoreInstances').outputs.ip1.value]",
-              "analytics_ip2": "reference('datastoreInstances').outputs.ip2.value]",
-              "rmp_ip1": "[reference('datastoreInstances').outputs.ip1.value]",
-              "rmp_ip2": "[reference('datastoreInstances').outputs.ip2.value]",
+              "qpid_ip1": "[reference('qpidInstances').outputs.ip1.value]",
+              "qpid_ip2": "reference('qpidInstances').outputs.ip2.value]",
+              "analytics_ip1": "[reference('analyticsInstances').outputs.ip1.value]",
+              "analytics_ip2": "reference('analyticsInstances').outputs.ip2.value]",
+              "rmp_ip1": "[reference('rmpInstances').outputs.ip1.value]",
+              "rmp_ip2": "[reference('rmpInstances').outputs.ip2.value]",
               "management_public_ip": "[reference('shared').outputs.managementDNSName.value]",
-              "runtime_public_ip": "[reference('shared').outputs.runtimePublicDNSName.value]"
+              "runtime_public_ip": "[reference('rmpInstances').outputs.runtimePublicDNSName.value]"
             }
           }
         }
