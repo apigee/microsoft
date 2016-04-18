@@ -154,7 +154,7 @@ else
 	key_path='/tmp/ssh_key.pem'
 	mp_pod_name='gateway'
 	resource_path='/tmp/apigee'
-	smtp_conf=y
+	smtp_conf=n
 
 	topology_type=$TOPOLOGY_TYPE
 	login_user=$USER_NAME
