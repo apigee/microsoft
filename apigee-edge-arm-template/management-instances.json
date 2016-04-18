@@ -179,7 +179,7 @@
         "fileUris": [
           "https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template/install-apigee.sh"
         ],
-        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',parameters('adminUserName'),' ',parameters('tshirtSize'),' ',parameters('adminUserName'),' ',reference(concat(variables('nicName'), parameters('vmtypeprefix'), 0)).ipConfigurations[0].properties.privateIPAddress,':',parameters('adminUserName'),':',parameters('adminUserName'),':',parameters('adminUserName'),':',parameters('adminUserName'),':',parameters('adminUserName'),':',parameters('adminUserName'),':',parameters('adminUserName'),':',parameters('adminUserName'),' ',parameters('licenseFileText'),' ',parameters('sshPrivateKey'))]"
+        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',parameters('adminUserName'),' ',parameters('tshirtSize'),' ',parameters('adminUserName'),' ','dummy_value',':',parameters('adminUserName'),':',parameters('adminUserName'),':',parameters('adminUserName'),':',parameters('adminUserName'),':',parameters('adminUserName'),':',parameters('adminUserName'),':',parameters('adminUserName'),':',parameters('adminUserName'),' ',parameters('licenseFileText'),' ',parameters('sshPrivateKey'))]"
       }
     }
   }
