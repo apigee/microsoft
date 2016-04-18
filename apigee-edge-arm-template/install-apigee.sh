@@ -41,11 +41,13 @@ cd /tmp/apigee
 echo 'in tmp/apigee folder' >> /tmp/armscript.log
 
 rm -rf license.txt
-echo $LICENSE_TEXT > license.txt
-echo $LICENSE_TEXT > ../license.txt
 
-echo $SSH_KEY > ssh_key.pem
-echo $SSH_KEY > ../ssh_key.pem
+#Replace space with new lines before writing to file
+echo $LICENSE_TEXT | tr " " "\n"> license.txt
+echo $LICENSE_TEXT | tr " " "\n"> ../license.txt
+
+echo $SSH_KEY | tr " " "\n"> ssh_key.pem
+echo $SSH_KEY | tr " " "\n"> ../ssh_key.pem
 
 
 
@@ -184,7 +186,18 @@ else
 	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/installation_setup.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv
 	/usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/install_apigee_multinode.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv
 	/usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/postgres_master_slave_conf.yml -M ${automation_path}/playbooks -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
+	/usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/remove_silent_config.yml -M ${automation_path}/playbooks -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
 
 
 
 fi
+
+echo "removing the apigee installation folders" >>/tmp/armscript.log
+
+# rm -rf /tmp/apigee/apigee_install_scripts
+# rm -rf /tmp/license.txt
+# rm -rf /tmp/apigee/license.txt
+# rm -rf /tmp/ssh_key.pem
+# rm -rf /tmp/apigee/ssh_key.pem
+#rm -rf /tmp/template_silent.conf
+#rm -rf /tmp/apigee/template_silent.conf

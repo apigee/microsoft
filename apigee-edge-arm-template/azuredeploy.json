@@ -318,7 +318,6 @@
         "[concat('Microsoft.Resources/deployments/', 'qpidInstances')]",
         "[concat('Microsoft.Resources/deployments/', 'analyticsInstances')]",
         "[concat('Microsoft.Resources/deployments/', 'rmpInstances')]"
-
       ],
       "properties": {
         "mode": "Incremental",
