@@ -55,6 +55,7 @@ sed '$d' ssh_key.pem | sed '$d' | sed '$d'| sed '$d'| tail -n+5  >> tmp.pem
 echo '-----END RSA PRIVATE KEY-----'>>tmp.pem
 rm -rf ssh_key.pem
 mv tmp.pem ssh_key.pem
+chown $USER_NAME:$USER_NAME ssh_key.pem
 chmod 600 ssh_key.pem
 cp -rf ssh_key.pem ../ssh_key.pem
 

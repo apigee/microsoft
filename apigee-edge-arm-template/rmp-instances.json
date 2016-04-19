@@ -61,7 +61,8 @@
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/LoadBalancerFrontEnd')]",
     "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/RMPInstancePool')]",
     "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]",
-    "availabilitySetName": "ApigeeRMPAvSet"
+    "availabilitySetName": "[concat('ApigeeRMPSet-',parameters('vmDnsName'))]",
+    "securityGroupName": "[concat('ApigeeSecurityGroup-',parameters('vmDnsName'))]"
 
   },
   "resources": [
@@ -85,14 +86,14 @@
       "apiVersion": "2015-05-01-preview",
       "location": "[parameters('location')]",
       "properties": {}
-    }, 
-    {
+    }, {
       "apiVersion": "2015-05-01-preview",
       "name": "[variables('lbName')]",
       "type": "Microsoft.Network/loadBalancers",
       "location": "[parameters('location')]",
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', variables('runtimePublicIPAddressName'))]"
+
       ],
       "properties": {
         "frontendIPConfigurations": [{
@@ -171,6 +172,9 @@
         "ipConfigurations": [{
           "name": "ipconfig1",
           "properties": {
+            "networkSecurityGroup": {
+              "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('securityGroupName'))]"
+            },
             "privateIPAllocationMethod": "Dynamic",
             "subnet": {
               "id": "[variables('subnet1Ref')]"

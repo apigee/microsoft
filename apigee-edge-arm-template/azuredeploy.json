@@ -352,6 +352,9 @@
           "sshKey": {
             "value": "[parameters('sshKey')]"
           },
+          "tshirtSize": {
+            "value": "[parameters('tshirtSize')]"
+          },
           "apigeeAdminEmail": {
             "value": "[parameters('apigeeAdminEmail')]"
           },
@@ -367,7 +370,7 @@
           "hostNmaes": {
             "value": {
               "datastore_ip1": "[reference('datastoreInstances').outputs.ip1.value]",
-              "datastore_ip2": "reference('datastoreInstances').outputs.ip2.value]",
+              "datastore_ip2": "[reference('datastoreInstances').outputs.ip2.value]",
               "qpid_ip1": "[reference('qpidInstances').outputs.ip1.value]",
               "qpid_ip2": "[reference('qpidInstances').outputs.ip2.value]",
               "analytics_ip1": "[reference('analyticsInstances').outputs.ip1.value]",
