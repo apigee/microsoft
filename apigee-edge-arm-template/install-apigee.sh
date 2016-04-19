@@ -47,7 +47,7 @@ echo $LICENSE_TEXT | tr " " "\n"> license.txt
 echo $LICENSE_TEXT | tr " " "\n"> ../license.txt
 
 echo $SSH_KEY | tr " " "\n"> ssh_key.pem
-echo $SSH_KEY | tr " " "\n"> ../ssh_key.pem
+
 
 #This is all because the spaces in the bellow lines are also converted to new lines!
 echo '-----BEGIN RSA PRIVATE KEY-----' > tmp.pem
@@ -55,7 +55,8 @@ sed '$d' ssh_key.pem | sed '$d' | sed '$d'| sed '$d'| tail -n+5  >> tmp.pem
 echo '-----END RSA PRIVATE KEY-----'>>tmp.pem
 rm -rf ssh_key.pem
 mv tmp.pem ssh_key.pem
-
+chmod 600 ssh_key.pem
+cp -rf ssh_key.pem ../ssh_key.pem
 
 
 if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
