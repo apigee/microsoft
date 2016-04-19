@@ -83,17 +83,17 @@
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[variables('availabilitySetName')]",
       "apiVersion": "2015-05-01-preview",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('location')]",
       "properties": {}
     }, 
     {
       "apiVersion": "2015-05-01-preview",
       "name": "[variables('lbName')]",
       "type": "Microsoft.Network/loadBalancers",
-      "location": "[resourceGroup().location]",
-    "dependsOn": [
-      "[concat('Microsoft.Network/publicIPAddresses/', variables('runtimePublicIPAddressName'))]"
-    ],
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('runtimePublicIPAddressName'))]"
+      ],
       "properties": {
         "frontendIPConfigurations": [{
           "name": "LoadBalancerFrontEnd",
