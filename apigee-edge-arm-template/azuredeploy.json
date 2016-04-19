@@ -37,27 +37,31 @@
     },
     "adminUserName": {
       "type": "string",
-      "defaultValue": "apigeetrial"
+      "defaultValue": "apigeetrial",
+      "metadata": {
+        "description": "The public key for the username given. You can use SSH Agent to generate a key pair. https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/"
+      }
     },
     "sshKey": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "...starts with ssh-rsa "
     },
     "apigeeAdminEmail": {
       "type": "string"
     },
     "apigeeAdminPassword": {
-      "type": "string"
+      "type": "securestring"
     },
     "sshPrivateKey": {
       "type": "string",
-      "defaultValue": "NOT_GIVEN",
+      "defaultValue": "",
       "metadata": {
         "description": "The private key for the username given. This is used to login to other instances if a multi node deployment is selected."
       }
     },
     "licenseFileText": {
       "type": "string",
-      "defaultValue": "NOT_GIVEN",
+      "defaultValue": "",
       "metadata": {
         "description": "Licnese file that is given to your organization by Apigee. Paste the content of the file here"
       }

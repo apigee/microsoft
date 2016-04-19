@@ -10,9 +10,9 @@ ORG_NAME=$1
 APIGEE_ADMIN_EMAIL=$2
 APW=$3
 VHOST_ALIAS=$4
-ENV_NAME='test'
 VHOST_NAME='default'
-VHOST_PORT='9002'
+VHOST_PORT_PROD='9001'
+VHOST_PORT_TEST='9002'
 EDGE_VERSION='4.15.07.03'
 
 
@@ -211,7 +211,8 @@ echo "removing the apigee installation folders" >>/tmp/armscript.log
 
 #update the setup-org
 cp -fr /tmp/apigee/setup-org.sh /opt/apigee4/bin/setup-org.sh
-echo y | /opt/apigee4/bin/setup-org.sh ${APIGEE_ADMIN_EMAIL} ${APW} ${ORG_NAME} ${ENV_NAME} ${VHOST_NAME} ${VHOST_PORT} ${VHOST_ALIAS}
+echo y | /opt/apigee4/bin/setup-org.sh ${APIGEE_ADMIN_EMAIL} ${APW} ${ORG_NAME} 'test' ${VHOST_NAME} ${VHOST_PORT_TEST} ${VHOST_ALIAS}
+echo y| /opt/apigee4/bin/add-env.sh -o ${ORG_NAME} -P "${APW}" -A -e "prod" -v "${VHOST_NAME}" -p ${VHOST_PORT_PROD} -a "${VHOST_ALIAS}"
 
 echo 'script execution ended at:'>>/tmp/armscript.log
 echo $(date)>>/tmp/armscript.log
