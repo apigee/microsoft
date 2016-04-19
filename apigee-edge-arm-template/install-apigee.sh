@@ -49,6 +49,13 @@ echo $LICENSE_TEXT | tr " " "\n"> ../license.txt
 echo $SSH_KEY | tr " " "\n"> ssh_key.pem
 echo $SSH_KEY | tr " " "\n"> ../ssh_key.pem
 
+#This is all because the spaces in the bellow lines are also converted to new lines!
+echo '-----BEGIN RSA PRIVATE KEY-----' > tmp.pem
+sed '$d' ssh_key.pem | sed '$d' | sed '$d'| sed '$d'| tail -n+5  >> tmp.pem
+echo '-----END RSA PRIVATE KEY-----'>>tmp.pem
+rm -rf ssh_key.pem
+mv tmp.pem ssh_key.pem
+
 
 
 if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
@@ -83,12 +90,7 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 
 	#/opt/apigee4/share/installer/apigee-setup.sh -p sax -f /tmp/opdk.conf
 
-	#update the setup-org
-	cp -fr /tmp/apigee/setup-org.sh /opt/apigee4/bin/setup-org.sh
-	/opt/apigee4/bin/setup-org.sh ${APIGEE_ADMIN_EMAIL} ${APW} ${ORG_NAME} ${ENV_NAME} ${VHOST_NAME} ${VHOST_PORT} ${VHOST_ALIAS}
-
-	echo 'script execution ended at:'>>/tmp/armscript.log
-	echo $(date)>>/tmp/armscript.log
+	
 else
 	TOPOLOGY_TYPE=""
 	#arr=$(echo $IN | tr ";" "\n")
@@ -190,6 +192,8 @@ else
 	/usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/postgres_master_slave_conf.yml -M ${automation_path}/playbooks -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
 	/usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/remove_silent_config.yml -M ${automation_path}/playbooks -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
 
+	VHOST_ALIAS=$LB_IP_ALIAS
+
 
 
 fi
@@ -203,3 +207,10 @@ echo "removing the apigee installation folders" >>/tmp/armscript.log
 # rm -rf /tmp/apigee/ssh_key.pem
 #rm -rf /tmp/template_silent.conf
 #rm -rf /tmp/apigee/template_silent.conf
+
+#update the setup-org
+cp -fr /tmp/apigee/setup-org.sh /opt/apigee4/bin/setup-org.sh
+echo y | /opt/apigee4/bin/setup-org.sh ${APIGEE_ADMIN_EMAIL} ${APW} ${ORG_NAME} ${ENV_NAME} ${VHOST_NAME} ${VHOST_PORT} ${VHOST_ALIAS}
+
+echo 'script execution ended at:'>>/tmp/armscript.log
+echo $(date)>>/tmp/armscript.log
