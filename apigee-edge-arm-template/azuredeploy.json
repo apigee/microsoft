@@ -87,7 +87,7 @@
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.json')]",
-      "managementInstanceSize":"Standard_A4"
+      "managementInstanceSize":"Standard_A3"
 
     },
     "tshirtSizeLarge": {
