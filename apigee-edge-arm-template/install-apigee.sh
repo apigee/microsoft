@@ -207,8 +207,8 @@ else
 
 	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/update-hostnamei.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
 	echo "Host Names updated"  >>/tmp/ansible_output.log
-	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/update_security_config.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
-	echo "Security Settings updated"  >>/tmp/ansible_output.log
+	# /usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/update_security_config.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
+	# echo "Security Settings updated"  >>/tmp/ansible_output.log
 	
 	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/mount_disk_azure.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
 	echo "Disks Mounted"  >>/tmp/ansible_output.log
