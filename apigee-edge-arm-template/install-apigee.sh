@@ -55,13 +55,24 @@ sed '$d' ssh_key.pem | sed '$d' | sed '$d'| sed '$d'| tail -n+5  >> tmp.pem
 echo '-----END RSA PRIVATE KEY-----'>>tmp.pem
 rm -rf ssh_key.pem
 mv tmp.pem ssh_key.pem
-chown $USER_NAME:$USER_NAME ssh_key.pem
+#chown $USER_NAME:$USER_NAME ssh_key.pem
 chmod 600 ssh_key.pem
 cp -rf ssh_key.pem ../ssh_key.pem
-chown $USER_NAME:$USER_NAME ../ssh_key.pem
+#chown $USER_NAME:$USER_NAME ../ssh_key.pem
 chmod 600 ../ssh_key.pem
 
 if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
+
+	# Relaxing the security settings.
+
+	setenforce 0 >> /tmp/setenforce.out
+	cat /etc/selinux/config > /tmp/beforeSelinux.out
+	sed -i 's^SELINUX=enforcing^SELINUX=disabled^g' /etc/selinux/config || true
+	cat /etc/selinux/config > /tmp/afterSeLinux.out
+
+	/etc/init.d/iptables save
+	/etc/init.d/iptables stop
+	chkconfig iptables off
 
 	echo "deploying a 1 node setup" >> /tmp/armscript.log
 	cd /tmp/apigee
@@ -187,20 +198,23 @@ else
 	PARAMS="key_pair=new-opdk topology_type=${topology_type} installation_type=$installation_type workspace=${WORKSPACE} smtp_conf=${smtp_conf}  login_user=${login_user} package1_name=${installer}  jdk_version=${java_version} pem_key_path=$key_path mp_pod_name=${mp_pod_name} res_ouput_directory=$resource_path login_user=${login_user} file_system=$filesystem  disk_space=$disk_space apigee_repo_username=${apigee_repo_username} apigee_repo_password=${apigee_repo_password} apigee_stage=${apigee_stage} apigee_repo_url=${apigee_repo_url}"
 
 
-	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/update-hostnamei.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
-	echo "Host Names updated"  >>/tmp/armscript.log
-	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/mount_disk_azure.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
-	echo "Disks Mounted"  >>/tmp/armscript.log
-	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/generate_silent_config.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
+	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/update-hostnamei.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
+	echo "Host Names updated"  >>/tmp/ansible_output.log
+	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/update_security_config.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
+	echo "Security Settings updated"  >>/tmp/ansible_output.log
+	
+	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/mount_disk_azure.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
+	echo "Disks Mounted"  >>/tmp/ansible_output.log
+	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/generate_silent_config.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
 	echo "Silent Config File generated and puhsed"  >>/tmp/armscript.log
-	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/installation_setup.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv
-	echo "Installation set up done. Installation will start"  >>/tmp/armscript.log
-	/usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/install_apigee_multinode.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv
-	echo "Apigee installed"  >>/tmp/armscript.log
-	/usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/postgres_master_slave_conf.yml -M ${automation_path}/playbooks -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
-	echo "Postgres Master-Slave setup done"  >>/tmp/armscript.log
-	/usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/remove_silent_config.yml -M ${automation_path}/playbooks -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
-	echo "Removed Silent Config File"  >>/tmp/armscript.log
+	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/installation_setup.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
+	echo "Installation set up done. Installation will start"  >>/tmp/ansible_output.log
+	/usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/install_apigee_multinode.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
+	echo "Apigee installed"  >>/tmp/ansible_output.log
+	/usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/postgres_master_slave_conf.yml -M ${automation_path}/playbooks -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
+	echo "Postgres Master-Slave setup done"  >>/tmp/ansible_output.log
+	/usr/local/bin/ansible-playbook -i ${host2_path}/hosts  ${automation_path}/playbooks/remove_silent_config.yml -M ${automation_path}/playbooks -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
+	echo "Removed Silent Config File"  >>/tmp/ansible_output.log
 
 	echo "Ansible Scripts Executed"  >>/tmp/armscript.log
 
