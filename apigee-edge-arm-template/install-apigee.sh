@@ -204,7 +204,9 @@ else
 
 
 	export ANSIBLE_HOST_KEY_CHECKING=False
+	echo 'Path variable, before setting it for ansible- $PATH'
 	export PATH=/usr/local/bin:/tmp/apigee/Python-2.7.6:$PATH
+	echo 'Path variable, after setting it for ansible- $PATH'
 	#cp /tmp/apigee/apigee-edge-4.15.07.03.zip /tmp
 
 	echo "This is right before ansible-playbook"  >>/tmp/armscript.log

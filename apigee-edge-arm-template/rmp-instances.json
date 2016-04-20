@@ -149,7 +149,7 @@
           "name": "tcpProbe",
           "properties": {
             "protocol": "tcp",
-            "port": 9001,
+            "port": 8081,
             "intervalInSeconds": 5,
             "numberOfProbes": 2
           }
