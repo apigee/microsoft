@@ -189,7 +189,7 @@ else
 	host2_path='/tmp/apigee/apigee_install_scripts/common/source'
 	#WORKSPACE='/tmp/apigee/apigee_install_scripts/prerpm_install/playbooks'
 	key_path='/tmp/ssh_key.pem'
-	key1_path='/tmp/ssh_key1.pem'
+	#key1_path='/tmp/ssh_key1.pem'
 	mp_pod_name='gateway'
 	resource_path='/tmp/apigee'
 	smtp_conf=n
@@ -197,9 +197,9 @@ else
 	topology_type=$TOPOLOGY_TYPE
 	login_user=$USER_NAME
 
-	cp -fr $key_path $key1_path
-	chown $USER_NAME:$USER_NAME $key1_path
-	chmod 600 $key1_path
+	# cp -fr $key_path $key1_path
+	# chown $USER_NAME:$USER_NAME $key1_path
+	# chmod 600 $key1_path
 
 
 
