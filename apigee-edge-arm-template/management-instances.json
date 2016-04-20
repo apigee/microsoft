@@ -59,7 +59,7 @@
         "description": "Licnese file that is given to your organization by Apigee. Paste the content of the file here"
       }
     },
-    "hostNmaes": {
+    "hostNames": {
       "type": "object"
     }
 
@@ -184,7 +184,7 @@
         "fileUris": [
           "https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template/install-apigee.sh"
         ],
-        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',parameters('hostNmaes').management_public_ip,' ',parameters('tshirtSize'),' ',parameters('hostNmaes').runtime_public_ip,' ',reference(concat(variables('nicName'), parameters('vmtypeprefix'), 0)).ipConfigurations[0].properties.privateIPAddress,':',parameters('hostNmaes').datastore_ip1,':',parameters('hostNmaes').datastore_ip2,':',parameters('hostNmaes').rmp_ip1,':',parameters('hostNmaes').rmp_ip2,':',parameters('hostNmaes').qpid_ip1,':',parameters('hostNmaes').qpid_ip2,':',parameters('hostNmaes').analytics_ip1,':',parameters('hostNmaes').analytics_ip2,' ',base64(parameters('licenseFileText')),' ',base64(parameters('sshPrivateKey')))]"
+        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',parameters('hostNames').management_public_ip,' ',parameters('tshirtSize'),' ',parameters('hostNames').runtime_public_ip,' ',reference(concat(variables('nicName'), parameters('vmtypeprefix'), 0)).ipConfigurations[0].properties.privateIPAddress,':',parameters('hostNames').datastore_ip1,':',parameters('hostNames').datastore_ip2,':',parameters('hostNames').rmp_ip1,':',parameters('hostNames').rmp_ip2,':',parameters('hostNames').qpid_ip1,':',parameters('hostNames').qpid_ip2,':',parameters('hostNames').analytics_ip1,':',parameters('hostNames').analytics_ip2,' ',base64(parameters('licenseFileText')),' ',base64(parameters('sshPrivateKey')))]"
       }
     }
   }

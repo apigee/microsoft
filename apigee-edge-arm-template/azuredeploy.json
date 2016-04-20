@@ -37,17 +37,21 @@
     },
     "adminUserName": {
       "type": "string",
-      "defaultValue": "apigeetrial",
+      "defaultValue": "apigeetrial"
+    },
+    "sshKey": {
+      "type": "string",
+      "defaultValue": "...starts with ssh-rsa ",
       "metadata": {
         "description": "The public key for the username given. You can use SSH Agent to generate a key pair. https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/"
       }
     },
-    "sshKey": {
-      "type": "string",
-      "defaultValue": "...starts with ssh-rsa "
-    },
     "apigeeAdminEmail": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "apigeetrial@apigee.com",
+      "metadata": {
+        "description": "email address used as super admin of Apigee deployment"
+      }
     },
     "apigeeAdminPassword": {
       "type": "securestring"
@@ -56,14 +60,14 @@
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "The private key for the username given. This is used to login to other instances if a multi node deployment is selected."
+        "description": "The private key for the username given. This is used to login to other instances if a multi node deployment (Medium, Large t-shirt sizes) is selected."
       }
     },
     "licenseFileText": {
       "type": "string",
       "defaultValue": "",
       "metadata": {
-        "description": "Licnese file that is given to your organization by Apigee. Paste the content of the file here"
+        "description": "License file that is given to your organization by Apigee. Paste the content of the file here"
       }
     }
   },
@@ -367,7 +371,7 @@
           "licenseFileText": {
             "value": "[parameters('licenseFileText')]"
           },
-          "hostNmaes": {
+          "hostNames": {
             "value": {
               "datastore_ip1": "[reference('datastoreInstances').outputs.ip1.value]",
               "datastore_ip2": "[reference('datastoreInstances').outputs.ip2.value]",
