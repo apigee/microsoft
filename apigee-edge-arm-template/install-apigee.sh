@@ -58,7 +58,8 @@ mv tmp.pem ssh_key.pem
 chown $USER_NAME:$USER_NAME ssh_key.pem
 chmod 600 ssh_key.pem
 cp -rf ssh_key.pem ../ssh_key.pem
-
+chown $USER_NAME:$USER_NAME ../ssh_key.pem
+chmod 600 ../ssh_key.pem
 
 if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 
@@ -187,12 +188,21 @@ else
 
 
 	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/update-hostnamei.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
+	echo "Host Names updated"  >>/tmp/armscript.log
 	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/mount_disk_azure.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
+	echo "Disks Mounted"  >>/tmp/armscript.log
 	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/generate_silent_config.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
+	echo "Silent Config File generated and puhsed"  >>/tmp/armscript.log
 	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/installation_setup.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv
+	echo "Installation set up done. Installation will start"  >>/tmp/armscript.log
 	/usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/install_apigee_multinode.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv
+	echo "Apigee installed"  >>/tmp/armscript.log
 	/usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/postgres_master_slave_conf.yml -M ${automation_path}/playbooks -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
+	echo "Postgres Master-Slave setup done"  >>/tmp/armscript.log
 	/usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/remove_silent_config.yml -M ${automation_path}/playbooks -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv
+	echo "Removed Silent Config File"  >>/tmp/armscript.log
+
+	echo "Ansible Scripts Executed"  >>/tmp/armscript.log
 
 	VHOST_ALIAS=$LB_IP_ALIAS
 
