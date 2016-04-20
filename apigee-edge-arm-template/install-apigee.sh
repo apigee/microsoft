@@ -189,12 +189,16 @@ else
 	host2_path='/tmp/apigee/apigee_install_scripts/common/source'
 	#WORKSPACE='/tmp/apigee/apigee_install_scripts/prerpm_install/playbooks'
 	key_path='/tmp/ssh_key.pem'
+	key_path='/tmp/ssh_key1.pem'
 	mp_pod_name='gateway'
 	resource_path='/tmp/apigee'
 	smtp_conf=n
 
 	topology_type=$TOPOLOGY_TYPE
 	login_user=$USER_NAME
+
+	cp -fr $key_path $key1_path
+	chown $USER_NAME:$USER_NAME $key1_path
 
 
 
@@ -212,7 +216,12 @@ else
 	
 	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/mount_disk_azure.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
 	echo "Disks Mounted"  >>/tmp/ansible_output.log
-	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/generate_silent_config.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
+	#/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/generate_silent_config.yml -M ${automation_path}/playbooks  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
+
+
+	sudo  path=$path topology_type=$topology_type automation_path=$automation_path hosts_path=$hosts_path login_user=$login_user key_path=$key_path mp_pod_name=$mp_pod_name WORKSPACE=$WORKSPACE resource_path=$resource_path smtp_conf=$smtp_conf res_ouput_directory=$resource_path -H -u apigeetrial bash -c '/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/generate_silent_config.yml -M ${automation_path}/playbooks  -u ${login_user} -e "automation_path=$automation_path hosts_path=$hosts_path login_user=$login_user key_path=$key1_path mp_pod_name=$mp_pod_name WORKSPACE=$WORKSPACE resource_path=$resource_path smtp_conf=$smtp_conf res_ouput_directory=$resource_path topology_type=$topology_type " --private-key ${key1_path} -vvvv' >>/tmp/ansible_output.log
+
+
 	echo "Silent Config File generated and puhsed"  >>/tmp/armscript.log
 	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/installation_setup.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
 	echo "Installation set up done. Installation will start"  >>/tmp/ansible_output.log
