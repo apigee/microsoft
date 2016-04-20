@@ -61,6 +61,12 @@ cp -rf ssh_key.pem ../ssh_key.pem
 #chown $USER_NAME:$USER_NAME ../ssh_key.pem
 chmod 600 ../ssh_key.pem
 
+
+eval `ssh-agent -s`
+ssh-add ssh_key.pem
+echo "ssh key added" >armscript.log
+
+
 if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 
 	# Relaxing the security settings.
@@ -176,11 +182,12 @@ else
 
 
 
-	cd /tmp/apigee/apigee_install_scripts/prerpm_install/playbooks
+	#cd /tmp/apigee/apigee_install_scripts/prerpm_install/playbooks
+	cd /tmp
 	automation_path='/tmp/apigee/apigee_install_scripts/prerpm_install'
 	hosts_path='/tmp/apigee/apigee_install_scripts/common/source'
 	host2_path='/tmp/apigee/apigee_install_scripts/common/source'
-	WORKSPACE='/tmp/apigee/apigee_install_scripts/prerpm_install/playbooks'
+	#WORKSPACE='/tmp/apigee/apigee_install_scripts/prerpm_install/playbooks'
 	key_path='/tmp/ssh_key.pem'
 	mp_pod_name='gateway'
 	resource_path='/tmp/apigee'
