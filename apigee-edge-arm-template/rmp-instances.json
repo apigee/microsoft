@@ -173,7 +173,7 @@
           "name": "ipconfig1",
           "properties": {
             "networkSecurityGroup": {
-              "id": "[resourceId('Microsoft.Network/networkSecurityGroups', parameters('securityGroupName'))]"
+              "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroupName'))]"
             },
             "privateIPAllocationMethod": "Dynamic",
             "subnet": {
