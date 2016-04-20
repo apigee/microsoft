@@ -226,7 +226,7 @@ else
 	#sudo  path=$path topology_type=$topology_type automation_path=$automation_path hosts_path=$hosts_path login_user=$login_user key_path=$key_path mp_pod_name=$mp_pod_name WORKSPACE=$WORKSPACE resource_path=$resource_path smtp_conf=$smtp_conf res_ouput_directory=$resource_path -H -u apigeetrial bash -c 'export ANSIBLE_HOST_KEY_CHECKING=False; /usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/generate_silent_config.yml -M ${automation_path}/playbooks  -u ${login_user} -e "automation_path=$automation_path hosts_path=$hosts_path login_user=$login_user key_path=$key1_path mp_pod_name=$mp_pod_name WORKSPACE=$WORKSPACE resource_path=$resource_path smtp_conf=$smtp_conf res_ouput_directory=$resource_path topology_type=$topology_type " --private-key ${key1_path} -vvvv >>/tmp/ansible1_output.log ' 
 
 
-	echo "Silent Config File generated and puhsed"  >>/tmp/armscript.log
+	echo "Silent Config File generated and puhsed"  >>/tmp/ansible_output.log
 	/usr/local/bin/ansible-playbook -i ${hosts_path}/hosts  ${automation_path}/playbooks/installation_setup.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
 	echo "Installation set up done. Installation will start"  >>/tmp/ansible_output.log
 	/usr/local/bin/ansible-playbook -i ${host2_path}/host2  ${automation_path}/playbooks/install_apigee_multinode.yml -M ${automation_path}/playbooks  -u ${login_user}  -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
@@ -253,11 +253,13 @@ echo "removing the apigee installation folders" >>/tmp/armscript.log
 # rm -rf /tmp/apigee/ssh_key.pem
 #rm -rf /tmp/template_silent.conf
 #rm -rf /tmp/apigee/template_silent.conf
+#rm -rf /tmp/apigee/opdk.conf
+#rm -rf /tmp/opdk.conf
 
 #update the setup-org
 cp -fr /tmp/apigee/setup-org.sh /opt/apigee4/bin/setup-org.sh
-echo y | /opt/apigee4/bin/setup-org.sh ${APIGEE_ADMIN_EMAIL} ${APW} ${ORG_NAME} 'test' ${VHOST_NAME} ${VHOST_PORT_TEST} ${VHOST_ALIAS}
-echo y| /opt/apigee4/bin/add-env.sh -o ${ORG_NAME} -P "${APW}" -A -e "prod" -v "${VHOST_NAME}" -p ${VHOST_PORT_PROD} -a "${VHOST_ALIAS}"
+echo y | /opt/apigee4/bin/setup-org.sh ${APIGEE_ADMIN_EMAIL} ${APW} ${ORG_NAME} 'test' ${VHOST_NAME} ${VHOST_PORT_TEST} ${VHOST_ALIAS} >>/tmp/armscript.log
+echo y| /opt/apigee4/bin/add-env.sh -o ${ORG_NAME} -P "${APW}" -A -e "prod" -v "${VHOST_NAME}" -p ${VHOST_PORT_PROD} -a "${VHOST_ALIAS}" >>/tmp/armscript.log
 
 echo 'script execution ended at:'>>/tmp/armscript.log
 echo $(date)>>/tmp/armscript.log
