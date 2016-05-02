@@ -413,6 +413,10 @@
     "runtimePublicDNSName": {
       "value": "[reference('rmpInstances').outputs.runtimePublicDNSName.value]",
       "type": "string"
+    },
+    "managementUI": {
+      "value": "[concat('http://', reference('shared').outputs.managementDNSName.value, ':9000')]",
+      "type": "string"
     }
   }
 }
