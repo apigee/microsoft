@@ -34,6 +34,10 @@
     "subnet1Prefix": "10.0.0.0/24",
     "publicIPAddressName": "[concat('ApigeeManagementPublicIP-',parameters('vmDnsName'))]",
     "publicIPDNSName": "[concat(parameters('vmDnsName'), '-management')]",
+    "managementPublicIPDNSName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee-management')]",
+    "runtimePublicIPDNSName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee-runtime')]",
+
+
     "runtimePublicIPAddressName": "[concat('ApigeeRuntimePublicIP-',parameters('vmDnsName'))]",
     "publicIPAddressType": "Dynamic",
     "vmStorageAccountContainerName": "vhds",
@@ -68,7 +72,7 @@
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
-          "domainNameLabel": "[variables('publicIPDNSName')]"
+          "domainNameLabel": "[variables('managementPublicIPDNSName')]"
         }
       }
     }, {
