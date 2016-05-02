@@ -1,5 +1,5 @@
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "$schema": "http://schema.management.azure.com/schemas/2015-06-15/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "location": {
@@ -14,6 +14,12 @@
     "adminUserName": {
       "value": "apigeetrial"
     },
+    "authenticationType": {
+      "value": "sshPublickey"
+    },
+    "password": {
+      "value": "PASSWORD_OPTIONAL"
+    },
     "sshKey": {
       "value": "COPY_PUBLIC_KEY_HERE"
     },
@@ -21,7 +27,7 @@
       "value": "apigeetrial@apigee.com"
     },
     "apigeeAdminPassword": {
-      "value": "Apigee123"
+      "value": "APIGEE_ADMIN_PASSWORD"
     },
     "licenseFileText": {
       "value": "COPY_LICENSE_FILE_TEXT_HERE"

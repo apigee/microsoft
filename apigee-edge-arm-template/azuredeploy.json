@@ -1,18 +1,10 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2015-06-15/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
 
     "location": {
       "type": "string",
-      "defaultValue": "West US",
-      "allowedValues": [
-        "East US",
-        "West US",
-        "West Europe",
-        "East Asia",
-        "South East Asia"
-      ],
       "metadata": {
         "description": "Deployment location of where Apigee will be installed"
       }
@@ -29,19 +21,28 @@
         "description": "T-shirt size of the Apigee deployment"
       }
     },
-
-
     "apigeeDeploymentName": {
-      "type": "string",
-      "defaultValue": "apigeeedgetrial"
+      "type": "string"
     },
     "adminUserName": {
       "type": "string",
       "defaultValue": "apigeetrial"
     },
-    "sshKey": {
+    "authenticationType": {
       "type": "string",
-      "defaultValue": "...starts with ssh-rsa ",
+      "metadata": {
+        "descritpion": "Type of authentication "
+      }
+    },
+    "password": {
+      "type": "securestring",
+      "defaultValue": "",
+      "metadata": {
+        "descritpion": "Password for non SSH login (supported only for XSmall)"
+      }
+    },
+    "sshKey": {
+      "type": "securestring",
       "metadata": {
         "description": "The public key for the username given. You can use SSH Agent to generate a key pair. https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/"
       }
@@ -57,15 +58,13 @@
       "type": "securestring"
     },
     "sshPrivateKey": {
-      "type": "string",
-      "defaultValue": "",
+      "type": "securestring",
       "metadata": {
         "description": "The private key for the username given. This is used to login to other instances if a multi node deployment (Medium, Large t-shirt sizes) is selected."
       }
     },
     "licenseFileText": {
-      "type": "string",
-      "defaultValue": "",
+      "type": "securestring",
       "metadata": {
         "description": "License file that is given to your organization by Apigee. Paste the content of the file here"
       }
@@ -79,7 +78,7 @@
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
-      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.json')]",
+      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-', parameters('authenticationType') ,'.json')]",
       "managementInstanceSize":"Standard_A3"
 
     },
@@ -90,7 +89,7 @@
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
-      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.json')]",
+      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
       "managementInstanceSize":"Standard_A3"
 
     },
@@ -101,7 +100,7 @@
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'internal-instances.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
-      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances.json')]",
+      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
       "managementInstanceSize":"Standard_A4"
 
     },
@@ -122,7 +121,8 @@
     "storageAccountType": "Standard_LRS",
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
-    "runtimePublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))]"
+    "runtimePublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))]",
+    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]"
 
   },
   "resources": [
@@ -130,7 +130,7 @@
     {
       "name": "shared",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-06-15",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -165,7 +165,7 @@
     }, {
       "name": "datastoreInstances",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-06-15",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'shared')]"
       ],
@@ -203,7 +203,7 @@
     }, {
       "name": "qpidInstances",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-06-15",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'shared')]"
       ],
@@ -241,7 +241,7 @@
     }, {
       "name": "analyticsInstances",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-06-15",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'shared')]"
       ],
@@ -279,7 +279,7 @@
     }, {
       "name": "rmpInstances",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-06-15",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'shared')]"
       ],
@@ -319,7 +319,7 @@
     {
       "name": "managementInstances",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2015-01-01",
+      "apiVersion": "2015-06-15",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'shared')]",
         "[concat('Microsoft.Resources/deployments/', 'datastoreInstances')]",
@@ -352,6 +352,9 @@
               "diskSize": "250",
               "vmCount": 1
             }
+          },
+          "password": {
+            "value": "[parameters('password')]"
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
@@ -389,5 +392,14 @@
       }
     }
   ],
-  "outputs": {}
+  "outputs": {
+    "managementPublicDNSName": {
+      "value": "[reference('shared').outputs.managementDNSName.value]",
+      "type": "string"
+    },
+    "runtimePublicDNSName": {
+      "value": "[reference('rmpInstances').outputs.runtimePublicDNSName.value]",
+      "type": "string"
+    }
+  }
 }

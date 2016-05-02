@@ -1,25 +1,16 @@
 {
-  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2015-06-15/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
 
     "location": {
       "type": "string",
-      "defaultValue": "West US",
-      "allowedValues": [
-        "East US",
-        "West US",
-        "West Europe",
-        "East Asia",
-        "South East Asia"
-      ],
       "metadata": {
         "description": "Deployment location of where Apigee will be installed"
       }
     },
     "vmDnsName": {
-      "type": "string",
-      "defaultValue": "apigeeedgetrial"
+      "type": "string"
     },
     "vmtypeprefix": {
       "type": "string",
@@ -33,7 +24,7 @@
       "type": "object"
     },
     "sshKey": {
-      "type": "string"
+      "type": "securestring"
     }
 
   },
@@ -62,13 +53,14 @@
     "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/RMPInstancePool')]",
     "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]",
     "availabilitySetName": "[concat('ApigeeRMPSet-',parameters('vmDnsName'))]",
-    "securityGroupName": "[concat('ApigeeSecurityGroup-',parameters('vmDnsName'))]"
+    "securityGroupName": "[concat('ApigeeSecurityGroup-',parameters('vmDnsName'))]",
+    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]"
 
   },
   "resources": [
 
     {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('runtimePublicIPAddressName')]",
       "location": "[parameters('location')]",
@@ -83,11 +75,11 @@
     {
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[variables('availabilitySetName')]",
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "properties": {}
     }, {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-06-15",
       "name": "[variables('lbName')]",
       "type": "Microsoft.Network/loadBalancers",
       "location": "[parameters('location')]",
@@ -156,7 +148,7 @@
         }]
       }
     }, {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('nicName'), parameters('vmtypeprefix'), copyindex())]",
       "location": "[parameters('location')]",
@@ -186,7 +178,7 @@
         }]
       }
     }, {
-      "apiVersion": "2015-05-01-preview",
+      "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex())]",
       "location": "[parameters('location')]",
@@ -236,7 +228,7 @@
           "osDisk": {
             "name": "osdisk1",
             "vhd": {
-              "uri": "[concat('http://',parameters('vmDnsName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
+              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"

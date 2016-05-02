@@ -1,0 +1,142 @@
+{
+	"handler": "Microsoft.Compute.MultiVm",
+	"version": "0.0.1-preview",
+	"parameters": {
+		"basics": [{
+			"name": "apigeeDeploymentName",
+			"type": "Microsoft.Common.TextBox",
+			"label": "Cluster name",
+			"toolTip": "The name of the new Apigee cluster.",
+			"constraints": {
+				"required": true,
+				"regex": "^[a-z0-9]{3,24}$",
+				"validationMessage": "Cluster names must be between 3 and 24 characters long, and can contain only numbers and lowercase letters."
+			}
+		}, {
+			"name": "adminUserName",
+			"type": "Microsoft.Compute.UserNameTextBox",
+			"label": "Username",
+			"defaultValue": "apigeetrial",
+			"toolTip": "Admin username for the virtual machines. Same Credientials is to SSH to the box.",
+			"osPlatform": "Linux"
+		}, {
+			"name": "SSHCredntials",
+			"type": "Microsoft.Compute.CredentialsCombo",
+			"label": {
+				"authenticationType": "Authentication type",
+				"password": "Password Not Supported For Multi Node. Use SSH Key",
+				"confirmPassword": "Confirm password",
+				"sshPublicKey": "SSH public key"
+			},
+			"toolTip": {
+				"authenticationType": "",
+				"password": "",
+				"sshPublicKey": ""
+			},
+			"constraints": {
+				"required": true
+			},
+			"options": {
+				"hideConfirmation": false
+			},
+			"osPlatform": "Linux"
+		}],
+
+
+		"steps": [{
+			"name": "ApigeeSetupInformation",
+			"label": "Cluster settings",
+			"subLabel": {
+				"preValidation": "Configure the cluster",
+				"postValidation": "Done"
+			},
+			"bladeTitle": "Cluster cluster settings",
+			"elements": [
+			{
+					"name": "clusterType",
+					"type": "Microsoft.Common.DropDown",
+					"label": "Cluster Type",
+					"defaultValue": "XSmall",
+					"toolTip": "Choose the tshirtSize for Apigee deployment",
+					"constraints": {
+						"required": true,
+						"allowedValues": [{
+							"label": "XSmall",
+							"value": "XSmall"
+						}, {
+							"label": "Medium",
+							"value": "Medium"
+						}, {
+							"label": "Large",
+							"value": "Large"
+						}]
+					}
+				}, 
+
+				{
+					"name": "apigeeAdminEmail",
+					"type": "Microsoft.Compute.UserNameTextBox",
+					"label": "Apigee Admin Email",
+					"defaultValue": "apigeetrial@apigee.com",
+					"toolTip": "Admin username for the Apigee Management UI/API cluster",
+					"osPlatform": "Linux"
+				},
+
+				{
+                    "name": "apigeeAdminPassword",
+                    "type": "Microsoft.Compute.CredentialsCombo",
+                    "label": {
+                        "password": "Password",
+                        "confirmPassword": "Confirm password"
+                    },
+                    "toolTip": {
+                        "password": "Admin username for the Apigee Management UI/API cluster"
+                    },
+                    "osPlatform": "Linux",
+                    "constraints": {
+                        "required": true,
+                        "regex": "^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\\d\\W])|(?=.*\\W)(?=.*\\d))|(?=.*\\W)(?=.*[A-Z])(?=.*\\d)).{6,72}$",
+          				"validationMessage": "The password must be between 6 and 72 characters long, and contain characters from at least 3 of the following groups: uppercase characters, lowercase characters, numbers, and special characters."
+
+                    }
+                },
+                {
+					"name": "licenseFileText",
+					"type": "Microsoft.Compute.UserNameTextBox",
+					"label": "Apigee License",
+					"toolTip": "Copy/Paste the text of the Apigee License file",
+					"osPlatform": "Linux"
+				},
+				{
+					"name": "sshPrivateKey",
+					"type": "Microsoft.Compute.UserNameTextBox",
+					"label": "SSH Private Key",
+					"defaultValue": "Not Applicable",
+					"toolTip": "Used for multi node deployments (Medium/Large profiles)",
+					"osPlatform": "Linux"
+				},
+
+
+				 
+
+			]
+		}],
+		"outputs": {
+			"apigeeDeploymentName": "[basics('apigeeDeploymentName')]",
+			"location": "[location()]",
+			"adminUsername": "[basics('adminUsername')]",
+			"authenticationType": "[basics('SSHCredntials').authenticationType]",
+			"password": "[basics('SSHCredntials').password]",
+			"sshKey": "[basics('SSHCredntials').sshPublicKey]",
+			
+			"tshirtSize": "[steps('ApigeeSetupInformation').clusterType]",
+			"apigeeAdminEmail": "[steps('ApigeeSetupInformation').apigeeAdminEmail]",
+			"apigeeAdminPassword": "[steps('ApigeeSetupInformation').apigeeAdminPassword]",
+			"licenseFileText": "[steps('ApigeeSetupInformation').licenseFileText]",
+			"sshPrivateKey": "[steps('ApigeeSetupInformation').sshPrivateKey]"
+			
+			
+			
+		}
+	}
+}
