@@ -193,10 +193,6 @@
     "managementDNSName": {
       "value": "[reference(variables('publicIPAddressName')).dnsSettings.fqdn]",
       "type": "string"
-    },
-    "storageAccountName": {
-      "value": "[reference(variables('storageAccountName')).name]",
-      "type": "string"
     }
   }
 }
