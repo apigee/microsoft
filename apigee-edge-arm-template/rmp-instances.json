@@ -58,7 +58,7 @@
     "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]",
     "availabilitySetName": "[concat('ApigeeRMPSet-',parameters('vmDnsName'))]",
     "securityGroupName": "[concat('ApigeeSecurityGroup-',parameters('vmDnsName'))]",
-    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), '-apigee')]",
+    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]",
 
   },
   "resources": [

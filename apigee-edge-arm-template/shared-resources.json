@@ -49,7 +49,7 @@
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "runtimePublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))]",
     "securityGroupName": "[concat('ApigeeSecurityGroup-',parameters('vmDnsName'))]",
-    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), '-apigee')]"
+    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]"
 
   },
   "resources": [

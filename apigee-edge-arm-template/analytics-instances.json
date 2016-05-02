@@ -44,7 +44,7 @@
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "vmCount": "[parameters('machineSettings').vmCount]",
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), '-apigee')]"
+    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]"
 
   },
   "resources": [
