@@ -45,9 +45,9 @@
 
 		"steps": [{
 			"name": "ApigeeSetupInformation",
-			"label": "Cluster settings",
+			"label": "Apigee Setup",
 			"subLabel": {
-				"preValidation": "Configure the cluster",
+				"preValidation": "Configure Apigee Cluster",
 				"postValidation": "Done"
 			},
 			"bladeTitle": "Cluster cluster settings",
