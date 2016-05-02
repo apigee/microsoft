@@ -4,7 +4,6 @@
   "parameters": {
     "location": {
       "type": "string",
-      "defaultValue": "West US",
       "metadata": {
         "description": "Deployment location of where Apigee will be installed"
       }
@@ -24,7 +23,7 @@
       "type": "object"
     },
     "sshKey": {
-      "type": "string"
+      "type": "securestring"
     }
 
   },
