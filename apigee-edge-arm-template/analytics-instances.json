@@ -25,6 +25,9 @@
     },
     "sshKey": {
       "type": "securestring"
+    },
+    "storageAccountName": {
+      "type": "string"
     }
 
   },
@@ -43,8 +46,7 @@
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "vmCount": "[parameters('machineSettings').vmCount]",
-    "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]"
+    "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]"
 
   },
   "resources": [

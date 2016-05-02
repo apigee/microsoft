@@ -156,11 +156,11 @@
               "diskSize": "250",
               "vmCount": 1
             }
-          },"storageAccountName": {
-            "value": "[variables('storageAccountName')]"
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
+          },"storageAccountName": {
+            "value": "[variables('storageAccountName')]"
           }
         }
       }
@@ -199,6 +199,8 @@
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
+          },"storageAccountName": {
+            "value": "[variables('storageAccountName')]"
           }
         }
       }
@@ -237,6 +239,8 @@
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
+          },"storageAccountName": {
+            "value": "[variables('storageAccountName')]"
           }
         }
       }
@@ -275,6 +279,8 @@
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
+          },"storageAccountName": {
+            "value": "[variables('storageAccountName')]"
           }
         }
       }
@@ -313,6 +319,8 @@
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
+          },"storageAccountName": {
+            "value": "[variables('storageAccountName')]"
           }
         }
       }

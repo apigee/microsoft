@@ -166,7 +166,7 @@
     {
     "type": "Microsoft.Compute/virtualMachines/extensions",
     "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), 0,'/newuserscript')]",
-    "apiVersion": "2016-02-01",
+    "apiVersion": "2015-06-15",
     "location": "[parameters('location')]",
     "dependsOn": [
       "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), 0)]"

@@ -25,6 +25,9 @@
     },
     "sshKey": {
       "type": "securestring"
+    },
+    "storageAccountName": {
+      "type": "string"
     }
 
   },
@@ -57,8 +60,7 @@
     "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/RMPInstancePool')]",
     "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]",
     "availabilitySetName": "[concat('ApigeeRMPSet-',parameters('vmDnsName'))]",
-    "securityGroupName": "[concat('ApigeeSecurityGroup-',parameters('vmDnsName'))]",
-    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]",
+    "securityGroupName": "[concat('ApigeeSecurityGroup-',parameters('vmDnsName'))]"
 
   },
   "resources": [
