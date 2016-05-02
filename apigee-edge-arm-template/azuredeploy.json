@@ -89,7 +89,7 @@
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
-      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
+      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublickey.json')]",
       "managementInstanceSize":"Standard_A3"
 
     },
@@ -100,7 +100,7 @@
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'internal-instances.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
-      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
+      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublickey.json')]",
       "managementInstanceSize":"Standard_A4"
 
     },
