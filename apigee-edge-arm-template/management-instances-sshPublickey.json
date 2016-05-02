@@ -144,9 +144,9 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "[concat(variables('storageAccountName'), parameters('vmtypeprefix'), copyindex())]",
+            "name": "[concat(parameters('vmDnsName'), parameters('vmtypeprefix'), copyindex())]",
             "vhd": {
-              "uri": "[concat('http://',parameters('vmDnsName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
+              "uri": "[concat('http://',variables('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
             },
             "caching": "ReadWrite",
             "createOption": "FromImage"
