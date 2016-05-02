@@ -156,6 +156,8 @@
               "diskSize": "250",
               "vmCount": 1
             }
+          },"storageAccountName": {
+            "value": "[variables('storageAccountName')]"
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
@@ -373,6 +375,9 @@
           },
           "licenseFileText": {
             "value": "[parameters('licenseFileText')]"
+          },
+          "storageAccountName": {
+            "value": "[variables('storageAccountName')]"
           },
           "hostNames": {
             "value": {

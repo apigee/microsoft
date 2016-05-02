@@ -25,6 +25,9 @@
     },
     "sshKey": {
       "type": "securestring"
+    },
+    "storageAccountName": {
+      "type": "string"
     }
   },
   "variables": {
@@ -48,15 +51,14 @@
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "runtimePublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))]",
-    "securityGroupName": "[concat('ApigeeSecurityGroup-',parameters('vmDnsName'))]",
-    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]"
+    "securityGroupName": "[concat('ApigeeSecurityGroup-',parameters('vmDnsName'))]"
 
   },
   "resources": [
 
     {
       "type": "Microsoft.Storage/storageAccounts",
-      "name": "[variables('storageAccountName')]",
+      "name": "[parameters('storageAccountName')]",
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "properties": {
@@ -190,6 +192,10 @@
   "outputs": {
     "managementDNSName": {
       "value": "[reference(variables('publicIPAddressName')).dnsSettings.fqdn]",
+      "type": "string"
+    },
+    "storageAccountName": {
+      "value": "[reference(variables('storageAccountName')).name]",
       "type": "string"
     }
   }
