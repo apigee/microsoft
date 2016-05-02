@@ -36,8 +36,8 @@
     "publicIPAddressName": "[concat('ApigeeManagementPublicIP-',parameters('vmDnsName'))]",
     "publicIPDNSName": "[concat(parameters('vmDnsName'), '-management')]",
     
-    "managementPublicIPDNSName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee-management')]",
-    "runtimePublicIPDNSName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee-runtime')]",
+    "managementPublicIPDNSName": "[concat(uniqueString(resourceGroup().id, deployment().name), '-apigee-management')]",
+    "runtimePublicIPDNSName": "[concat(uniqueString(resourceGroup().id, deployment().name), '-apigee-runtime')]",
 
     "runtimePublicIPAddressName": "[concat('ApigeeRuntimePublicIP-',parameters('vmDnsName'))]",
     "publicIPAddressType": "Dynamic",
@@ -58,7 +58,7 @@
     "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]",
     "availabilitySetName": "[concat('ApigeeRMPSet-',parameters('vmDnsName'))]",
     "securityGroupName": "[concat('ApigeeSecurityGroup-',parameters('vmDnsName'))]",
-    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]",
+    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), '-apigee')]",
 
   },
   "resources": [
@@ -152,8 +152,7 @@
         }]
       }
     }, {
-      "apiVersion": "2016-02-01",
-      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2015-06-15",
       "name": "[concat(variables('nicName'), parameters('vmtypeprefix'), copyindex())]",
       "location": "[parameters('location')]",
 

@@ -72,14 +72,13 @@
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "vmCount": "[parameters('machineSettings').vmCount]",
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
-    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]"
+    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), '-apigee')]"
 
   },
   "resources": [
 
     {
-      "apiVersion": "2016-02-01",
-      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2015-06-15",
       "name": "[concat(variables('nicName'), parameters('vmtypeprefix'), copyindex())]",
       "location": "[parameters('location')]",
       "copy": {
