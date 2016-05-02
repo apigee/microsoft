@@ -51,8 +51,7 @@
 				"postValidation": "Done"
 			},
 			"bladeTitle": "Cluster cluster settings",
-			"elements": [
-			{
+			"elements": [{
 					"name": "clusterType",
 					"type": "Microsoft.Common.DropDown",
 					"label": "Cluster Type",
@@ -71,7 +70,7 @@
 							"value": "Large"
 						}]
 					}
-				}, 
+				},
 
 				{
 					"name": "apigeeAdminEmail",
@@ -83,42 +82,52 @@
 				},
 
 				{
-                    "name": "apigeeAdminPassword",
-                    "type": "Microsoft.Compute.CredentialsCombo",
-                    "label": {
-                        "password": "Password",
-                        "confirmPassword": "Confirm password"
-                    },
-                    "toolTip": {
-                        "password": "Admin username for the Apigee Management UI/API cluster"
-                    },
-                    "osPlatform": "Linux",
-                    "constraints": {
-                        "required": true,
-                        "regex": "^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\\d\\W])|(?=.*\\W)(?=.*\\d))|(?=.*\\W)(?=.*[A-Z])(?=.*\\d)).{6,72}$",
-          				"validationMessage": "The password must be between 6 and 72 characters long, and contain characters from at least 3 of the following groups: uppercase characters, lowercase characters, numbers, and special characters."
+					"name": "apigeeAdminPassword",
+					"type": "Microsoft.Compute.CredentialsCombo",
+					"label": {
+						"password": "Password",
+						"confirmPassword": "Confirm password"
+					},
+					"toolTip": {
+						"password": "Admin username for the Apigee Management UI/API cluster"
+					},
+					"osPlatform": "Linux",
+					"constraints": {
+						"required": true,
+						"regex": "^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\\d\\W])|(?=.*\\W)(?=.*\\d))|(?=.*\\W)(?=.*[A-Z])(?=.*\\d)).{6,72}$",
+						"validationMessage": "The password must be between 6 and 72 characters long, and contain characters from at least 3 of the following groups: uppercase characters, lowercase characters, numbers, and special characters."
 
-                    }
-                },
-                {
-					"name": "licenseFileText",
-					"type": "Microsoft.Compute.UserNameTextBox",
-					"label": "Apigee License",
-					"toolTip": "Copy/Paste the text of the Apigee License file",
-					"osPlatform": "Linux"
-				},
-				{
+					}
+				}, {
+					"name": "licenseFile",
+					"type": "Microsoft.Common.FileUpload",
+					"label": "Apigee License File",
+					"toolTip": "License file given by Apigee",
+					"constraints": {
+						"required": true,
+						"accept": ".txt,text/*"
+					},
+					"options": {
+						"multiple": false,
+						"uploadMode": "file",
+						"openMode": "text",
+						"encoding": "UTF-8"
+					}
+				}, {
 					"name": "sshPrivateKey",
-					"type": "Microsoft.Compute.UserNameTextBox",
+					"type": "Microsoft.Common.FileUpload",
 					"label": "SSH Private Key",
-					"defaultValue": "Not Applicable",
 					"toolTip": "Used for multi node deployments (Medium/Large profiles)",
-					"osPlatform": "Linux"
-				},
-
-
-				 
-
+					"constraints": {
+						"required": true
+					},
+					"options": {
+						"multiple": false,
+						"uploadMode": "file",
+						"openMode": "text",
+						"encoding": "UTF-8"
+					}
+				}
 			]
 		}],
 		"outputs": {
@@ -128,15 +137,15 @@
 			"authenticationType": "[basics('SSHCredntials').authenticationType]",
 			"password": "[basics('SSHCredntials').password]",
 			"sshKey": "[basics('SSHCredntials').sshPublicKey]",
-			
+
 			"tshirtSize": "[steps('ApigeeSetupInformation').clusterType]",
 			"apigeeAdminEmail": "[steps('ApigeeSetupInformation').apigeeAdminEmail]",
 			"apigeeAdminPassword": "[steps('ApigeeSetupInformation').apigeeAdminPassword]",
-			"licenseFileText": "[steps('ApigeeSetupInformation').licenseFileText]",
+			"licenseFileText": "[steps('ApigeeSetupInformation').licenseFile]",
 			"sshPrivateKey": "[steps('ApigeeSetupInformation').sshPrivateKey]"
-			
-			
-			
+
+
+
 		}
 	}
 }
