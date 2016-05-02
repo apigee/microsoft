@@ -84,8 +84,9 @@
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "properties": {}
-    }, {
-      "apiVersion": "2016-02-01",
+    }, 
+    {
+      "apiVersion": "2015-06-15",
       "name": "[variables('lbName')]",
       "type": "Microsoft.Network/loadBalancers",
       "location": "[parameters('location')]",
