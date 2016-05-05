@@ -24,7 +24,7 @@
 			"type": "Microsoft.Compute.CredentialsCombo",
 			"label": {
 				"authenticationType": "Authentication type",
-				"password": "Password Not Supported For Multi Node. Use SSH Key",
+				"password": "Password (Password option supported only for XSmall. Use 'SSH public key' option for others)",
 				"confirmPassword": "Confirm password",
 				"sshPublicKey": "SSH public key"
 			},
@@ -56,7 +56,7 @@
 					"type": "Microsoft.Common.DropDown",
 					"label": "Cluster Type",
 					"defaultValue": "XSmall",
-					"toolTip": "Choose the tshirtSize for Apigee deployment",
+					"toolTip": "Select 'XSmall' to deploy Apigee on one node. Select 'Medium' to deploy Apigee on 5 node clister. Select 'Large' to deploy Apigee on 9 node cluster",
 					"constraints": {
 						"required": true,
 						"allowedValues": [{
@@ -134,7 +134,7 @@
 		"outputs": {
 			"apigeeDeploymentName": "[basics('apigeeDeploymentName')]",
 			"location": "[location()]",
-			"adminUsername": "[basics('adminUsername')]",
+			"adminUserName": "[basics('adminUserName')]",
 			"authenticationType": "[basics('SSHCredntials').authenticationType]",
 			"password": "[basics('SSHCredntials').password]",
 			"sshKey": "[basics('SSHCredntials').sshPublicKey]",
