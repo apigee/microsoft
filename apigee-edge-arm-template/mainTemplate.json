@@ -2,7 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-
     "location": {
       "type": "string",
       "metadata": {
@@ -69,10 +68,18 @@
       "metadata": {
         "description": "License file that is given to your organization by Apigee. Paste the content of the file here"
       }
+    },
+    "templateLocation": {
+      "type": "string",
+      "defaultValue": "https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template",
+      "metadata": {
+        "description": "Template file location",
+        "artifactsBaseUrl": "Base URL of the Publisher Template gallery package"
+      }
     }
   },
   "variables": {
-    "templateBaseUrl": "https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template/",
+    "templateBaseUrl": "[concat(parameters('templateLocation'), '/')]",
     "tshirtSizeXSmall": {
       "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
       "datastoreInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
@@ -80,33 +87,27 @@
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-', parameters('authenticationType') ,'.json')]",
-      "managementInstanceSize":"Standard_A3"
-
+      "managementInstanceSize": "Standard_A3"
     },
     "tshirtSizeMedium": {
-
       "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
       "datastoreInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
-      "managementInstanceSize":"Standard_A3"
-
+      "managementInstanceSize": "Standard_A3"
     },
     "tshirtSizeLarge": {
-
       "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
       "datastoreInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'internal-instances.json')]",
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'internal-instances.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
-      "managementInstanceSize":"Standard_A4"
-
+      "managementInstanceSize": "Standard_A4"
     },
     "tshirtSize": "[variables(concat('tshirtSize', parameters('tshirtSize')))]",
-
     "nicName": "[concat('ApigeeVMNic-',parameters('apigeeDeploymentName'))]",
     "addressPrefix": "10.0.0.0/16",
     "subnet1Name": "Subnet-1",
@@ -124,10 +125,8 @@
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "runtimePublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))]",
     "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]"
-
   },
   "resources": [
-
     {
       "name": "shared",
       "type": "Microsoft.Resources/deployments",
@@ -160,12 +159,14 @@
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
-          },"storageAccountName": {
+          },
+          "storageAccountName": {
             "value": "[variables('storageAccountName')]"
           }
         }
       }
-    }, {
+    },
+    {
       "name": "datastoreInstances",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
@@ -200,12 +201,14 @@
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
-          },"storageAccountName": {
+          },
+          "storageAccountName": {
             "value": "[variables('storageAccountName')]"
           }
         }
       }
-    }, {
+    },
+    {
       "name": "qpidInstances",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
@@ -240,12 +243,14 @@
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
-          },"storageAccountName": {
+          },
+          "storageAccountName": {
             "value": "[variables('storageAccountName')]"
           }
         }
       }
-    }, {
+    },
+    {
       "name": "analyticsInstances",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
@@ -280,12 +285,14 @@
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
-          },"storageAccountName": {
+          },
+          "storageAccountName": {
             "value": "[variables('storageAccountName')]"
           }
         }
       }
-    }, {
+    },
+    {
       "name": "rmpInstances",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
@@ -320,13 +327,13 @@
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
-          },"storageAccountName": {
+          },
+          "storageAccountName": {
             "value": "[variables('storageAccountName')]"
           }
         }
       }
     },
-
     {
       "name": "managementInstances",
       "type": "Microsoft.Resources/deployments",
@@ -401,6 +408,9 @@
               "management_public_ip": "[reference('shared').outputs.managementDNSName.value]",
               "runtime_public_ip": "[reference('rmpInstances').outputs.runtimePublicDNSName.value]"
             }
+          },
+          "templateBaseUrl": {
+            "value":"variables('templateBaseUrl')"
           }
         }
       }

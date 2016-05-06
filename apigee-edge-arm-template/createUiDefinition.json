@@ -20,7 +20,7 @@
 			"toolTip": "Admin username for the virtual machines. Same Credientials is to SSH to the box.",
 			"osPlatform": "Linux"
 		}, {
-			"name": "SSHCredntials",
+			"name": "SSHCredentials",
 			"type": "Microsoft.Compute.CredentialsCombo",
 			"label": {
 				"authenticationType": "Authentication type",
@@ -37,7 +37,8 @@
 				"required": true
 			},
 			"options": {
-				"hideConfirmation": false
+				"hideConfirmation": false,
+				"hidePassword": true
 			},
 			"osPlatform": "Linux"
 		}],
@@ -56,7 +57,7 @@
 					"type": "Microsoft.Common.DropDown",
 					"label": "Cluster Type",
 					"defaultValue": "XSmall",
-					"toolTip": "Select 'XSmall' to deploy Apigee on one node. Select 'Medium' to deploy Apigee on 5 node clister. Select 'Large' to deploy Apigee on 9 node cluster",
+					"toolTip": "Select 'XSmall' to deploy Apigee on one node. Select 'Medium' to deploy Apigee on 5 node cluster. Select 'Large' to deploy Apigee on 9 node cluster",
 					"constraints": {
 						"required": true,
 						"allowedValues": [{
@@ -135,9 +136,9 @@
 			"apigeeDeploymentName": "[basics('apigeeDeploymentName')]",
 			"location": "[location()]",
 			"adminUserName": "[basics('adminUserName')]",
-			"authenticationType": "[basics('SSHCredntials').authenticationType]",
-			"password": "[basics('SSHCredntials').password]",
-			"sshKey": "[basics('SSHCredntials').sshPublicKey]",
+			"authenticationType": "[basics('SSHCredentials').authenticationType]",
+			"password": "[basics('SSHCredentials').password]",
+			"sshKey": "[basics('SSHCredentials').sshPublicKey]",
 
 			"tshirtSize": "[steps('ApigeeSetupInformation').clusterType]",
 			"apigeeAdminEmail": "[steps('ApigeeSetupInformation').apigeeAdminEmail]",
