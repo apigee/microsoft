@@ -244,6 +244,12 @@
               "[variables('datastore_ip1')]",
               "[variables('datastore_ip2')]"
             ]
+          },
+          "managementPublicIPAddressName": {
+            "value": "[variables('managementPublicIPAddressName')]"
+          },
+          "runtimePublicIPAddressName": {
+            "value": "[variables('runtimePublicIPAddressName')]"
           }
         }
       }
@@ -292,6 +298,12 @@
               "[variables('qpid_ip1')]",
               "[variables('qpid_ip2')]"
             ]
+          },
+          "managementPublicIPAddressName": {
+            "value": "[variables('managementPublicIPAddressName')]"
+          },
+          "runtimePublicIPAddressName": {
+            "value": "[variables('runtimePublicIPAddressName')]"
           }
         }
       }
@@ -340,6 +352,12 @@
               "[variables('analytics_ip1')]",
               "[variables('analytics_ip2')]"
             ]
+          },
+          "managementPublicIPAddressName": {
+            "value": "[variables('managementPublicIPAddressName')]"
+          },
+          "runtimePublicIPAddressName": {
+            "value": "[variables('runtimePublicIPAddressName')]"
           }
         }
       }
