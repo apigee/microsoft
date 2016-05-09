@@ -30,7 +30,7 @@
       "type": "string"
     },
     "ipAddresses":{
-      "type": "object"
+      "type": "array"
     }
   },
   "variables": {
