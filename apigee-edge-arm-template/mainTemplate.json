@@ -426,7 +426,8 @@
         "[concat('Microsoft.Resources/deployments/', 'datastoreInstances')]",
         "[concat('Microsoft.Resources/deployments/', 'qpidInstances')]",
         "[concat('Microsoft.Resources/deployments/', 'analyticsInstances')]",
-        "[concat('Microsoft.Resources/deployments/', 'rmpInstances')]"
+        "[concat('Microsoft.Resources/deployments/', 'rmpInstances')]",
+        "[variables('managementPublicIPResourceId')]"
       ],
       "properties": {
         "mode": "Incremental",
