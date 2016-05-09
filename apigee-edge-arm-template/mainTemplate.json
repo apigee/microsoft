@@ -80,13 +80,13 @@
   },
   "variables": {
     "templateBaseUrl": "[concat(parameters('templateLocation'), '/')]",
+    "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
     "tshirtSizeXSmall": {
       "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
       "datastoreInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
-      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-', parameters('authenticationType') ,'.json')]",
       "managementInstanceSize": "Standard_A3"
     },
     "tshirtSizeMedium": {
@@ -95,7 +95,6 @@
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
-      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
       "managementInstanceSize": "Standard_A3"
     },
     "tshirtSizeLarge": {
@@ -104,7 +103,6 @@
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'internal-instances.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
-      "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
       "managementInstanceSize": "Standard_A4"
     },
     "tshirtSize": "[variables(concat('tshirtSize', parameters('tshirtSize')))]",
@@ -335,84 +333,29 @@
       }
     },
     {
-      "name": "managementInstances",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
-      "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'shared')]",
-        "[concat('Microsoft.Resources/deployments/', 'datastoreInstances')]",
-        "[concat('Microsoft.Resources/deployments/', 'qpidInstances')]",
-        "[concat('Microsoft.Resources/deployments/', 'analyticsInstances')]",
-        "[concat('Microsoft.Resources/deployments/', 'rmpInstances')]"
-      ],
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(variables('nicName'), parameters('vmtypeprefix'), copyindex())]",
+      "location": "[parameters('location')]",
+      "copy": {
+        "name": "nicCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
       "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('tshirtSize').managementInstancesTemplateUrl]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "location": {
-            "value": "[parameters('location')]"
-          },
-          "vmDnsName": {
-            "value": "[parameters('apigeeDeploymentName')]"
-          },
-          "vmtypeprefix": {
-            "value": "management"
-          },
-          "adminUserName": {
-            "value": "[parameters('adminUserName')]"
-          },
-          "machineSettings": {
-            "value": {
-              "vmSize": "[variables('tshirtSize').managementInstanceSize]",
-              "diskSize": "250",
-              "vmCount": 1
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
+              },
+              "subnet": {
+                "id": "[variables('subnet1Ref')]"
+              }
             }
-          },
-          "password": {
-            "value": "[parameters('password')]"
-          },
-          "sshKey": {
-            "value": "[parameters('sshKey')]"
-          },
-          "tshirtSize": {
-            "value": "[parameters('tshirtSize')]"
-          },
-          "apigeeAdminEmail": {
-            "value": "[parameters('apigeeAdminEmail')]"
-          },
-          "apigeeAdminPassword": {
-            "value": "[parameters('apigeeAdminPassword')]"
-          },
-          "sshPrivateKey": {
-            "value": "[parameters('sshPrivateKey')]"
-          },
-          "licenseFileText": {
-            "value": "[parameters('licenseFileText')]"
-          },
-          "storageAccountName": {
-            "value": "[variables('storageAccountName')]"
-          },
-          "hostNames": {
-            "value": {
-              "datastore_ip1": "[reference('datastoreInstances').outputs.ip1.value]",
-              "datastore_ip2": "[reference('datastoreInstances').outputs.ip2.value]",
-              "qpid_ip1": "[reference('qpidInstances').outputs.ip1.value]",
-              "qpid_ip2": "[reference('qpidInstances').outputs.ip2.value]",
-              "analytics_ip1": "[reference('analyticsInstances').outputs.ip1.value]",
-              "analytics_ip2": "[reference('analyticsInstances').outputs.ip2.value]",
-              "rmp_ip1": "[reference('rmpInstances').outputs.ip1.value]",
-              "rmp_ip2": "[reference('rmpInstances').outputs.ip2.value]",
-              "management_public_ip": "[reference('shared').outputs.managementDNSName.value]",
-              "runtime_public_ip": "[reference('rmpInstances').outputs.runtimePublicDNSName.value]"
-            }
-          },
-          "templateBaseUrl": {
-            "value":"variables('templateBaseUrl')"
           }
-        }
+        ]
       }
     }
   ],
