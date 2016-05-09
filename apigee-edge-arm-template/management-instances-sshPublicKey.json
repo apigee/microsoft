@@ -179,7 +179,7 @@
         "typeHandlerVersion": "1.5",
         "settings": {
           "fileUris": [
-            "[concat(parameters('templateBaseUrl'), 'install-apigee.sh']"
+            "[concat(parameters('templateBaseUrl'), 'install-apigee.sh')]"
           ]
         },
         "protectedSettings": {

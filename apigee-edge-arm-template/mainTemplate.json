@@ -351,7 +351,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[variables('tshirtSize').managementInstancesTemplateUrl]",
+          "uri": "[variables('managementInstancesTemplateUrl')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
@@ -411,6 +411,9 @@
               "management_public_ip": "[reference('shared').outputs.managementDNSName.value]",
               "runtime_public_ip": "[reference('rmpInstances').outputs.runtimePublicDNSName.value]"
             }
+          },
+          "templateBaseUrl":{
+            "value":"[variables('templateBaseUrl')]"
           }
         }
       }
