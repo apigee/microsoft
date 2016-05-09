@@ -28,7 +28,7 @@
     "storageAccountName": {
       "type": "string"
     },
-    "ipAddresses": {
+    "ipAddresses":{
       "type": "object"
     }
   },

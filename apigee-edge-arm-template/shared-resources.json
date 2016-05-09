@@ -28,9 +28,6 @@
     },
     "storageAccountName": {
       "type": "string"
-    },
-    "ipAddresses": {
-      "type": "object"
     }
   },
   "variables": {

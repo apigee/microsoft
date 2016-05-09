@@ -71,7 +71,7 @@
     },
     "templateLocation": {
       "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template",
+      "defaultValue": "https://raw.githubusercontent.com/apigee/microsoft/review-updates/apigee-edge-arm-template",
       "metadata": {
         "description": "Template file location",
         "artifactsBaseUrl": "Base URL of the Publisher Template gallery package"
