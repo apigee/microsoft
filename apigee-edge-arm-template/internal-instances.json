@@ -30,6 +30,12 @@
     },
     "ipAddresses": {
       "type": "array"
+    },
+    "managementPublicIPAddressName":{
+      "type":"string"
+    },
+    "runtimePublicIPAddressName":{
+      "type":"string"
     }
   },
   "variables": {

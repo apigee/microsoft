@@ -110,9 +110,15 @@
     "addressPrefix": "10.0.0.0/16",
     "subnet1Name": "Subnet-1",
     "subnet1Prefix": "10.0.0.0/24",
-    "publicIPAddressName": "[concat('ApigeeManagementPublicIP-',parameters('apigeeDeploymentName'))]",
-    "publicIPDNSName": "[concat(parameters('apigeeDeploymentName'), '-management')]",
+    "managementPublicIPDNSName": "[concat(parameters('apigeeDeploymentName'), uniqueString(resourceGroup().id, deployment().name), '-management')]",
+    "managementDNSName": "[concat('https://', variables('managementPublicIPDNSName'), '.', tolower(replace(parameters('location'),' ','')), '.cloudapp.azure.com')]",
+    "managementPublicIPAddressName": "[concat('ApigeeManagementPublicIP-',parameters('apigeeDeploymentName'))]",
+    "managementPublicIPResourceId":"[resourceId('Microsoft.Network/publicIPAddresses', variables('managementPublicIPAddressName'))]",
+    "runtimePublicIPDNSName": "[concat(parameters('apigeeDeploymentName'), uniqueString(resourceGroup().id, deployment().name), '-runtime')]",
+    "runtimePublicDNSName":"[concat('https://', variables('runtimePublicIPDNSName'), '.', tolower(replace(parameters('location'),' ','')), '.cloudapp.azure.com')]",
     "runtimePublicIPAddressName": "[concat('ApigeeRuntimePublicIP-',parameters('apigeeDeploymentName'))]",
+    "runtimePublicIPResourceId":"[resourceId('Microsoft.Network/publicIPAddresses', variables('runtimePublicIPAddressName'))]",
+    "publicIPDNSName": "[concat(parameters('apigeeDeploymentName'), '-management')]",
     "publicIPAddressType": "Dynamic",
     "vmStorageAccountContainerName": "vhds",
     "vmName": "[parameters('apigeeDeploymentName')]",
@@ -120,8 +126,6 @@
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
     "storageAccountType": "Standard_LRS",
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
-    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
-    "runtimePublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))]",
     "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]",
     "datastore_ip1": "10.0.0.10",
     "datastore_ip2": "10.0.0.11",
@@ -133,6 +137,30 @@
     "rmp_ip2": "10.0.0.31"
   },
   "resources": [
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[variables('runtimePublicIPAddressName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[variables('runtimePublicIPDNSName')]"
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[variables('managementPublicIPAddressName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[variables('managementPublicIPDNSName')]"
+        }
+      }
+    },
     {
       "name": "shared",
       "type": "Microsoft.Resources/deployments",
@@ -360,6 +388,12 @@
               "[variables('rmp_ip1')]",
               "[variables('rmp_ip2')]"
             ]
+          },
+          "managementPublicIPAddressName": {
+            "value": "[variables('managementPublicIPAddressName')]"
+          },
+          "runtimePublicIPAddressName": {
+            "value": "[variables('runtimePublicIPAddressName')]"
           }
         }
       }
@@ -435,8 +469,8 @@
               "analytics_ip2": "[variables('analytics_ip2')]",
               "rmp_ip1": "[variables('rmp_ip1')]",
               "rmp_ip2": "[variables('rmp_ip2')]",
-              "management_public_ip": "[reference('shared').outputs.managementDNSName.value]",
-              "runtime_public_ip": "[reference('rmpInstances').outputs.runtimePublicDNSName.value]"
+              "management_public_ip": "[reference(variables('managementPublicIPResourceId')).ipAddress]",
+              "runtime_public_ip": "[reference(variables('runtimePublicIPResourceId')).ipAddress]"
             }
           },
           "templateBaseUrl": {
@@ -448,15 +482,15 @@
   ],
   "outputs": {
     "managementPublicDNSName": {
-      "value": "[reference('shared').outputs.managementDNSName.value]",
+      "value": "[variables('managementDNSName')]",
       "type": "string"
     },
     "runtimePublicDNSName": {
-      "value": "[reference('rmpInstances').outputs.runtimePublicDNSName.value]",
+      "value": "[variables('runtimePublicDNSName')]",
       "type": "string"
     },
     "managementUI": {
-      "value": "[concat('http://', reference('shared').outputs.managementDNSName.value, ':9000')]",
+      "value": "[concat('http://', variables('managementDNSName'), ':9000')]",
       "type": "string"
     }
   }
