@@ -122,7 +122,15 @@
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "runtimePublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))]",
-    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]"
+    "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]",
+    "datastore_ip1": "10.0.0.10",
+    "datastore_ip2": "10.0.0.11",
+    "qpid_ip1": "10.0.0.20",
+    "qpid_ip2": "10.0.0.21",
+    "analytics_ip1": "10.0.0.40",
+    "analytics_ip2": "10.0.0.41",
+    "rmp_ip1": "10.0.0.30",
+    "rmp_ip2": "10.0.0.31"
   },
   "resources": [
     {
@@ -202,6 +210,12 @@
           },
           "storageAccountName": {
             "value": "[variables('storageAccountName')]"
+          },
+          "ipAddresses": {
+            "value": [
+              "[variables('datastore_ip1')]",
+              "[variables('datastore_ip2')]"
+            ]
           }
         }
       }
@@ -244,6 +258,12 @@
           },
           "storageAccountName": {
             "value": "[variables('storageAccountName')]"
+          },
+          "ipAddresses": {
+            "value": [
+              "[variables('qpid_ip1')]",
+              "[variables('qpid_ip2')]"
+            ]
           }
         }
       }
@@ -287,9 +307,10 @@
           "storageAccountName": {
             "value": "[variables('storageAccountName')]"
           },
-          "ipAddresses":{
-            "value":[
-              "10.0.0.4", "10.0.0.5"
+          "ipAddresses": {
+            "value": [
+              "[variables('analytics_ip1')]",
+              "[variables('analytics_ip2')]"
             ]
           }
         }
@@ -333,6 +354,12 @@
           },
           "storageAccountName": {
             "value": "[variables('storageAccountName')]"
+          },
+          "ipAddresses": {
+            "value": [
+              "[variables('rmp_ip1')]",
+              "[variables('rmp_ip2')]"
+            ]
           }
         }
       }
@@ -400,20 +427,20 @@
           },
           "hostNames": {
             "value": {
-              "datastore_ip1": "[reference('datastoreInstances').outputs.ip1.value]",
-              "datastore_ip2": "[reference('datastoreInstances').outputs.ip2.value]",
-              "qpid_ip1": "[reference('qpidInstances').outputs.ip1.value]",
-              "qpid_ip2": "[reference('qpidInstances').outputs.ip2.value]",
-              "analytics_ip1": "[reference('analyticsInstances').outputs.ip1.value]",
-              "analytics_ip2": "[reference('analyticsInstances').outputs.ip2.value]",
-              "rmp_ip1": "[reference('rmpInstances').outputs.ip1.value]",
-              "rmp_ip2": "[reference('rmpInstances').outputs.ip2.value]",
+              "datastore_ip1": "[variables('datastore_ip1')]",
+              "datastore_ip2": "[variables('datastore_ip2')]",
+              "qpid_ip1": "[variables('qpid_ip1')]",
+              "qpid_ip2": "[variables('qpid_ip2')]",
+              "analytics_ip1": "[variables('analytics_ip1')]",
+              "analytics_ip2": "[variables('analytics_ip2')]",
+              "rmp_ip1": "[variables('rmp_ip1')]",
+              "rmp_ip2": "[variables('rmp_ip2')]",
               "management_public_ip": "[reference('shared').outputs.managementDNSName.value]",
               "runtime_public_ip": "[reference('rmpInstances').outputs.runtimePublicDNSName.value]"
             }
           },
-          "templateBaseUrl":{
-            "value":"[variables('templateBaseUrl')]"
+          "templateBaseUrl": {
+            "value": "[variables('templateBaseUrl')]"
           }
         }
       }

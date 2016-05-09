@@ -27,19 +27,14 @@
     },
     "storageAccountName": {
       "type": "string"
+    },
+    "ipAddresses": {
+      "type":"array"
     }
   },
   "variables": {},
   "resources": [],
-  "outputs": {
-    "ip1": {
-      "value": "empty",
-      "type": "string"
-    },
-    "ip2": {
-      "value": "empty",
-      "type": "string"
-    },
+  "outputs": {    
     "runtimePublicDNSName": {
       "value": "empty",
       "type": "string"
