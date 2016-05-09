@@ -508,7 +508,7 @@
       "type": "string"
     },
     "managementUI": {
-      "value": "[concat('http://', variables('managementDNSName'), ':9000')]",
+      "value": "[concat('http://', variables('managementPublicIPDNSName'), '.', tolower(replace(parameters('location'),' ','')), '.cloudapp.azure.com', ':9000')]",
       "type": "string"
     }
   }
