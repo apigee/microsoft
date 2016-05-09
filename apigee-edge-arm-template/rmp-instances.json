@@ -188,7 +188,6 @@
       "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex())]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/',parameters('runtimePublicIPAddressName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), parameters('vmtypeprefix'), copyindex())]",
         "[concat('Microsoft.Compute/availabilitySets/', variables('availabilitySetName'))]"
       ],
