@@ -27,8 +27,10 @@
     },
     "storageAccountName": {
       "type": "string"
+    },
+    "ipAddresses": {
+      "type": "object"
     }
-
   },
   "variables": {
     "nicName": "[concat('ApigeeVMNic-',parameters('vmDnsName'))]",
