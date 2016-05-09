@@ -367,7 +367,8 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2016-02-01",
       "dependsOn": [
-        "[concat('Microsoft.Resources/deployments/', 'shared')]"
+        "[concat('Microsoft.Resources/deployments/', 'shared')]",
+        "[variables('runtimePublicIPResourceId')]"
       ],
       "properties": {
         "mode": "Incremental",

@@ -76,10 +76,7 @@
       "apiVersion": "2015-06-15",
       "name": "[variables('lbName')]",
       "type": "Microsoft.Network/loadBalancers",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Network/publicIPAddresses/', parameters('runtimePublicIPAddressName'))]"
-      ],
+      "location": "[parameters('location')]",      
       "properties": {
         "frontendIPConfigurations": [
           {
