@@ -113,11 +113,11 @@
     "managementPublicIPDNSName": "[concat(parameters('apigeeDeploymentName'), uniqueString(resourceGroup().id, deployment().name), '-management')]",
     "managementDNSName": "[concat('https://', variables('managementPublicIPDNSName'), '.', tolower(replace(parameters('location'),' ','')), '.cloudapp.azure.com')]",
     "managementPublicIPAddressName": "[concat('ApigeeManagementPublicIP-',parameters('apigeeDeploymentName'))]",
-    "managementPublicIPResourceId":"[resourceId('Microsoft.Network/publicIPAddresses', variables('managementPublicIPAddressName'))]",
+    "managementPublicIPResourceId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('managementPublicIPAddressName'))]",
     "runtimePublicIPDNSName": "[concat(parameters('apigeeDeploymentName'), uniqueString(resourceGroup().id, deployment().name), '-runtime')]",
-    "runtimePublicDNSName":"[concat('https://', variables('runtimePublicIPDNSName'), '.', tolower(replace(parameters('location'),' ','')), '.cloudapp.azure.com')]",
+    "runtimePublicDNSName": "[concat('https://', variables('runtimePublicIPDNSName'), '.', tolower(replace(parameters('location'),' ','')), '.cloudapp.azure.com')]",
     "runtimePublicIPAddressName": "[concat('ApigeeRuntimePublicIP-',parameters('apigeeDeploymentName'))]",
-    "runtimePublicIPResourceId":"[resourceId('Microsoft.Network/publicIPAddresses', variables('runtimePublicIPAddressName'))]",
+    "runtimePublicIPResourceId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('runtimePublicIPAddressName'))]",
     "publicIPDNSName": "[concat(parameters('apigeeDeploymentName'), '-management')]",
     "publicIPAddressType": "Dynamic",
     "vmStorageAccountContainerName": "vhds",
@@ -127,14 +127,15 @@
     "storageAccountType": "Standard_LRS",
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
     "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]",
+    "management_private_ip":"10.0.0.4",
     "datastore_ip1": "10.0.0.10",
     "datastore_ip2": "10.0.0.11",
     "qpid_ip1": "10.0.0.20",
     "qpid_ip2": "10.0.0.21",
-    "analytics_ip1": "10.0.0.40",
-    "analytics_ip2": "10.0.0.41",
     "rmp_ip1": "10.0.0.30",
-    "rmp_ip2": "10.0.0.31"
+    "rmp_ip2": "10.0.0.31",
+    "analytics_ip1": "10.0.0.40",
+    "analytics_ip2": "10.0.0.41"
   },
   "resources": [
     {
@@ -455,47 +456,40 @@
               "vmCount": 1
             }
           },
-          "password": {
-            "value": "[parameters('password')]"
-          },
           "sshKey": {
             "value": "[parameters('sshKey')]"
           },
           "tshirtSize": {
             "value": "[parameters('tshirtSize')]"
           },
-          "apigeeAdminEmail": {
-            "value": "[parameters('apigeeAdminEmail')]"
-          },
-          "apigeeAdminPassword": {
-            "value": "[parameters('apigeeAdminPassword')]"
-          },
-          "sshPrivateKey": {
-            "value": "[parameters('sshPrivateKey')]"
-          },
-          "licenseFileText": {
-            "value": "[parameters('licenseFileText')]"
-          },
           "storageAccountName": {
             "value": "[variables('storageAccountName')]"
           },
-          "hostNames": {
-            "value": {
-              "datastore_ip1": "[variables('datastore_ip1')]",
-              "datastore_ip2": "[variables('datastore_ip2')]",
-              "qpid_ip1": "[variables('qpid_ip1')]",
-              "qpid_ip2": "[variables('qpid_ip2')]",
-              "analytics_ip1": "[variables('analytics_ip1')]",
-              "analytics_ip2": "[variables('analytics_ip2')]",
-              "rmp_ip1": "[variables('rmp_ip1')]",
-              "rmp_ip2": "[variables('rmp_ip2')]",
-              "management_public_ip": "[reference(variables('managementPublicIPResourceId')).ipAddress]",
-              "runtime_public_ip": "[reference(variables('runtimePublicIPResourceId')).ipAddress]"
-            }
-          },
-          "templateBaseUrl": {
-            "value": "[variables('templateBaseUrl')]"
+          "management_private_ip":{
+            "value":"[variables('management_private_ip')]"
           }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), 0,'/newuserscript')]",
+      "apiVersion": "2015-06-15",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), 0)]"
+      ],
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "CustomScriptForLinux",
+        "typeHandlerVersion": "1.5",
+        "settings": {
+          "fileUris": [
+            "[concat(parameters('templateBaseUrl'), 'install-apigee.sh')]"
+          ]
+        },
+        "protectedSettings": {
+          "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',variables('management_public_ip'),' ',parameters('tshirtSize'),' ',variables('runtime_public_ip'),' ',variables('management_private_ip'),':',variables('datastore_ip1'),':',variables('datastore_ip2'),':',variables('rmp_ip1'),':',variables('rmp_ip2'),':',variables('qpid_ip1'),':',variables('qpid_ip2'),':',variables('analytics_ip1'),':',variables('analytics_ip2'),' ',base64(parameters('licenseFileText')),' ',base64(parameters('sshPrivateKey')))]"
         }
       }
     }

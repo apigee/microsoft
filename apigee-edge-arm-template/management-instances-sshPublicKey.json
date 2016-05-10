@@ -22,9 +22,6 @@
     "machineSettings": {
       "type": "object"
     },
-    "password": {
-      "type": "securestring"
-    },
     "sshKey": {
       "type": "securestring"
     },
@@ -32,32 +29,11 @@
       "type": "string",
       "defaultValue": "XSmall"
     },
-    "apigeeAdminEmail": {
-      "type": "string"
-    },
-    "apigeeAdminPassword": {
-      "type": "securestring"
-    },
-    "sshPrivateKey": {
-      "type": "securestring",
-      "metadata": {
-        "description": "The private key for the username given. This is used to login to other instances if a multi node deployment is selected."
-      }
-    },
-    "licenseFileText": {
-      "type": "securestring",
-      "metadata": {
-        "description": "Licnese file that is given to your organization by Apigee. Paste the content of the file here"
-      }
-    },
-    "hostNames": {
-      "type": "object"
-    },
     "storageAccountName": {
       "type": "string"
     },
-    "templateBaseUrl": {
-      "type": "string"
+    "management_private_ip":{
+      "type":"string"
     }
   },
   "variables": {
@@ -91,7 +67,8 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAddress": "[parameters('management_private_ip')]",
+              "privateIPAllocationMethod": "Static",
               "publicIPAddress": {
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('managementPublicIPAddressName'))]"
               },
@@ -163,29 +140,7 @@
           ]
         }
       }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), 0,'/newuserscript')]",
-      "apiVersion": "2015-06-15",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), 0)]"
-      ],
-      "properties": {
-        "publisher": "Microsoft.OSTCExtensions",
-        "type": "CustomScriptForLinux",
-        "typeHandlerVersion": "1.5",
-        "settings": {
-          "fileUris": [
-            "[concat(parameters('templateBaseUrl'), 'install-apigee.sh')]"
-          ]
-        },
-        "protectedSettings": {
-          "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',parameters('hostNames').management_public_ip,' ',parameters('tshirtSize'),' ',parameters('hostNames').runtime_public_ip,' ',reference(concat(variables('nicName'), parameters('vmtypeprefix'), 0)).ipConfigurations[0].properties.privateIPAddress,':',parameters('hostNames').datastore_ip1,':',parameters('hostNames').datastore_ip2,':',parameters('hostNames').rmp_ip1,':',parameters('hostNames').rmp_ip2,':',parameters('hostNames').qpid_ip1,':',parameters('hostNames').qpid_ip2,':',parameters('hostNames').analytics_ip1,':',parameters('hostNames').analytics_ip2,' ',base64(parameters('licenseFileText')),' ',base64(parameters('sshPrivateKey')))]"
-        }
-      }
-    }
+    }    
   ],
   "outputs": {}
 }
