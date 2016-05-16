@@ -257,7 +257,7 @@ echo "removing the apigee installation folders" >>/tmp/armscript.log
 #rm -rf /tmp/opdk.conf
 
 #update the setup-org
-cp -fr /tmp/apigee/setup-org.sh /opt/apigee4/bin/setup-org.sh
+echo y| cp -fr /tmp/apigee/setup-org.sh /opt/apigee4/bin/setup-org.sh
 echo y | /opt/apigee4/bin/setup-org.sh ${APIGEE_ADMIN_EMAIL} ${APW} ${ORG_NAME} 'test' ${VHOST_NAME} ${VHOST_PORT_TEST} ${VHOST_ALIAS} >>/tmp/armscript.log
 echo y| /opt/apigee4/bin/add-env.sh -o ${ORG_NAME} -P "${APW}" -A -e "prod" -v "${VHOST_NAME}" -p ${VHOST_PORT_PROD} -a "${VHOST_ALIAS}" >>/tmp/armscript.log
 
