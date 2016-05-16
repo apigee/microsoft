@@ -67,8 +67,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAddress": "[parameters('management_private_ip')]",
-              "privateIPAllocationMethod": "Static",
+              "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('managementPublicIPAddressName'))]"
               },
@@ -142,5 +141,10 @@
       }
     }    
   ],
-  "outputs": {}
+  "outputs": {
+    "ip1": {
+      "value": "[reference(concat(variables('nicName'), parameters('vmtypeprefix'), 0)).ipConfigurations[0].properties.privateIPAddress]",
+      "type": "string"
+    }
+  }
 }

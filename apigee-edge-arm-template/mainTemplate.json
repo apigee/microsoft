@@ -112,10 +112,12 @@
     "subnet1Prefix": "10.0.0.0/24",
     "managementPublicIPDNSName": "[concat(parameters('apigeeDeploymentName'), uniqueString(resourceGroup().id, deployment().name), '-management')]",
     "managementDNSName": "[concat('https://', variables('managementPublicIPDNSName'), '.', tolower(replace(parameters('location'),' ','')), '.cloudapp.azure.com')]",
+    "managementDNSAlias": "[concat(variables('managementPublicIPDNSName'), '.', tolower(replace(parameters('location'),' ','')), '.cloudapp.azure.com')]",
     "managementPublicIPAddressName": "[concat('ApigeeManagementPublicIP-',parameters('apigeeDeploymentName'))]",
     "managementPublicIPResourceId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('managementPublicIPAddressName'))]",
     "runtimePublicIPDNSName": "[concat(parameters('apigeeDeploymentName'), uniqueString(resourceGroup().id, deployment().name), '-runtime')]",
     "runtimePublicDNSName": "[concat('https://', variables('runtimePublicIPDNSName'), '.', tolower(replace(parameters('location'),' ','')), '.cloudapp.azure.com')]",
+    "runtimePublicDNSAlias": "[concat(variables('runtimePublicIPDNSName'), '.', tolower(replace(parameters('location'),' ','')), '.cloudapp.azure.com')]",
     "runtimePublicIPAddressName": "[concat('ApigeeRuntimePublicIP-',parameters('apigeeDeploymentName'))]",
     "runtimePublicIPResourceId": "[resourceId('Microsoft.Network/publicIPAddresses', variables('runtimePublicIPAddressName'))]",
     "publicIPDNSName": "[concat(parameters('apigeeDeploymentName'), '-management')]",
@@ -489,7 +491,7 @@
           ]
         },
         "protectedSettings": {
-          "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',reference(resourceId('Microsoft.Network/publicIPAddresses',variables('managementPublicIPAddressName'))).ipAddress,' ',parameters('tshirtSize'),' ',reference(resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))).ipAddress,' ',variables('management_private_ip'),':',variables('datastore_ip1'),':',variables('datastore_ip2'),':',variables('rmp_ip1'),':',variables('rmp_ip2'),':',variables('qpid_ip1'),':',variables('qpid_ip2'),':',variables('analytics_ip1'),':',variables('analytics_ip2'),' ',base64(parameters('licenseFileText')),' ',base64(parameters('sshPrivateKey')))]"
+          "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',reference(resourceId('Microsoft.Network/publicIPAddresses',variables('managementPublicIPAddressName'))).dnsSettings.fqdn,' ',parameters('tshirtSize'),' ',reference(resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))).dnsSettings.fqdn,' ',reference('managementInstances').outputs.ip1.value,':',reference('datastoreInstances').outputs.ip1.value,':',reference('datastoreInstances').outputs.ip2.value,':',reference('rmpInstances').outputs.ip1.value,':',reference('rmpInstances').outputs.ip2.value,':',reference('qpidInstances').outputs.ip1.value,':',reference('qpidInstances').outputs.ip2.value,':',reference('analyticsInstances').outputs.ip1.value,':',reference('analyticsInstances').outputs.ip2.value,' ',base64(parameters('licenseFileText')),' ',base64(parameters('sshPrivateKey')))]"
         }
       }
     }
