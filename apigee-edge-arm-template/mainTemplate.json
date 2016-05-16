@@ -475,11 +475,11 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'), 'management', 0,'/newuserscript')]",
+      "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), 0,'/newuserscript')]",
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[resourceId('Microsoft.Resources/deployments/','managementInstances')]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), 0)]"
       ],
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
@@ -487,11 +487,15 @@
         "typeHandlerVersion": "1.5",
         "settings": {
           "fileUris": [
-            "[concat(variables('templateBaseUrl'), 'install-apigee.sh')]"
+            "[concat(parameters('templateBaseUrl'), 'install-apigee.sh')]"
           ]
         },
         "protectedSettings": {
+<<<<<<< HEAD
           "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',reference(resourceId('Microsoft.Network/publicIPAddresses',variables('managementPublicIPAddressName'))).dnsSettings.fqdn,' ',parameters('tshirtSize'),' ',reference(resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))).dnsSettings.fqdn,' ',reference('managementInstances').outputs.ip1.value,':',reference('datastoreInstances').outputs.ip1.value,':',reference('datastoreInstances').outputs.ip2.value,':',reference('rmpInstances').outputs.ip1.value,':',reference('rmpInstances').outputs.ip2.value,':',reference('qpidInstances').outputs.ip1.value,':',reference('qpidInstances').outputs.ip2.value,':',reference('analyticsInstances').outputs.ip1.value,':',reference('analyticsInstances').outputs.ip2.value,' ',base64(parameters('licenseFileText')),' ',base64(parameters('sshPrivateKey')))]"
+=======
+          "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',variables('management_public_ip'),' ',parameters('tshirtSize'),' ',variables('runtime_public_ip'),' ',variables('management_private_ip'),':',variables('datastore_ip1'),':',variables('datastore_ip2'),':',variables('rmp_ip1'),':',variables('rmp_ip2'),':',variables('qpid_ip1'),':',variables('qpid_ip2'),':',variables('analytics_ip1'),':',variables('analytics_ip2'),' ',base64(parameters('licenseFileText')),' ',base64(parameters('sshPrivateKey')))]"
+>>>>>>> parent of 7e2c488... fix up management IP and runtime IP references for extension installation
         }
       }
     }
