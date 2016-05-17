@@ -24,7 +24,7 @@
 			"type": "Microsoft.Compute.CredentialsCombo",
 			"label": {
 				"authenticationType": "Authentication type",
-				"password": "Password (Password option supported presently. Use 'SSH public key' option)",
+				"password": "Password (Password option not supported presently. Use 'SSH public key' option)",
 				"confirmPassword": "Confirm password",
 				"sshPublicKey": "SSH public key"
 			},
