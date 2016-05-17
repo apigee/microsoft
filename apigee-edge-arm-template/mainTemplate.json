@@ -481,11 +481,11 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), 0,'/newuserscript')]",
+      "name": "[concat(variables('vmName'), 'management', 0,'/newuserscript')]",
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), 0)]"
+        "[resourceId('Microsoft.Resources/deployments/','managementInstances')]"
       ],
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
@@ -493,15 +493,15 @@
         "typeHandlerVersion": "1.5",
         "settings": {
           "fileUris": [
-            "[concat(parameters('templateBaseUrl'), 'install-apigee.sh')]"
+            "[concat(variables('templateBaseUrl'), 'install-apigee.sh')]"
           ]
         },
         "protectedSettings": {
-
           "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',reference(resourceId('Microsoft.Network/publicIPAddresses',variables('managementPublicIPAddressName'))).dnsSettings.fqdn,' ',parameters('tshirtSize'),' ',reference(resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))).dnsSettings.fqdn,' ',variables('management_private_ip'),':',variables('tshirtSize').datastore_ip1,':',variables('tshirtSize').datastore_ip2,':',variables('rmp_ip1'),':',variables('rmp_ip2'),':',variables('tshirtSize').qpid_ip1,':',variables('tshirtSize').qpid_ip2,':',variables('analytics_ip1'),':',variables('analytics_ip2'),' ',base64(parameters('licenseFileText')),' ',base64(parameters('sshPrivateKey')))]"
         }
       }
     }
+    
   ],
   "outputs": {
     "managementPublicDNSName": {
