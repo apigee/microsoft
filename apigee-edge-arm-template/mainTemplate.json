@@ -87,7 +87,11 @@
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
-      "managementInstanceSize": "Standard_A3"
+      "managementInstanceSize": "Standard_A3",
+      "datastore_ip1": "empty",
+      "datastore_ip2": "empty",
+      "qpid_ip1": "empty",
+      "qpid_ip2": "empty"
     },
     "tshirtSizeMedium": {
       "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
@@ -95,7 +99,11 @@
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
-      "managementInstanceSize": "Standard_A3"
+      "managementInstanceSize": "Standard_A3",
+      "datastore_ip1": "empty",
+      "datastore_ip2": "empty",
+      "qpid_ip1": "empty",
+      "qpid_ip2": "empty"
     },
     "tshirtSizeLarge": {
       "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
@@ -103,7 +111,9 @@
       "qpidInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'internal-instances.json')]",
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
-      "managementInstanceSize": "Standard_A4"
+      "managementInstanceSize": "Standard_A4",
+      "datastore_ip1": "10.0.0.10",
+      "datastore_ip2": "10.0.0.11"
     },
     "tshirtSize": "[variables(concat('tshirtSize', parameters('tshirtSize')))]",
     "nicName": "[concat('ApigeeVMNic-',parameters('apigeeDeploymentName'))]",
@@ -129,11 +139,7 @@
     "storageAccountType": "Standard_LRS",
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
     "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]",
-    "management_private_ip":"10.0.0.4",
-    "datastore_ip1": "10.0.0.10",
-    "datastore_ip2": "10.0.0.11",
-    "qpid_ip1": "10.0.0.20",
-    "qpid_ip2": "10.0.0.21",
+    "management_private_ip": "10.0.0.4",
     "rmp_ip1": "10.0.0.30",
     "rmp_ip2": "10.0.0.31",
     "analytics_ip1": "10.0.0.40",
@@ -244,8 +250,8 @@
           },
           "ipAddresses": {
             "value": [
-              "[variables('datastore_ip1')]",
-              "[variables('datastore_ip2')]"
+              "[variables('tshirtSize').datastore_ip1]",
+              "[variables('tshirtSize').datastore_ip2]"
             ]
           },
           "managementPublicIPAddressName": {
@@ -298,8 +304,8 @@
           },
           "ipAddresses": {
             "value": [
-              "[variables('qpid_ip1')]",
-              "[variables('qpid_ip2')]"
+              "[variables('tshirtSize').qpid_ip1]",
+              "[variables('tshirtSize').qpid_ip2]"
             ]
           },
           "managementPublicIPAddressName": {
@@ -467,8 +473,8 @@
           "storageAccountName": {
             "value": "[variables('storageAccountName')]"
           },
-          "management_private_ip":{
-            "value":"[variables('management_private_ip')]"
+          "management_private_ip": {
+            "value": "[variables('management_private_ip')]"
           }
         }
       }
@@ -491,11 +497,8 @@
           ]
         },
         "protectedSettings": {
-<<<<<<< HEAD
-          "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',reference(resourceId('Microsoft.Network/publicIPAddresses',variables('managementPublicIPAddressName'))).dnsSettings.fqdn,' ',parameters('tshirtSize'),' ',reference(resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))).dnsSettings.fqdn,' ',reference('managementInstances').outputs.ip1.value,':',reference('datastoreInstances').outputs.ip1.value,':',reference('datastoreInstances').outputs.ip2.value,':',reference('rmpInstances').outputs.ip1.value,':',reference('rmpInstances').outputs.ip2.value,':',reference('qpidInstances').outputs.ip1.value,':',reference('qpidInstances').outputs.ip2.value,':',reference('analyticsInstances').outputs.ip1.value,':',reference('analyticsInstances').outputs.ip2.value,' ',base64(parameters('licenseFileText')),' ',base64(parameters('sshPrivateKey')))]"
-=======
-          "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',variables('management_public_ip'),' ',parameters('tshirtSize'),' ',variables('runtime_public_ip'),' ',variables('management_private_ip'),':',variables('datastore_ip1'),':',variables('datastore_ip2'),':',variables('rmp_ip1'),':',variables('rmp_ip2'),':',variables('qpid_ip1'),':',variables('qpid_ip2'),':',variables('analytics_ip1'),':',variables('analytics_ip2'),' ',base64(parameters('licenseFileText')),' ',base64(parameters('sshPrivateKey')))]"
->>>>>>> parent of 7e2c488... fix up management IP and runtime IP references for extension installation
+
+          "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',reference(resourceId('Microsoft.Network/publicIPAddresses',variables('managementPublicIPAddressName'))).dnsSettings.fqdn,' ',parameters('tshirtSize'),' ',reference(resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))).dnsSettings.fqdn,' ',variables('management_private_ip'),':',variables('tshirtSize').datastore_ip1,':',variables('tshirtSize').datastore_ip2,':',variables('rmp_ip1'),':',variables('rmp_ip2'),':',variables('tshirtSize').qpid_ip1,':',variables('tshirtSize').qpid_ip2,':',variables('analytics_ip1'),':',variables('analytics_ip2'),' ',base64(parameters('licenseFileText')),' ',base64(parameters('sshPrivateKey')))]"
         }
       }
     }
