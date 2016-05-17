@@ -67,7 +67,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAddress": "[variables('management_private_ip')]",
+              "privateIPAddress": "[parameters('management_private_ip')]",
               "privateIPAllocationMethod": "Static",
               "publicIPAddress": {
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('managementPublicIPAddressName'))]"
