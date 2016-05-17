@@ -67,7 +67,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAddress": "[variables('ipAddresses')[copyindex()]]",
+              "privateIPAddress": "[parameters('ipAddresses')[copyindex()]]",
               "privateIPAllocationMethod": "Static",
               "subnet": {
                 "id": "[variables('subnet1Ref')]"

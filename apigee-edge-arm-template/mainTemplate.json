@@ -113,7 +113,10 @@
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
       "managementInstanceSize": "Standard_A4",
       "datastore_ip1": "10.0.0.10",
-      "datastore_ip2": "10.0.0.11"
+      "datastore_ip2": "10.0.0.11",
+      "qpid_ip1": "10.0.0.20",
+      "qpid_ip2": "10.0.0.21"
+
     },
     "tshirtSize": "[variables(concat('tshirtSize', parameters('tshirtSize')))]",
     "nicName": "[concat('ApigeeVMNic-',parameters('apigeeDeploymentName'))]",
