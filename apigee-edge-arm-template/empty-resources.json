@@ -41,14 +41,7 @@
   "variables": {},
   "resources": [],
   "outputs": {    
-    "ip1": {
-      "value": "empty",
-      "type": "string"
-    },
-    "ip2": {
-      "value": "empty",
-      "type": "string"
-    },"runtimePublicDNSName": {
+    "runtimePublicDNSName": {
       "value": "empty",
       "type": "string"
     }

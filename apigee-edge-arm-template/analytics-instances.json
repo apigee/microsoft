@@ -67,7 +67,8 @@
         "ipConfigurations": [{
           "name": "ipconfig1",
           "properties": {
-            "privateIPAllocationMethod": "Dynamic",
+            "privateIPAddress": "[parameters('ipAddresses')[copyindex()]]",
+            "privateIPAllocationMethod": "Static",
             "subnet": {
               "id": "[variables('subnet1Ref')]"
             }
@@ -142,15 +143,5 @@
         }
       }
     }
-  ],
-  "outputs": {
-    "ip1": {
-      "value": "[reference(concat(variables('nicName'), parameters('vmtypeprefix'), 0)).ipConfigurations[0].properties.privateIPAddress]",
-      "type": "string"
-    },
-    "ip2": {
-      "value": "[reference(concat(variables('nicName'), parameters('vmtypeprefix'), 1)).ipConfigurations[0].properties.privateIPAddress]",
-      "type": "string"
-    }
-  }
+  ]
 }
