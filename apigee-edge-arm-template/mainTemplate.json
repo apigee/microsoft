@@ -27,22 +27,8 @@
       "type": "string",
       "defaultValue": "apigeetrial"
     },
-    "authenticationType": {
-      "type": "string",
-      "metadata": {
-        "descritpion": "Type of authentication "
-      }
-    },
-    "password": {
-      "type": "securestring",
-      "defaultValue": "",
-      "metadata": {
-        "descritpion": "Password for non SSH login (supported only for XSmall)"
-      }
-    },
     "sshKey": {
       "type": "securestring",
-      "defaultValue": "",
       "metadata": {
         "description": "The public key for the username given. You can use SSH Agent to generate a key pair. https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/"
       }
@@ -494,6 +480,7 @@
         "publisher": "Microsoft.OSTCExtensions",
         "type": "CustomScriptForLinux",
         "typeHandlerVersion": "1.5",
+        "autoUpgradeMinorVersion": true,
         "settings": {
           "fileUris": [
             "[concat(variables('templateBaseUrl'), 'install-apigee.sh')]"
