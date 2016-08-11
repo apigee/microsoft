@@ -126,7 +126,7 @@
     },
     "imageSKU": {
       "type": "string",
-      "defaultValue": "6.6",
+      "defaultValue": "7.1",
       "metadata": {
         "description": "Image SKU"
       }

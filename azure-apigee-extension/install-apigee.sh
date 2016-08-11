@@ -42,11 +42,11 @@ chkconfig iptables off
 
 curl -o /tmp/apigee/config.txt "${FILE_BASEPATH}"/config.txt
 curl -o /tmp/apigee/license.txt -u "${FTP_USER}:${FTP_PASSWORD}" "${FTP_SERVER}${LICENSE_PATH}"
-curl -o /tmp/apigee/CentOS-Base.repo "${FILE_BASEPATH}/CentOS-Base.repo"
-cp -fr /tmp/apigee/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
+//curl -o /tmp/apigee/CentOS-Base.repo "${FILE_BASEPATH}/CentOS-Base.repo"
+//cp -fr /tmp/apigee/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
 curl https://software.apigee.com/bootstrap_4.16.05.sh -o /tmp/bootstrap_4.16.05.sh
 chmod 777 /tmp/bootstrap_4.16.05.sh
-/tmp/bootstrap_4.16.05.sh apigeeuser=apigeese apigeepassword=xdLugtA0Fs1FW3wB JAVA_FIX=I
+/tmp/bootstrap_4.16.05.sh apigeeuser=$FTP_USER apigeepassword=$FTP_PASSWORD JAVA_FIX=I
 /opt/apigee/apigee-service/bin/apigee-service apigee-setup install
 /opt/apigee/apigee-service/bin/apigee-service apigee-provision install
 /opt/apigee/apigee-service/bin/apigee-service apigee-validate install
