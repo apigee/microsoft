@@ -68,6 +68,7 @@ echo "ssh key added" >armscript.log
 
 curl -o /tmp/apigee/setup-org.sh "${BASE_GIT_URL}/src/setup-org.sh
 
+
 if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 
 	# Relaxing the security settings.
