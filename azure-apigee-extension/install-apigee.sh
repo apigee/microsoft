@@ -1,4 +1,4 @@
-FILE_BASEPATH="https://raw.githubusercontent.com/apigee/microsoft/master/azure-apigee-extension"
+FILE_BASEPATH="https://raw.githubusercontent.com/apigee/microsoft/16x/azure-apigee-extension"
 FTP_USER=$1
 FTP_PASSWORD=$2
 LICENSE_PATH=$3
