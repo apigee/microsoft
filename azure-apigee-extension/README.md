@@ -1,7 +1,7 @@
 # Azure Apigee Installation
 ***This extension is still in POC stage, and is not certified by Apigee or Microsoft***
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fapigee%2Fmicrosoft%2Fmaster%2Fazure-apigee-extension%2Fazuredeploy.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fapigee%2Fmicrosoft%2F16x%2Fazure-apigee-extension%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
