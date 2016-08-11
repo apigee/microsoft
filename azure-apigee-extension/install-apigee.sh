@@ -30,8 +30,6 @@ yum install libselinux-python -y
 pip install httplib2
 
 
-
-
 setenforce 0 >> /tmp/setenforce.out
 cat /etc/selinux/config > /tmp/beforeSelinux.out
 sed -i 's^SELINUX=enforcing^SELINUX=disabled^g' /etc/selinux/config || true
@@ -42,14 +40,36 @@ cat /etc/selinux/config > /tmp/afterSeLinux.out
 chkconfig iptables off
 
 
-curl -v -j -O -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.rpm"
-rpm -i jdk-7u79-linux-x64.rpm
-curl -o /tmp/apigee/apigee-edge-${EDGE_VERSION}.zip -u "${FTP_USER}:${FTP_PASSWORD}" "${FTP_SERVER}${FTP_EDGE_BINARY_PATH}"
+curl -o /tmp/apigee/config.txt "${FILE_BASEPATH}"/config.txt
 curl -o /tmp/apigee/license.txt -u "${FTP_USER}:${FTP_PASSWORD}" "${FTP_SERVER}${LICENSE_PATH}"
-curl -o /tmp/apigee/setup-org.sh "${FILE_BASEPATH}/setup-org.sh"
-curl -o /tmp/apigee/opdk.conf "${FILE_BASEPATH}/opdk.conf"
 curl -o /tmp/apigee/CentOS-Base.repo "${FILE_BASEPATH}/CentOS-Base.repo"
 cp -fr /tmp/apigee/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
+curl https://software.apigee.com/bootstrap_4.16.05.sh -o /tmp/bootstrap_4.16.05.sh
+chmod 777 /tmp/bootstrap_4.16.05.sh
+/tmp/bootstrap_4.16.05.sh apigeeuser=apigeese apigeepassword=xdLugtA0Fs1FW3wB JAVA_FIX=I
+/opt/apigee/apigee-service/bin/apigee-service apigee-setup install
+/opt/apigee/apigee-service/bin/apigee-service apigee-provision install
+/opt/apigee/apigee-service/bin/apigee-service apigee-validate install
+
+yum install apigee-cassandra -y
+yum install apigee-zookeeper -y
+yum install apigee-openldap -y
+yum install edge-management-server -y
+yum install edge-ui -y
+yum install edge-router -y
+yum install edge-message-processor -y
+yum install apigee-postgresql -y
+yum install edge-postgres-server -y
+yum install apigee-qpidd -y
+yum install edge-qpid-server -y
+
+
+#curl -v -j -O -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.rpm"
+#rpm -i jdk-7u79-linux-x64.rpm
+#curl -o /tmp/apigee/apigee-edge-${EDGE_VERSION}.zip -u "${FTP_USER}:${FTP_PASSWORD}" "${FTP_SERVER}${FTP_EDGE_BINARY_PATH}"
+#curl -o /tmp/apigee/license.txt -u "${FTP_USER}:${FTP_PASSWORD}" "${FTP_SERVER}${LICENSE_PATH}"
+#curl -o /tmp/apigee/setup-org.sh "${FILE_BASEPATH}/setup-org.sh"
+
 
 yum install gcc -y
 yum install zlib-devel -y
@@ -105,7 +125,7 @@ sed -i 's/\/sbin:\/bin:\/usr\/sbin:\/usr\/bin/\/usr\/local\/bin:\/tmp\/apigee\/P
 #cp -fr /tmp/setup-org.sh /opt/apigee4/bin/setup-org.sh
 #/opt/apigee4/bin/setup-org.sh ${USER_NAME} ${APW} ${ORG_NAME} ${ENV_NAME} ${VHOST_NAME} ${VHOST_PORT} ${VHOST_ALIAS}
 
-/opt/apigee4/bin/setup-org.sh opdk@apigee.com Secret123 demo test default 9001 apigeeedge9node.westus.cloudapp.azure.com
+#/opt/apigee4/bin/setup-org.sh opdk@apigee.com Secret123 demo test default 9001 apigeeedge9node.westus.cloudapp.azure.com
 
 
 
