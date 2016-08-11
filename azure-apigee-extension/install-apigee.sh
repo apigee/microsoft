@@ -11,7 +11,6 @@ VHOST_PORT=$9
 VHOST_ALIAS=${10}
 FTP_SERVER=${11}
 FTP_EDGE_BINARY_PATH=${12}
-EDGE_VERSION=${13}
 
 FTP_PASSWORD=`echo ${FTP_PASSWORD} | base64 --decode`
 
@@ -42,8 +41,6 @@ chkconfig iptables off
 
 curl -o /tmp/apigee/config.txt "${FILE_BASEPATH}"/config.txt
 curl -o /tmp/apigee/license.txt -u "${FTP_USER}:${FTP_PASSWORD}" "${FTP_SERVER}${LICENSE_PATH}"
-//curl -o /tmp/apigee/CentOS-Base.repo "${FILE_BASEPATH}/CentOS-Base.repo"
-//cp -fr /tmp/apigee/CentOS-Base.repo /etc/yum.repos.d/CentOS-Base.repo
 curl https://software.apigee.com/bootstrap_4.16.05.sh -o /tmp/bootstrap_4.16.05.sh
 chmod 777 /tmp/bootstrap_4.16.05.sh
 /tmp/bootstrap_4.16.05.sh apigeeuser=$FTP_USER apigeepassword=$FTP_PASSWORD JAVA_FIX=I
@@ -63,6 +60,9 @@ yum install edge-postgres-server -y
 yum install apigee-qpidd -y
 yum install edge-qpid-server -y
 
+curl -o /tmp/apigee/epel-release-7-8.noarch.rpm  http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
+rpm -ivh /tmp/apigee/epel-release-7-8.noarch.rpm
+yum install ansible -y
 
 #curl -v -j -O -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.rpm"
 #rpm -i jdk-7u79-linux-x64.rpm
@@ -71,43 +71,43 @@ yum install edge-qpid-server -y
 #curl -o /tmp/apigee/setup-org.sh "${FILE_BASEPATH}/setup-org.sh"
 
 
-yum install gcc -y
-yum install zlib-devel -y
-yum install openssl openssl-devel -y
+#yum install gcc -y
+#yum install zlib-devel -y
+#yum install openssl openssl-devel -y
 
-wget 'http://www.python.org/ftp/python/2.7.6/Python-2.7.6.tar.xz'
-xz -d Python-2.7.6.tar.xz
-tar -xvf Python-2.7.6.tar
-cd Python-2.7.6
-./configure --prefix=/usr/local 
-make
-make altinstall
-cd /tmp/apigee
-echo 'Python updated' >> /tmp/armtemplateoutput.log
-/tmp/apigee/Python-2.7.6/python --version >> /tmp/armtemplateoutput.log
+#wget 'http://www.python.org/ftp/python/2.7.6/Python-2.7.6.tar.xz'
+#xz -d Python-2.7.6.tar.xz
+#tar -xvf Python-2.7.6.tar
+#cd Python-2.7.6
+#./configure --prefix=/usr/local 
+#make
+#make altinstall
+#cd /tmp/apigee
+#echo 'Python updated' >> /tmp/armtemplateoutput.log
+#/tmp/apigee/Python-2.7.6/python --version >> /tmp/armtemplateoutput.log
 
-wget --no-check-certificate 'https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz'
-tar -xvf setuptools-1.4.2.tar.gz
-cd setuptools-1.4.2
-/tmp/apigee/Python-2.7.6/python setup.py install
+#wget --no-check-certificate 'https://pypi.python.org/packages/source/s/setuptools/setuptools-1.4.2.tar.gz'
+#tar -xvf setuptools-1.4.2.tar.gz
+#cd setuptools-1.4.2
+#/tmp/apigee/Python-2.7.6/python setup.py install
 
-cd /tmp/apigee
-wget https://bootstrap.pypa.io/get-pip.py
-/tmp/apigee/Python-2.7.6/python get-pip.py
+#cd /tmp/apigee
+#wget https://bootstrap.pypa.io/get-pip.py
+#/tmp/apigee/Python-2.7.6/python get-pip.py
 
-yum install python-setuptools -y
+#yum install python-setuptools -y
 
-/usr/local/bin/pip install boto
-yum install libselinux-python -y
-/usr/local/bin/pip install httplib2
-/usr/local/bin/pip install simplejson
+#/usr/local/bin/pip install boto
+#yum install libselinux-python -y
+#/usr/local/bin/pip install httplib2
+#/usr/local/bin/pip install simplejson
 
 
-/usr/local/bin/pip install ansible
+#/usr/local/bin/pip install ansible
 
-echo 'installed ansible' >> /tmp/armtemplateoutput.log
+#echo 'installed ansible' >> /tmp/armtemplateoutput.log
 
-sed -i 's/\/sbin:\/bin:\/usr\/sbin:\/usr\/bin/\/usr\/local\/bin:\/tmp\/apigee\/Python-2.7.6:\/sbin:\/bin:\/usr\/sbin:\/usr\/bin/g' /etc/sudoers
+#sed -i 's/\/sbin:\/bin:\/usr\/sbin:\/usr\/bin/\/usr\/local\/bin:\/tmp\/apigee\/Python-2.7.6:\/sbin:\/bin:\/usr\/sbin:\/usr\/bin/g' /etc/sudoers
 
 
 # cd /tmp/apigee
