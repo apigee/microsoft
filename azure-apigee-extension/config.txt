@@ -1,4 +1,4 @@
-#SEI Silent Config file
+#Apigee Silent Config file
 IP1=$(hostname -i)
 LB=
 HOSTIP=$(hostname -i)
