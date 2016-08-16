@@ -40,7 +40,7 @@ chkconfig iptables off
 
 
 curl -o /tmp/apigee/config.txt "${FILE_BASEPATH}"/config.txt
-curl -o /tmp/apigee/license.txt -u "${FTP_USER}:${FTP_PASSWORD}" "${FTP_SERVER}${LICENSE_PATH}"
+#curl -o /tmp/apigee/license.txt -u "${FTP_USER}:${FTP_PASSWORD}" "${FTP_SERVER}${LICENSE_PATH}"
 curl https://software.apigee.com/bootstrap_4.16.05.sh -o /tmp/bootstrap_4.16.05.sh
 chmod 777 /tmp/bootstrap_4.16.05.sh
 /tmp/bootstrap_4.16.05.sh apigeeuser=$FTP_USER apigeepassword=$FTP_PASSWORD JAVA_FIX=I
@@ -63,6 +63,9 @@ yum install edge-qpid-server -y
 curl -o /tmp/apigee/epel-release-7-8.noarch.rpm  http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
 rpm -ivh /tmp/apigee/epel-release-7-8.noarch.rpm
 yum install ansible -y
+
+rm -fr /etc/yum/vars
+rm -fr /etc/yum.repos.d/apigee.repo
 
 #curl -v -j -O -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/7u79-b15/jdk-7u79-linux-x64.rpm"
 #rpm -i jdk-7u79-linux-x64.rpm
