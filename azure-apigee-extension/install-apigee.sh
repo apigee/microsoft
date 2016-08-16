@@ -41,9 +41,9 @@ chkconfig iptables off
 
 curl -o /tmp/apigee/config.txt "${FILE_BASEPATH}"/config.txt
 #curl -o /tmp/apigee/license.txt -u "${FTP_USER}:${FTP_PASSWORD}" "${FTP_SERVER}${LICENSE_PATH}"
-curl https://software.apigee.com/bootstrap_4.16.05.sh -o /tmp/bootstrap_4.16.05.sh
-chmod 777 /tmp/bootstrap_4.16.05.sh
-/tmp/bootstrap_4.16.05.sh apigeeuser=$FTP_USER apigeepassword=$FTP_PASSWORD JAVA_FIX=I
+curl https://software.apigee.com/bootstrap_4.16.05.sh -o /tmp/apigee/bootstrap_4.16.05.sh
+chmod 777 /tmp/apigee/bootstrap_4.16.05.sh
+/tmp/apigee/bootstrap_4.16.05.sh apigeeuser=$FTP_USER apigeepassword=$FTP_PASSWORD JAVA_FIX=I
 /opt/apigee/apigee-service/bin/apigee-service apigee-setup install
 /opt/apigee/apigee-service/bin/apigee-service apigee-provision install
 /opt/apigee/apigee-service/bin/apigee-service apigee-validate install
