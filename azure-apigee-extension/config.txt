@@ -1,10 +1,10 @@
 #Apigee Silent Config file
-IP1=$(hostname -i)
+IP1=
 LB=
-HOSTIP=$(hostname -i)
 ADMIN_EMAIL=
 APIGEE_ADMINPW=
 LICENSE_FILE=/tmp/apigee/license.txt
+HOSTIP=$(hostname -i)
 MSIP=$IP1
 USE_LDAP_REMOTE_HOST=n
 #LDAP_HOST=$IP1
@@ -29,13 +29,10 @@ SMTPSSL=n
 SMTPPORT=25
 ORG_NAME=
 NEW_USER="n"
-USER_NAME=new@user.com
-FIRST_NAME=new
-LAST_NAME=user
 USER_PWD="Secret123"
 ORG_ADMIN=$ADMIN_EMAIL
-ENV_NAME=prod
-VHOST_PORT=9001
+ENV_NAME=
+VHOST_PORT=
 VHOST_NAME=default
 # If you have a DNS entry for the virtual host.
 VHOST_ALIAS=$LB
