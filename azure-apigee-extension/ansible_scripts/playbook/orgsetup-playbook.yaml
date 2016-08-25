@@ -1,0 +1,13 @@
+- hosts: ms
+  vars:
+    apigee_source_path: ../config
+    apigee_dest_path: /tmp
+    apigee_config_file_name: config.txt
+  tasks:
+  - name: Install provisiong service
+    command: "/opt/apigee/apigee-service/bin/apigee-service apigee-provision install"
+    sudo: yes
+  - name: Run Setup Org
+    command: "/opt/apigee/apigee-service/bin/apigee-service apigee-provision setup-org -f {{apigee_dest_path}}/{{apigee_config_file_name}}"
+    sudo: yes
+

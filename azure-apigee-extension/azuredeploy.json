@@ -15,21 +15,6 @@
     "ftpPassword": {
       "type": "securestring"
     },
-    "ftpLicenseFile": {
-      "type": "string",
-      "defaultValue": "/License/license.txt",
-      "metadata": {
-        "description": "Copy the license file in ftp to license.txt or provide license file name in the format provided by Apigee."
-      }
-    },
-    "ftpEdgeBinaryPath": {
-      "type": "string",
-      "defaultValue": "/apigee_enterprise_OPDK/API_Services/apigee-edge-4.15.07.03.zip",
-      "metadata": {
-        "description": "This script is tested on 16x"
-      }
-
-    },
     "location": {
       "type": "string",
       "defaultValue": "West US",
@@ -82,34 +67,6 @@
     "adminPassword": {
       "type": "securestring"
     },
-    "apigeeSuperAdmin": {
-      "type": "string",
-      "defaultValue": "opdk@apigee.com"
-    },
-    "apigeeSuperAdminPassword": {
-      "type": "securestring",
-      "defaultValue": ".Apigee123"
-    },
-    "apigeeOrgName": {
-      "type": "string",
-      "defaultValue": "demo"
-    },
-    "apigeeOrgEnv": {
-      "type": "string",
-      "defaultValue": "test"
-    },
-    "apigeeEnvVhost": {
-      "type": "string",
-      "defaultValue": "default"
-    },
-    "apigeeEnvVhostPort": {
-      "type": "string",
-      "defaultValue": "9001"
-    },
-    "staticIp": {
-      "type": "string",
-      "defaultValue": "10.0.0.7"
-    },
     "imagePublisher": {
       "type": "string",
       "defaultValue": "OpenLogic",
@@ -126,14 +83,14 @@
     },
     "imageSKU": {
       "type": "string",
-      "defaultValue": "7.1",
+      "defaultValue": "6.6",
       "metadata": {
         "description": "Image SKU"
       }
     },
     "edgeVersion": {
       "type": "string",
-      "defaultValue": "4.15.07.03"
+      "defaultValue": "4.16.05"
     }
   },
   "variables": {
@@ -268,7 +225,7 @@
         "fileUris": [
           "https://raw.githubusercontent.com/apigee/microsoft/16x/azure-apigee-extension/install-apigee.sh"
         ],
-        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('ftpUserName'),' ',base64(parameters('ftpPassword')),' ',parameters('ftpLicenseFile'),' ',parameters('apigeeSuperAdmin'),' ',parameters('apigeeSuperAdminPassword'),' ',parameters('apigeeOrgName'),' ',parameters('apigeeOrgEnv'),' ',parameters('apigeeEnvVhost'),' ',parameters('apigeeEnvVhostPort'),' ',reference(variables('publicIPAddressName')).dnsSettings.fqdn,' ',parameters('ftpServer'),' ',parameters('ftpEdgeBinaryPath'),' ',parameters('edgeVersion'))]"
+        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('ftpUserName'),' ',base64(parameters('ftpPassword')), ' ' , parameters('edgeVersion')]"
       }
     }
   }]
