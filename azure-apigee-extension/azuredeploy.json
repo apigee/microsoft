@@ -225,7 +225,7 @@
         "fileUris": [
           "https://raw.githubusercontent.com/apigee/microsoft/16x/azure-apigee-extension/install-apigee.sh"
         ],
-        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('ftpUserName'),' ',base64(parameters('ftpPassword')), ' ' , parameters('edgeVersion')]"
+        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('ftpUserName'),' ',base64(parameters('ftpPassword')), ' ' , parameters('edgeVersion'))]"
       }
     }
   }]
