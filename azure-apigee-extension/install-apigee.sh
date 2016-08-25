@@ -55,10 +55,10 @@ rpm -ivh /tmp/apigee/epel-release-6-8.noarch.rpm
 yum install ansible -y
 
 #Get ansible scripts in /tmp/apigee/ansible directory
-mkdir /tmp/apigee/ansible_scripts
-mkdir /tmp/apigee/ansible_scripts/inventory
-mkdir /tmp/apigee/ansible_scripts/playbook
-mkdir /tmp/apigee/ansible_scripts/config
+mkdir /tmp/apigee/ansible-scripts
+mkdir /tmp/apigee/ansible-scripts/inventory
+mkdir /tmp/apigee/ansible-scripts/playbook
+mkdir /tmp/apigee/ansible-scripts/config
 
 curl -o /tmp/apigee/ansible-scripts/inventory/hosts_EDGE_1node  $FILE_BASEPATH/ansible_scripts/inventory/hosts_EDGE_1node
 curl -o /tmp/apigee/ansible-scripts/inventory/hosts_EDGE_5node  $FILE_BASEPATH/ansible_scripts/inventory/hosts_EDGE_5node
