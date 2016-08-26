@@ -37,7 +37,7 @@ echo "args: $*" >>/tmp/armscript.log
 echo 'Inititalized variables, ' $VHOST_ALIAS, $EDGE_VERSION, $DEPLOYMENT_TOPOLOGY, $LB_IP_ALIAS, "Hosts: " $HOST_NAMES  >>/tmp/armscript.log
 
 
-cd /tmp/apigee
+cd /tmp
 echo 'in tmp/apigee folder' >> /tmp/armscript.log
 
 rm -rf license.txt
@@ -46,6 +46,7 @@ rm -rf license.txt
 echo $LICENSE_TEXT | tr " " "\n"> license.txt
 echo $LICENSE_TEXT | tr " " "\n"> ../license.txt
 
+cd /tmp/apigee
 echo $SSH_KEY | tr " " "\n"> ssh_key.pem
 
 
@@ -65,7 +66,7 @@ chmod 600 ../ssh_key.pem
 eval `ssh-agent -s`
 ssh-add ssh_key.pem
 echo "ssh key added" >armscript.log
-
+key_path=/tmp/.ssh_key.pem
 
 if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 
