@@ -3,7 +3,7 @@
 
 echo 'executing the install script' >>/tmp/armscript.log
 
-BASE_GIT_URL='https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template/'
+BASE_GIT_URL='https://raw.githubusercontent.com/apigee/microsoft/16x/apigee-edge-arm-template/'
 
 USER_NAME=$1
 ORG_NAME=$1
@@ -13,7 +13,7 @@ VHOST_ALIAS=$4
 VHOST_NAME='default'
 VHOST_PORT_PROD='9001'
 VHOST_PORT_TEST='9002'
-EDGE_VERSION='4.15.07.03'
+EDGE_VERSION='4.16.05'
 
 
 
@@ -66,8 +66,6 @@ eval `ssh-agent -s`
 ssh-add ssh_key.pem
 echo "ssh key added" >armscript.log
 
-curl -o /tmp/apigee/setup-org.sh "${BASE_GIT_URL}/src/setup-org.sh
-
 
 if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 
@@ -83,34 +81,22 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 	chkconfig iptables off
 
 	echo "deploying a 1 node setup" >> /tmp/armscript.log
-	cd /tmp/apigee
+	cd /tmp/apigee/ansible-scripts/config
+	cp -fr aio-config.txt config.txt
 	
-
-
-	sed -i.bak s/ADMIN_EMAIL=/ADMIN_EMAIL="${APIGEE_ADMIN_EMAIL}"/g opdk.conf
-	sed -i.bak s/APIGEE_ADMINPW=/APIGEE_ADMINPW="${APW}"/g opdk.conf
-	sed -i.bak s/APIGEE_LDAPPW=/APIGEE_LDAPPW="${APW}"/g opdk.conf
+	sed -i.bak s/ADMIN_EMAIL=/ADMIN_EMAIL="${APIGEE_ADMIN_EMAIL}"/g config.txt
+	sed -i.bak s/APIGEE_ADMINPW=/APIGEE_ADMINPW="${APW}"/g config.txt
+	sed -i.bak s/APIGEE_LDAPPW=/APIGEE_LDAPPW="${APW}"/g config.txt
+	sed -i.bak s/ORG_NAME=/ORG_NAME="${ORG_NAME}"/g config.txt
+	sed -i.bak s/LBDNS=/LBDNS="${VHOST_ALIAS}"/g config.txt
+        cd /tmp/apigee/ansible-scripts/inventory
+	cp -fr hosts_EDGE_1node hosts
+	sed -i.bak s/HOST1_INTERNALIP/$(hostname -i)/g hosts
 
 	echo 'sed commands done' >> /tmp/armscript.log
-	cp -fr opdk.conf /tmp/opdk.conf
-
-	unzip apigee-edge-${EDGE_VERSION}.zip
-	echo 'unzip done' >> /tmp/armscript.log
-
-	cd apigee-edge-${EDGE_VERSION}
-	echo 'in edge folder, installing' >> /tmp/armscript.log
-	./apigee-install.sh -j /usr/java/default -r /opt -d /opt
-
-	echo 'installing unpacked edge binaries' >> /tmp/armscript.log
-	/opt/apigee4/share/installer/apigee-setup.sh -p aio -f /tmp/opdk.conf
-
-
-
-	#/opt/apigee4/share/installer/apigee-setup.sh -p ds -f /tmp/opdk.conf
-
-	#/opt/apigee4/share/installer/apigee-setup.sh -p rmp -f /tmp/opdk.conf
-
-	#/opt/apigee4/share/installer/apigee-setup.sh -p sax -f /tmp/opdk.conf
+	cd /tmp/apigee/ansible-scripts/playbook
+	/usr/local/bin/ansible-playbook -i ../inventory/hosts  edge-components-setup-playbook.yaml  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
+        
 
 	
 else
