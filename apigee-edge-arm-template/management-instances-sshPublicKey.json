@@ -173,7 +173,7 @@
       "typeHandlerVersion": "1.5",
       "settings": {
         "fileUris": [
-          "https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template/install-apigee.sh"
+          "https://raw.githubusercontent.com/apigee/microsoft/16x/apigee-edge-arm-template/install-apigee.sh"
         ],
 
       },
