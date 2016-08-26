@@ -84,4 +84,5 @@ curl -o /tmp/apigee/ansible-scripts/playbook/edge-uninstall-playbook.yaml  $FILE
 cat /dev/null > /etc/yum/vars/apigeepassword
 cat /dev/null > /etc/yum/vars/apigeeuser
 cat /dev/null > /etc/yum/vars/apigeecredentialswithat
+sed -i 's^enabled=1^enabled=0^g' /etc/yum.repos.d/epel.repo || true
 
