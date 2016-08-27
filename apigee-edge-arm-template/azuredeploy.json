@@ -31,7 +31,8 @@
     "authenticationType": {
       "type": "string",
       "metadata": {
-        "descritpion": "Type of authentication "
+        "descritpion": "Type of authentication ",
+        "defaultValue": "sshPublicKey"
       }
     },
     "password": {
