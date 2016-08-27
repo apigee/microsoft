@@ -21,6 +21,8 @@ HOST_NAMES=$7
 LICENSE_TEXT=$8
 SSH_KEY=$9
 
+login_user=$USER_NAME
+
 LICENSE_TEXT=`echo ${LICENSE_TEXT} | base64 --decode`
 SSH_KEY=`echo ${SSH_KEY} | base64 --decode`
 
@@ -39,13 +41,16 @@ rm -rf license.txt
 echo $LICENSE_TEXT | tr " " "\n"> license.txt
 
 cd /tmp/apigee
+yum install dos2unix -y
 echo $SSH_KEY | tr " " "\n"> ssh_key.pem
+dos2unix ssh_key.pem
 
 #This is all because the spaces in the bellow lines are also converted to new lines!
 echo '-----BEGIN RSA PRIVATE KEY-----' > tmp.pem
 sed '$d' ssh_key.pem | sed '$d' | sed '$d'| sed '$d'| tail -n+5  >> tmp.pem
 echo '-----END RSA PRIVATE KEY-----'>>tmp.pem
 rm -rf ssh_key.pem
+mkdir -p ~/.ssh
 mv tmp.pem ~/.ssh/id_rsa
 chmod 600 ~/.ssh/id_rsa
 
@@ -86,7 +91,7 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 
 	echo 'sed commands done' >> ${ARMLOGPATH}
 	cd /tmp/apigee/ansible-scripts/playbook
-	/usr/local/bin/ansible-playbook -i ../inventory/hosts  edge-components-setup-playbook.yaml  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
+	ansible-playbook -i ../inventory/hosts  edge-components-setup-playbook.yaml  -u ${login_user} --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
         
 
 	
