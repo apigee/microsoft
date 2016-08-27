@@ -136,10 +136,13 @@
         "storageProfile": {
           "osDisk": {
             "osType": "Linux",
-            "name": "apigeeedge-osDisk.cc73252a-9930-49c2-8b7f-c65929e0c863.vhd",
+            "name": "[concat(variables('vmName'),'-osDisk')]",
             "createOption": "FromImage",
             "image": {
               "uri": "http://apigeeedgetrail.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigeeedge-osDisk.cc73252a-9930-49c2-8b7f-c65929e0c863.vhd"
+            },            ,
+            "vhd": {
+              "uri": "[concat(reference(concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName')), variables('apiVersion')).primaryEndpoints.blob, 'vhds/',variables('vmName'), uniquestring(resourceGroup().id), 'osDisk.vhd')]"
             },
             "caching": "ReadWrite"
           }
