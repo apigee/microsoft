@@ -60,6 +60,7 @@
 
   },
   "variables": {
+    "apiVersion": "2015-06-15",
     "nicName": "[concat('ApigeeVMNic-',parameters('vmDnsName'))]",
     "addressPrefix": "10.0.0.0/16",
     "subnet1Name": "Subnet-1",
