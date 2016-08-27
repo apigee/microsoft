@@ -1,4 +1,19 @@
 ---
+- hosts: apigee
+  vars:
+    apigee_license_file_name: license.txt
+    apigee_source_path: ../config
+    apigee_dest_path: /tmp/apigee
+    apigee_config_file_name: config.txt
+  tasks:
+  - name: copy license file
+    copy: src={{apigee_source_path}}/{{apigee_license_file_name}}
+        dest={{apigee_dest_path}}/{{apigee_license_file_name}} force=yes
+    sudo: yes
+  - name: copy config file
+    copy: src={{apigee_source_path}}/{{apigee_config_file_name}}
+        dest={{apigee_dest_path}}/{{apigee_config_file_name}} force=yes
+    sudo: yes
 - include: ds-playbook.yaml
 - include: ms-playbook.yaml
 - include: rmp-playbook.yaml

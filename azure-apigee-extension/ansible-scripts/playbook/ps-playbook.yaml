@@ -2,7 +2,7 @@
 - hosts: ps-master
   vars:
     apigee_source_path: ../config
-    apigee_dest_path: /tmp
+    apigee_dest_path: /tmp/apigee
     apigee_config_file_name: config.txt
   tasks:
   - name: Setup Postgres Master

@@ -28,9 +28,9 @@ cat /etc/selinux/config > /tmp/afterSeLinux.out
 /etc/init.d/iptables save
 /etc/init.d/iptables stop
 chkconfig iptables off
+echo "ALL ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 
-curl -o /tmp/apigee/config.txt "${FILE_BASEPATH}"/config.txt
 curl https://software.apigee.com/bootstrap_${EDGE_VERSION}.sh -o /tmp/apigee/bootstrap_${EDGE_VERSION}.sh
 chmod 777 /tmp/apigee/bootstrap_${EDGE_VERSION}.sh
 /tmp/apigee/bootstrap_${EDGE_VERSION}.sh apigeeuser=${FTP_USER} apigeepassword=${FTP_PASSWORD} JAVA_FIX=I
