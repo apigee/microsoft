@@ -1,7 +1,8 @@
 #sudo ./install-apigee.sh apigeetrial apigeetrial@apigee.com secret apigeetrial.apigee.net Medium apigeetrial.apigee.net 10.0.0.1:10.0.0.2:10.0.0.3:10.0.0.4:10.0.0.5 $LICENSE $SSH
 
+ARMLOGPATH=/tmp/apigee/armextension.log
 
-echo 'executing the install script' >>/tmp/armscript.log
+echo 'executing the install script' >>${ARMLOGPATH}
 
 BASE_GIT_URL='https://raw.githubusercontent.com/apigee/microsoft/16x/apigee-edge-arm-template/'
 
@@ -14,59 +15,48 @@ VHOST_NAME='default'
 VHOST_PORT_PROD='9001'
 VHOST_PORT_TEST='9002'
 EDGE_VERSION='4.16.05'
-
-
-
-
-
 DEPLOYMENT_TOPOLOGY=$5
 LB_IP_ALIAS=$6
-
 HOST_NAMES=$7
-
 LICENSE_TEXT=$8
 SSH_KEY=$9
 
 LICENSE_TEXT=`echo ${LICENSE_TEXT} | base64 --decode`
 SSH_KEY=`echo ${SSH_KEY} | base64 --decode`
 
-echo 'script execution started at:'>>/tmp/armscript.log
-echo $(date)>>/tmp/armscript.log
+echo 'script execution started at:'>>${ARMLOGPATH}
+echo $(date)>>${ARMLOGPATH}
 
-echo "args: $*" >>/tmp/armscript.log
-echo 'Inititalized variables, ' $VHOST_ALIAS, $EDGE_VERSION, $DEPLOYMENT_TOPOLOGY, $LB_IP_ALIAS, "Hosts: " $HOST_NAMES  >>/tmp/armscript.log
+echo "args: $*" >>${ARMLOGPATH}
+echo 'Inititalized variables, ' $VHOST_ALIAS, $EDGE_VERSION, $DEPLOYMENT_TOPOLOGY, $LB_IP_ALIAS, "Hosts: " $HOST_NAMES  >>${ARMLOGPATH}
 
 
-cd /tmp
-echo 'in tmp/apigee folder' >> /tmp/armscript.log
-
+echo "Copy license file to /tmp/apigee/ansible-scripts/config location" >> ${ARMLOGPATH}
+cd /tmp/apigee/ansible-scripts/config
 rm -rf license.txt
 
 #Replace space with new lines before writing to file
 echo $LICENSE_TEXT | tr " " "\n"> license.txt
-echo $LICENSE_TEXT | tr " " "\n"> ../license.txt
 
 cd /tmp/apigee
 echo $SSH_KEY | tr " " "\n"> ssh_key.pem
-
 
 #This is all because the spaces in the bellow lines are also converted to new lines!
 echo '-----BEGIN RSA PRIVATE KEY-----' > tmp.pem
 sed '$d' ssh_key.pem | sed '$d' | sed '$d'| sed '$d'| tail -n+5  >> tmp.pem
 echo '-----END RSA PRIVATE KEY-----'>>tmp.pem
 rm -rf ssh_key.pem
-mv tmp.pem ssh_key.pem
-#chown $USER_NAME:$USER_NAME ssh_key.pem
-chmod 600 ssh_key.pem
-cp -rf ssh_key.pem ../ssh_key.pem
-#chown $USER_NAME:$USER_NAME ../ssh_key.pem
-chmod 600 ../ssh_key.pem
+mv tmp.pem ~/.ssh/id_rsa
+chmod 600 ~/.ssh/id_rsa
+
+echo "Copy the ssh key to id_rsa in home directory of root" >>${ARMLOGPATH}
 
 
-eval `ssh-agent -s`
-ssh-add ssh_key.pem
-echo "ssh key added" >armscript.log
-key_path=/tmp/.ssh_key.pem
+#eval `ssh-agent -s`
+#ssh-add ssh_key.pem
+#echo "ssh key added" >armscript.log
+
+key_path=~/.ssh/id_rsa
 
 if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 
@@ -81,7 +71,7 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 	/etc/init.d/iptables stop
 	chkconfig iptables off
 
-	echo "deploying a 1 node setup" >> /tmp/armscript.log
+	echo "deploying a 1 node setup" >> ${ARMLOGPATH}
 	cd /tmp/apigee/ansible-scripts/config
 	cp -fr aio-config.txt config.txt
 	
@@ -94,7 +84,7 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 	cp -fr hosts_EDGE_1node hosts
 	sed -i.bak s/HOST1_INTERNALIP/$(hostname -i)/g hosts
 
-	echo 'sed commands done' >> /tmp/armscript.log
+	echo 'sed commands done' >> ${ARMLOGPATH}
 	cd /tmp/apigee/ansible-scripts/playbook
 	/usr/local/bin/ansible-playbook -i ../inventory/hosts  edge-components-setup-playbook.yaml  -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
         
@@ -109,7 +99,7 @@ else
 	IFS=:
 	hosts_ary=($HOST_NAMES)
 	hosts_ary_length=${#hosts_ary[@]}
-	echo $hosts_ary_length  >>/tmp/armscript.log
+	echo $hosts_ary_length  >>${ARMLOGPATH}
 
 	cd /tmp/apigee/
 	curl -o /tmp/apigee/apigee_install_scripts.zip "${BASE_GIT_URL}/src/apigee_install_scripts.zip"
@@ -121,7 +111,7 @@ else
 	if [ "$DEPLOYMENT_TOPOLOGY" == "Medium"  ]; then
 		TOPOLOGY_TYPE=EDGE_5node
 		if [ "$hosts_ary_length" -lt 5 ]; then
-			echo "Not enough hosts defined: " $DEPLOYMENT_TOPOLOGY >> /tmp/armscript.log
+			echo "Not enough hosts defined: " $DEPLOYMENT_TOPOLOGY >> ${ARMLOGPATH}
 			exit 400
 		fi
 		TOPOLOGY_TYPE=EDGE_5node
@@ -130,7 +120,7 @@ else
 		cp -rf apigee_install_scripts/common/source/hosts_EDGE_5node apigee_install_scripts/common/source/hosts 
 	elif [ "$DEPLOYMENT_TOPOLOGY" == "Large"  ]; then
 		if [ "$hosts_ary_length" -lt "9" ]; then
-			echo "Not enough hosts defined: " $DEPLOYMENT_TOPOLOGY >> /tmp/armscript.log
+			echo "Not enough hosts defined: " $DEPLOYMENT_TOPOLOGY >> ${ARMLOGPATH}
 			exit 400
 		fi
 		cp -rf apigee_install_scripts/common/source/instance_EDGE_9node.json apigee_install_scripts/common/source/instance.json 
@@ -138,10 +128,10 @@ else
 		cp -rf apigee_install_scripts/common/source/hosts_EDGE_9node apigee_install_scripts/common/source/hosts 
 		TOPOLOGY_TYPE=EDGE_9node
 	else
-		echo "unsupported deployment: " $DEPLOYMENT_TOPOLOGY >> /tmp/armscript.log
+		echo "unsupported deployment: " $DEPLOYMENT_TOPOLOGY >> ${ARMLOGPATH}
 		exit 400
 	fi
-	echo "deployment topology: " $TOPOLOGY_TYPE >> /tmp/armscript.log
+	echo "deployment topology: " $TOPOLOGY_TYPE >> ${ARMLOGPATH}
 
 
 	c=1
@@ -149,13 +139,13 @@ else
 	do
 		if [[ ${i} != 'empty' ]]; then
 			key='HOST'$c'_INTERNALIP'
-			echo $key  >>/tmp/armscript.log
+			echo $key  >>${ARMLOGPATH}
 			cd /tmp/apigee/apigee_install_scripts/common/source
 
 			sed -i.bak s/${key}/${i}/g hosts
 			sed -i.bak s/${key}/${i}/g host2
 			sed -i.bak s/${key}/${i}/g instance.json
-			echo $i  >>/tmp/armscript.log
+			echo $i  >>${ARMLOGPATH}
 
 			((c++))
 		fi
@@ -198,7 +188,7 @@ else
 	echo 'Path variable, after setting it for ansible- $PATH'
 	#cp /tmp/apigee/apigee-edge-4.15.07.03.zip /tmp
 
-	echo "This is right before ansible-playbook"  >>/tmp/armscript.log
+	echo "This is right before ansible-playbook"  >>${ARMLOGPATH}
 	PARAMS="key_pair=new-opdk topology_type=${topology_type} installation_type=$installation_type workspace=${WORKSPACE} smtp_conf=${smtp_conf}  login_user=${login_user} package1_name=${installer}  jdk_version=${java_version} pem_key_path=$key_path mp_pod_name=${mp_pod_name} res_ouput_directory=$resource_path login_user=${login_user} file_system=$filesystem  disk_space=$disk_space apigee_repo_username=${apigee_repo_username} apigee_repo_password=${apigee_repo_password} apigee_stage=${apigee_stage} apigee_repo_url=${apigee_repo_url}"
 
 
@@ -225,7 +215,7 @@ else
 	/usr/local/bin/ansible-playbook -i ${host2_path}/hosts  ${automation_path}/playbooks/remove_silent_config.yml -M ${automation_path}/playbooks -u ${login_user} -e "${PARAMS}" --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
 	echo "Removed Silent Config File"  >>/tmp/ansible_output.log
 
-	echo "Ansible Scripts Executed"  >>/tmp/armscript.log
+	echo "Ansible Scripts Executed"  >>${ARMLOGPATH}
 
 	VHOST_ALIAS=$LB_IP_ALIAS
 
@@ -233,22 +223,6 @@ else
 
 fi
 
-echo "removing the apigee installation folders" >>/tmp/armscript.log
-
-# rm -rf /tmp/apigee/apigee_install_scripts
-# rm -rf /tmp/license.txt
-# rm -rf /tmp/apigee/license.txt
-# rm -rf /tmp/ssh_key.pem
-# rm -rf /tmp/apigee/ssh_key.pem
-#rm -rf /tmp/template_silent.conf
-#rm -rf /tmp/apigee/template_silent.conf
-#rm -rf /tmp/apigee/opdk.conf
-#rm -rf /tmp/opdk.conf
-
-#update the setup-org
-echo y| cp -fr /tmp/apigee/setup-org.sh /opt/apigee4/bin/setup-org.sh
-echo y | /opt/apigee4/bin/setup-org.sh ${APIGEE_ADMIN_EMAIL} ${APW} ${ORG_NAME} 'test' ${VHOST_NAME} ${VHOST_PORT_TEST} ${VHOST_ALIAS} >>/tmp/armscript.log
-echo y| /opt/apigee4/bin/add-env.sh -o ${ORG_NAME} -P "${APW}" -A -e "prod" -v "${VHOST_NAME}" -p ${VHOST_PORT_PROD} -a "${VHOST_ALIAS}" >>/tmp/armscript.log
-
-echo 'script execution ended at:'>>/tmp/armscript.log
-echo $(date)>>/tmp/armscript.log
+echo "removing the apigee installation folders" >>${ARMLOGPATH}
+echo 'script execution ended at:'>>${ARMLOGPATH}
+echo $(date)>>${ARMLOGPATH}
