@@ -174,8 +174,7 @@
       "settings": {
         "fileUris": [
           "https://raw.githubusercontent.com/apigee/microsoft/16x/apigee-edge-arm-template/install-apigee.sh"
-        ],
-
+        ]
       },
       "protectedSettings": {
           
