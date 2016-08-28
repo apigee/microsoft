@@ -56,8 +56,29 @@
     },
     "storageAccountName": {
       "type": "string"
+    },
+    "imagePublisher": {
+      "type": "string",
+      "defaultValue": "OpenLogic",
+      "metadata": {
+        "description": "Image Publisher"
+      }
+    },
+    "imageOffer": {
+      "type": "string",
+      "defaultValue": "CentOS",
+      "metadata": {
+        "description": "Image Offer"
+      }
+    },
+    "imageSKU": {
+      "type": "string",
+      "defaultValue": "6.6",
+      "metadata": {
+        "description": "Image SKU"
+      }
     }
-
+    
   },
   "variables": {
     "apiVersion": "2015-06-15",
@@ -134,18 +155,20 @@
           }
         },
         "storageProfile": {
-          "osDisk": {
-            "osType": "Linux",
-            "name": "[concat(variables('vmName'),'-osDisk')]",
-            "createOption": "FromImage",
-            "image": {
-              "uri": "http://apigeeedgetrail.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigeeedge-osDisk.ebb9f7fd-5daa-44dd-9019-1f466af72856.vhd"
-            },
-            "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
-            },
-            "caching": "ReadWrite"
-          }
+        "imageReference": {
+          "publisher": "[parameters('imagePublisher')]",
+          "offer": "[parameters('imageOffer')]",
+          "sku": "[parameters('imageSKU')]",
+          "version": "latest"
+        },
+        "osDisk": {
+          "name": "osdisk1",
+          "vhd": {
+            "uri": "[concat('http://',parameters('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/','osdisk1spec.vhd')]"
+          },
+          "caching": "ReadWrite",
+          "createOption": "FromImage"
+        }
         },
         "networkProfile": {
           "networkInterfaces": [{
