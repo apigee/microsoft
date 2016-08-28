@@ -84,7 +84,7 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 	sed -i.bak s/APIGEE_ADMINPW=/APIGEE_ADMINPW="${APW}"/g config.txt
 	sed -i.bak s/APIGEE_LDAPPW=/APIGEE_LDAPPW="${APW}"/g config.txt
 	sed -i.bak s/ORG_NAME=/ORG_NAME="${ORG_NAME}"/g config.txt
-	sed -i.bak s/LBDNS=/LBDNS="${VHOST_ALIAS}"/g config.txt
+	sed -i.bak s/LBDNS/"${VHOST_ALIAS}"/g config.txt
         cd /tmp/apigee/ansible-scripts/inventory
 	cp -fr hosts_EDGE_1node hosts
 	sed -i.bak s/HOST1_INTERNALIP/$(hostname -i)/g hosts
