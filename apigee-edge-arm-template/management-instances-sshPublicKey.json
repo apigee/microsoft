@@ -26,7 +26,8 @@
       "type": "securestring"
     },
     "sshKey": {
-      "type": "string"
+      "type": "string",
+      "defaultValue":  "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDZ7Kx/G2Nh52Dax70AF3CRkaKm/bIXI5XwZCkvfPmaW2+BEjn3AVdt1Fk03/31wLIZYIDWDnX6I9ZD8FsJshOub+sJm5njgdDG7/vKI4aFw5vWVIT8ezVutwht1DON7Ljdgx0lMafuTKUNXhwcT7pt/66F3FxhX3e9akijFbcw40/htvRCdruS0i4e61IiP8qKWAk0BFkncP0gfQH4tggJ6QtR+EEO0w6ThGPDz4Ko7UHkc/YGulLCEcM9yoC0/bTb3Vt1+uhwiIJquwenp5m5GmCxH9Bhd+HXzs/nXxEAP9l+bP+zlqSlSipHkQtmWN7pIHT2uhgE+IqH+gKNSc7NEBXNzE5e70YzavlusPbkD5EqbI8AaRi0b7wN4tYmyX3AfWbnYaTZAGoTQQSIuAjMxa7bqOiUmNW6UnVEdOmwI+zMipn2T8s+mv4jxzeVufqBWdACADWb5TQksSglbiN83C7HbkgH9x5DXleeX9E6oxEy6v1H/bCkRlNn7f9cOYE/qUwd7At4s/uew8zanelKqtd5AR44lnpODTHb5fNU5aMIMo6RyxRmF71U1DUM0OqwsaantNaKKjBdz3U9TCNvUYScqrbdHe4BqpkYVJ3ARi5y8+q3py9LbMJVJVU8pBXgxF4HjTSjU3juCEPRLuTewf3p0zKv59oaImxDbuTWjw== apigeetrial"
     },
     "tshirtSize": {
       "type": "string",
