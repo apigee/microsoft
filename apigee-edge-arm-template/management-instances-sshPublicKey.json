@@ -178,11 +178,15 @@
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), 0,'/enablevmaccess')]",
+      "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex(),'/enablevmaccess')]",
       "location": "[parameters('location')]",
       "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), 0)]"
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), copyindex())]"
       ],
+      "copy": {
+        "name": "vmCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
       "properties": {
         "publisher": "Microsoft.OSTCExtensions",
         "type": "VMAccessForLinux",
@@ -200,12 +204,16 @@
     },
     {
     "type": "Microsoft.Compute/virtualMachines/extensions",
-    "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), 0,'/newuserscript')]",
+    "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex(),'/newuserscript')]",
     "apiVersion": "2015-06-15",
     "location": "[parameters('location')]",
     "dependsOn": [
-      "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), 0)]"
+      "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), copyindex())]"
     ],
+    "copy": {
+      "name": "vmCopyLoop",
+      "count": "[variables('vmCount')]"
+    },
     "properties": {
       "publisher": "Microsoft.OSTCExtensions",
       "type": "CustomScriptForLinux",
