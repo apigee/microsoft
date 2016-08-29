@@ -24,7 +24,7 @@
       "type": "object"
     },
     "sshKey": {
-      "type": "securestring"
+      "type": "string"
     },
     "storageAccountName": {
       "type": "string"
@@ -186,6 +186,33 @@
             }
           }
         }]
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex(),'/enablevmaccess')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), copyindex())]"
+      ],
+      "copy": {
+        "name": "vmCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "VMAccessForLinux",
+        "typeHandlerVersion": "1.4",
+        "autoUpgradeMinorVersion": "true",
+        "settings": { },
+        "protectedSettings": {
+          "username": "[parameters('adminUserName')]",
+          "password": "[parameters('password')]",
+          "reset_ssh": "true",
+          "ssh_key": "[parameters('sshKey')]",
+          "remove_user": ""
+        }
       }
     }
   ],

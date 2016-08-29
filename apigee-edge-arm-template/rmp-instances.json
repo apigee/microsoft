@@ -24,7 +24,7 @@
       "type": "object"
     },
     "sshKey": {
-      "type": "securestring"
+      "type": "string"
     },
     "storageAccountName": {
       "type": "string"
@@ -198,11 +198,6 @@
         "name": "vmCopyLoop",
         "count": "[variables('vmCount')]"
       },
-      "plan": {
-        "name": "apigee-edge-4-15-07",
-        "publisher": "apigee",
-        "product": "apigee-edge"
-      },
       "properties": {
 
         "availabilitySet": {
@@ -226,27 +221,50 @@
           }
         },
         "storageProfile": {
-          "imageReference": {
-            "publisher": "apigee",
-            "offer": "apigee-edge",
-            "sku": "apigee-edge-4-15-07",
-            "version": "latest"
-          },
           "osDisk": {
-            "name": "osdisk1",
+            "osType": "Linux",
+            "name": "[concat(variables('vmName'),'-osDisk')]",
+            "createOption": "FromImage",
+            "image": {
+              "uri": "http://apigeeedgetrail.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigeeedge-osDisk.ebb9f7fd-5daa-44dd-9019-1f466af72856.vhd"
+            },
             "vhd": {
               "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
             },
-            "caching": "ReadWrite",
-            "createOption": "FromImage"
+            "caching": "ReadWrite"
           }
         },
-
-
         "networkProfile": {
           "networkInterfaces": [{
             "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nicName'), parameters('vmtypeprefix'), copyindex()) )]"
           }]
+        }
+      }
+    },
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines/extensions",
+      "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex(),'/enablevmaccess')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), copyindex())]"
+      ],
+      "copy": {
+        "name": "vmCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
+      "properties": {
+        "publisher": "Microsoft.OSTCExtensions",
+        "type": "VMAccessForLinux",
+        "typeHandlerVersion": "1.4",
+        "autoUpgradeMinorVersion": "true",
+        "settings": { },
+        "protectedSettings": {
+          "username": "[parameters('adminUserName')]",
+          "password": "[parameters('password')]",
+          "reset_ssh": "true",
+          "ssh_key": "[parameters('sshKey')]",
+          "remove_user": ""
         }
       }
     }
