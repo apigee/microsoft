@@ -24,7 +24,7 @@
       "type": "object"
     },
     "sshKey": {
-      "type": "string"
+      "type": "securestring"
     },
     "storageAccountName": {
       "type": "string"
@@ -83,6 +83,11 @@
         "name": "vmCopyLoop",
         "count": "[variables('vmCount')]"
       },
+      "plan": {
+        "name": "apigee-edge-4-15-07",
+        "publisher": "apigee",
+        "product": "apigee-edge"
+      },
       "properties": {
 
         "hardwareProfile": {
@@ -103,17 +108,19 @@
           }
         },
         "storageProfile": {
+          "imageReference": {
+            "publisher": "apigee",
+            "offer": "apigee-edge",
+            "sku": "apigee-edge-4-15-07",
+            "version": "latest"
+          },
           "osDisk": {
-            "osType": "Linux",
-            "name": "[concat(variables('vmName'),'-osDisk')]",
-            "createOption": "FromImage",
-            "image": {
-              "uri": "http://apigeeedgetrail.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigeeedge-osDisk.ebb9f7fd-5daa-44dd-9019-1f466af72856.vhd"
-            },
+            "name": "osdisk1",
             "vhd": {
               "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
             },
-            "caching": "ReadWrite"
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
           },
 
           "dataDisks": [{

@@ -24,7 +24,7 @@
       "type": "object"
     },
     "sshKey": {
-      "type": "string"
+      "type": "securestring"
     },
     "storageAccountName": {
       "type": "string"
@@ -160,6 +160,30 @@
             "access": "Allow",
             "priority": 106,
             "direction": "Inbound"
+          }
+        }]
+      }
+    }, {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/virtualNetworks",
+      "name": "[variables('virtualNetworkName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkSecurityGroups/', variables('securityGroupName'))]"
+      ],
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('addressPrefix')]"
+          ]
+        },
+        "subnets": [{
+          "name": "[variables('subnet1Name')]",
+          "properties": {
+            "addressPrefix": "[variables('subnet1Prefix')]",
+            "networkSecurityGroup": {
+              "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroupName'))]"
+            }
           }
         }]
       }
