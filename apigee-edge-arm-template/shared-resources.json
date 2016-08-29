@@ -163,57 +163,6 @@
           }
         }]
       }
-    }, {
-      "apiVersion": "2015-06-15",
-      "type": "Microsoft.Network/virtualNetworks",
-      "name": "[variables('virtualNetworkName')]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Network/networkSecurityGroups/', variables('securityGroupName'))]"
-      ],
-      "properties": {
-        "addressSpace": {
-          "addressPrefixes": [
-            "[variables('addressPrefix')]"
-          ]
-        },
-        "subnets": [{
-          "name": "[variables('subnet1Name')]",
-          "properties": {
-            "addressPrefix": "[variables('subnet1Prefix')]",
-            "networkSecurityGroup": {
-              "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroupName'))]"
-            }
-          }
-        }]
-      }
-    },
-    {
-      "apiVersion": "2015-06-15",
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex(),'/enablevmaccess')]",
-      "location": "[parameters('location')]",
-      "dependsOn": [
-        "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), copyindex())]"
-      ],
-      "copy": {
-        "name": "vmCopyLoop",
-        "count": "[variables('vmCount')]"
-      },
-      "properties": {
-        "publisher": "Microsoft.OSTCExtensions",
-        "type": "VMAccessForLinux",
-        "typeHandlerVersion": "1.4",
-        "autoUpgradeMinorVersion": "true",
-        "settings": { },
-        "protectedSettings": {
-          "username": "[parameters('adminUserName')]",
-          "password": "[parameters('password')]",
-          "reset_ssh": "true",
-          "ssh_key": "[parameters('sshKey')]",
-          "remove_user": ""
-        }
-      }
     }
   ],
   "outputs": {
