@@ -200,16 +200,12 @@
     },
     {
     "type": "Microsoft.Compute/virtualMachines/extensions",
-    "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex(),'/newuserscript')]",
+    "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), 0,'/newuserscript')]",
     "apiVersion": "2015-06-15",
     "location": "[parameters('location')]",
     "dependsOn": [
-      "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), copyindex())]"
+      "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), 0)]"
     ],
-    "copy": {
-      "name": "vmCopyLoop",
-      "count": "[variables('vmCount')]"
-    },
     "properties": {
       "publisher": "Microsoft.OSTCExtensions",
       "type": "CustomScriptForLinux",
