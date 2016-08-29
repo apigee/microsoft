@@ -140,10 +140,6 @@ cd /tmp/apigee/ansible-scripts/playbook
 ansible-playbook -i ../inventory/hosts  edge-components-setup-playbook.yaml  -u ${login_user} --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
 
 echo "Ansible Scripts Executed"  >>${ARMLOGPATH}
-VHOST_ALIAS=$LB_IP_ALIAS
-
-
-fi
 
 echo 'script execution ended at:'>>${ARMLOGPATH}
 echo $(date)>>${ARMLOGPATH}
