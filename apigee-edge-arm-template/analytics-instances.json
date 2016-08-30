@@ -109,7 +109,7 @@
             "name": "[concat(variables('vmName'),'-osDisk')]",
             "createOption": "FromImage",
             "image": {
-              "uri": "http://apigeeedgetrail.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigeeedge-osDisk.a78939b6-b00b-42b2-b24c-a2592c93781e.vhd"
+              "uri": "http://apigeeedgetrail.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigeeedge-osDisk.9de3c878-fd08-4b18-adc3-4a44de8c4e21.vhd"
             },
             "vhd": {
               "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
