@@ -36,6 +36,7 @@ chmod 777 /tmp/apigee/bootstrap_${EDGE_VERSION}.sh
 /tmp/apigee/bootstrap_${EDGE_VERSION}.sh apigeeuser=${FTP_USER} apigeepassword=${FTP_PASSWORD} JAVA_FIX=I
 /opt/apigee/apigee-service/bin/apigee-service apigee-mirror install
 /opt/apigee/apigee-service/bin/apigee-service apigee-mirror sync --only-new-rpms
+chmod 777 /opt/apigee/data/apigee-mirror/repos/bootstrap_${EDGE_VERSION}.sh
 /opt/apigee/data/apigee-mirror/repos/bootstrap_${EDGE_VERSION}.sh apigeeprotocol="file://" apigeerepobasepath=/opt/apigee/data/apigee-mirror/repos
 
 /opt/apigee/apigee-service/bin/apigee-service apigee-setup install
