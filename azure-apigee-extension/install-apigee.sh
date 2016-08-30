@@ -34,21 +34,13 @@ echo "ALL ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 curl https://software.apigee.com/bootstrap_${EDGE_VERSION}.sh -o /tmp/apigee/bootstrap_${EDGE_VERSION}.sh
 chmod 777 /tmp/apigee/bootstrap_${EDGE_VERSION}.sh
 /tmp/apigee/bootstrap_${EDGE_VERSION}.sh apigeeuser=${FTP_USER} apigeepassword=${FTP_PASSWORD} JAVA_FIX=I
+/opt/apigee/apigee-service/bin/apigee-service apigee-mirror install
+/opt/apigee/apigee-service/bin/apigee-service apigee-mirror sync --only-new-rpms
+/opt/apigee/data/apigee-mirror/repos/bootstrap_${EDGE_VERSION}.sh apigeeprotocol="file://" apigeerepobasepath=/opt/apigee/data/apigee-mirror/repos
+
 /opt/apigee/apigee-service/bin/apigee-service apigee-setup install
 /opt/apigee/apigee-service/bin/apigee-service apigee-provision install
 /opt/apigee/apigee-service/bin/apigee-service apigee-validate install
-
-yum install apigee-cassandra -y
-yum install apigee-zookeeper -y
-yum install apigee-openldap -y
-yum install edge-management-server -y
-yum install edge-ui -y
-yum install edge-router -y
-yum install edge-message-processor -y
-yum install apigee-postgresql -y
-yum install edge-postgres-server -y
-yum install apigee-qpidd -y
-yum install edge-qpid-server -y
 
 curl -o /tmp/apigee/epel-release-6-8.noarch.rpm  http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 rpm -ivh /tmp/apigee/epel-release-6-8.noarch.rpm
