@@ -79,6 +79,7 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 
 	cp -fr  /tmp/apigee/ansible-scripts/config/aio-config.txt /tmp/apigee/ansible-scripts/config/config.txt
 	cp -fr  /tmp/apigee/ansible-scripts/inventory/hosts_EDGE_1node /tmp/apigee/ansible-scripts/inventory/hosts
+        LB_IP_ALIAS=VHOST_ALIAS
 	
 elif [ "$DEPLOYMENT_TOPOLOGY" == "Medium"  ]; then
 	TOPOLOGY_TYPE=EDGE_5node
@@ -140,9 +141,9 @@ sed -i.bak s/ORG_NAME=/ORG_NAME="${ORG_NAME}"/g setup-org-test.txt
 
 sed -i.bak s/APIGEE_LDAPPW=/APIGEE_LDAPPW="${APW}"/g config.txt
 
-sed -i.bak s/LBDNS/"${VHOST_ALIAS}"/g config.txt
-sed -i.bak s/LBDNS/"${VHOST_ALIAS}"/g setup-org-prod.txt
-sed -i.bak s/LBDNS/"${VHOST_ALIAS}"/g setup-org-test.txt
+sed -i.bak s/LBDNS/"${LB_IP_ALIAS}"/g config.txt
+sed -i.bak s/LBDNS/"${LB_IP_ALIAS}"/g setup-org-prod.txt
+sed -i.bak s/LBDNS/"${LB_IP_ALIAS}"/g setup-org-test.txt
 
 
 echo 'sed commands done' >> ${ARMLOGPATH}
