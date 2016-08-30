@@ -128,10 +128,19 @@ echo "Changing configuration file with the details"
 
 cd /tmp/apigee/ansible-scripts/config
 sed -i.bak s/ADMIN_EMAIL=/ADMIN_EMAIL="${APIGEE_ADMIN_EMAIL}"/g config.txt
+sed -i.bak s/ADMIN_EMAIL=/ADMIN_EMAIL="${APIGEE_ADMIN_EMAIL}"/g setup-org-prod.txt
+sed -i.bak s/ADMIN_EMAIL=/ADMIN_EMAIL="${APIGEE_ADMIN_EMAIL}"/g setup-org-prod.txt
+
 sed -i.bak s/APIGEE_ADMINPW=/APIGEE_ADMINPW="${APW}"/g config.txt
+sed -i.bak s/APIGEE_ADMINPW=/APIGEE_ADMINPW="${APW}"/g setup-org-prod.txt
+sed -i.bak s/APIGEE_ADMINPW=/APIGEE_ADMINPW="${APW}"/g setup-org-prod.txt
+
 sed -i.bak s/APIGEE_LDAPPW=/APIGEE_LDAPPW="${APW}"/g config.txt
-sed -i.bak s/ORG_NAME=/ORG_NAME="${ORG_NAME}"/g config.txt
+
 sed -i.bak s/LBDNS/"${VHOST_ALIAS}"/g config.txt
+sed -i.bak s/LBDNS/"${VHOST_ALIAS}"/g setup-org-prod.txt
+sed -i.bak s/LBDNS/"${VHOST_ALIAS}"/g setup-org-test.txt
+
 
 echo 'sed commands done' >> ${ARMLOGPATH}
 echo 'Running ansible commands' >> ${ARMLOGPATH}
