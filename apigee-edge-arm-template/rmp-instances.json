@@ -24,7 +24,7 @@
       "type": "object"
     },
     "sshKey": {
-      "type": "securestring"
+      "type": "string"
     },
     "storageAccountName": {
       "type": "string"
