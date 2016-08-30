@@ -89,7 +89,7 @@
           "vmSize": "[parameters('machineSettings').vmSize]"
         },
         "osProfile": {
-          "computerName": "[variables('vmName')]",
+          "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex())]",
           "adminUsername": "[parameters('adminUsername')]",
           "linuxConfiguration": {
             "disablePasswordAuthentication": "true",
