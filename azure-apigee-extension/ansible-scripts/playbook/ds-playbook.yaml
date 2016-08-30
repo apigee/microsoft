@@ -12,7 +12,7 @@
   vars:
     apigee_config_file_name: config.txt
     apigee_source_path: ../config
-    apigee_dest_path: /tmp
+    apigee_dest_path: /tmp/apigee
   tasks:
   - name: Run Setup with DS Slave profile
     command: "/opt/apigee/apigee-setup/bin/setup.sh -p ds -f {{apigee_dest_path}}/{{apigee_config_file_name}}"
