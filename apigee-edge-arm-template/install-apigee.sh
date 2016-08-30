@@ -129,11 +129,14 @@ echo "Changing configuration file with the details"
 cd /tmp/apigee/ansible-scripts/config
 sed -i.bak s/ADMIN_EMAIL=/ADMIN_EMAIL="${APIGEE_ADMIN_EMAIL}"/g config.txt
 sed -i.bak s/ADMIN_EMAIL=/ADMIN_EMAIL="${APIGEE_ADMIN_EMAIL}"/g setup-org-prod.txt
-sed -i.bak s/ADMIN_EMAIL=/ADMIN_EMAIL="${APIGEE_ADMIN_EMAIL}"/g setup-org-prod.txt
+sed -i.bak s/ADMIN_EMAIL=/ADMIN_EMAIL="${APIGEE_ADMIN_EMAIL}"/g setup-org-test.txt
 
 sed -i.bak s/APIGEE_ADMINPW=/APIGEE_ADMINPW="${APW}"/g config.txt
 sed -i.bak s/APIGEE_ADMINPW=/APIGEE_ADMINPW="${APW}"/g setup-org-prod.txt
-sed -i.bak s/APIGEE_ADMINPW=/APIGEE_ADMINPW="${APW}"/g setup-org-prod.txt
+sed -i.bak s/APIGEE_ADMINPW=/APIGEE_ADMINPW="${APW}"/g setup-org-test.txt
+
+sed -i.bak s/ORG_NAME=/ORG_NAME="${ORG_NAME}"/g setup-org-prod.txt
+sed -i.bak s/ORG_NAME=/ORG_NAME="${ORG_NAME}"/g setup-org-test.txt
 
 sed -i.bak s/APIGEE_LDAPPW=/APIGEE_LDAPPW="${APW}"/g config.txt
 
