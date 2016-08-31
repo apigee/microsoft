@@ -79,7 +79,7 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 
 	cp -fr  /tmp/apigee/ansible-scripts/config/aio-config.txt /tmp/apigee/ansible-scripts/config/config.txt
 	cp -fr  /tmp/apigee/ansible-scripts/inventory/hosts_EDGE_1node /tmp/apigee/ansible-scripts/inventory/hosts
-        LB_IP_ALIAS=VHOST_ALIAS
+        LB_IP_ALIAS=$VHOST_ALIAS
 	
 elif [ "$DEPLOYMENT_TOPOLOGY" == "Medium"  ]; then
 	TOPOLOGY_TYPE=EDGE_5node
