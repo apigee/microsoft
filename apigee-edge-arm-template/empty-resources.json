@@ -27,6 +27,9 @@
     },
     "storageAccountName": {
       "type": "string"
+    },
+    "image": {
+      "type": "string"
     }
 
   },

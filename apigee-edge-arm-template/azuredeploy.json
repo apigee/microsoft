@@ -202,7 +202,8 @@
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
-          },"storageAccountName": {
+          },
+          "storageAccountName": {
             "value": "[variables('storageAccountName')]"
           },
           "image": {
