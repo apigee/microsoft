@@ -4,7 +4,7 @@ echo 'executing the install script' >>${ARMLOGPATH}
 mkdir -p /tmp/apigee/log
 ARMLOGPATH=/tmp/apigee/log/armextension.log
 echo "Changing the ansible log location"
-sed -i "s|./ansible.log|/tmp/apigee/log/ansible.log|g" ansible.cfg
+sed -i "s|./ansible.log|/tmp/apigee/log/ansible.log|g" /tmp/apigee/ansible-scripts/playbook/ansible.cfg
 echo "setting the installation log file to log directory"
 ln -Ts /tmp/setup-root.log /tmp/apigee/log/setup-root.log
 
