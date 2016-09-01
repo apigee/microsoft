@@ -32,6 +32,8 @@ echo 'Inititalized variables, ' $VHOST_ALIAS, $EDGE_VERSION, $DEPLOYMENT_TOPOLOG
 echo 'Setting License file to /tmp/apigee/ansible-scripts/config/license.txt' >>${ARMLOGPATH}
 
 LICENSE_TEXT=`echo ${LICENSE_TEXT} | base64 --decode`
+
+
 SSH_KEY=`echo ${SSH_KEY} | base64 --decode`
 
 
@@ -46,24 +48,43 @@ echo 'License file Set' >>${ARMLOGPATH}
 
 echo 'Setting ssh key' >>${ARMLOGPATH}
 
-cd /tmp/apigee
-yum install dos2unix -y
-echo $SSH_KEY | tr " " "\n"> ssh_key.pem
-dos2unix ssh_key.pem
+if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
 
-#This is all because the spaces in the bellow lines are also converted to new lines!
-echo '-----BEGIN RSA PRIVATE KEY-----' > tmp.pem
-sed '$d' ssh_key.pem | sed '$d' | sed '$d'| sed '$d'| tail -n+5  >> tmp.pem
-echo '-----END RSA PRIVATE KEY-----'>>tmp.pem
-rm -rf ssh_key.pem
-mkdir -p ~/.ssh
-mv tmp.pem ~/.ssh/id_rsa
-chmod 600 ~/.ssh/id_rsa
+	cd /tmp/apigee
+	ssh-keygen -t rsa -N "" -C ${login_user} -f my.key
+	mkdir -p ~/.ssh
+	mv -f my.key ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+	mkdir -p /home/${login_user}/.ssh
+	cat my.key.pub >>  /home/${login_user}/.ssh/authorized_keys
+	echo "Copy the ssh key to id_rsa in home directory of root" >>${ARMLOGPATH}
+        key_path=~/.ssh/id_rsa
 
-echo "Copy the ssh key to id_rsa in home directory of root" >>${ARMLOGPATH}
-key_path=~/.ssh/id_rsa
+        echo 'ssh key set to '$key_path >>${ARMLOGPATH}
+	
 
-echo 'ssh key set to '$key_path >>${ARMLOGPATH}
+else 
+
+	cd /tmp/apigee
+	yum install dos2unix -y
+	echo $SSH_KEY | tr " " "\n"> ssh_key.pem
+	dos2unix ssh_key.pem
+
+	#This is all because the spaces in the bellow lines are also converted to new lines!
+	echo '-----BEGIN RSA PRIVATE KEY-----' > tmp.pem
+	sed '$d' ssh_key.pem | sed '$d' | sed '$d'| sed '$d'| tail -n+5  >> tmp.pem
+	echo '-----END RSA PRIVATE KEY-----'>>tmp.pem
+	rm -rf ssh_key.pem
+	mkdir -p ~/.ssh
+	mv tmp.pem ~/.ssh/id_rsa
+	chmod 600 ~/.ssh/id_rsa
+
+	echo "Copy the ssh key to id_rsa in home directory of root" >>${ARMLOGPATH}
+	key_path=~/.ssh/id_rsa
+
+	echo 'ssh key set to '$key_path >>${ARMLOGPATH}
+
+fi
 
 
 TOPOLOGY_TYPE=""
