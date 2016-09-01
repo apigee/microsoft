@@ -124,8 +124,8 @@
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "runtimePublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))]",
-    "storageAccountName": "apigeeedgetrail2",
-    "image" : "http://apigeeedgetrail2.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigeeedge-osDisk.0cfef008-76b7-4542-b6f2-23f12d7cfc5e.vhd"
+    "storageAccountName": "apigeeedgetrail6",
+    "image" : "http://apigeeedgetrail6.blob.core.windows.net/vmcontainer7c678207-6df3-418a-af88-d868f4e8775f/osDisk.7c678207-6df3-418a-af88-d868f4e8775f.vhd"
 
   },
   "resources": [
