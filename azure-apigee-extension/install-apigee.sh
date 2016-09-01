@@ -8,6 +8,9 @@ FILE_BASEPATH=$4
 FTP_PASSWORD=`echo ${FTP_PASSWORD} | base64 --decode`
 
 mkdir -p /tmp/apigee
+mkdir -p /tmp/apigee/log
+ln -Ts /tmp/setup-root.log /tmp/apigee/log/setup-root.log
+
 cd /tmp/apigee
 
 
