@@ -79,10 +79,10 @@
       }
     },
     "image": {
-      "type": "securestring"
+      "type": "string"
     },
     "templateBaseUrl": {
-      "type": "securestring"
+      "type": "string"
     }
     
   },
