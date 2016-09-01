@@ -13,7 +13,7 @@ function usage ()
   echo "        -p              VM Admin Password "
   echo "        -k              Apigee FTP User Name e.g msft"
   echo "        -s              Apigee FTP Password "
-  echo "        -b              GIT Branch e.g https://raw.githubusercontent.com/apigee/microsoft/16x/azure-apigee-extension"
+  echo "        -b              GIT Branch e.g 16x"
   exit 1
 
 }
