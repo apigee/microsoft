@@ -2,32 +2,14 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "location": {
-      "value": "West US"
-    },
-    "newStorageAccountName": {
-      "value": ""
-    },
-    "vmDnsName": {
-      "value": "sampleDns"
-    },
-    "adminUserName": {
-      "value": "admin"
-    },
-    "adminPassword": {
-      "value": ""
-    },
-    "ftpServer": {
-      "value": "ftp.apigee.com"
-    },
-    "ftpUserName": {
-      "value": "apigee"
-    },
-    "ftpPassword": {
-      "value": ""
-    },
-    "edgeVersion": {
-      "value" : "4.16.05"
-    } 
+    "location": { "value": "West US"},
+    "newStorageAccountName": { "value": ""},
+    "vmDnsName": { "value": ""},
+    "adminUserName": { "value": "admin"},
+    "adminPassword": { "value": "" },
+    "ftpUserName": { "value": "apigee" },
+    "ftpPassword": { "value": "" },
+    "edgeVersion": { "value" : "4.16.05" },
+    "ansibleScriptLocation" : { "value": "https://raw.githubusercontent.com/apigee/microsoft/16x/azure-apigee-extension" }
   }
 }

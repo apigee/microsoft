@@ -2,13 +2,6 @@
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "ftpServer": {
-      "type": "string",
-      "defaultValue": "ftp.apigee.com",
-      "metadata": {
-        "description": "FTP Server details received from Apigee"
-      }
-    },
     "ftpUserName": {
       "type": "string"
     },
@@ -91,6 +84,10 @@
     "edgeVersion": {
       "type": "string",
       "defaultValue": "4.16.05"
+    },
+    "ansibleScriptLocation" : {
+      "type": "string",
+      "defaultValue": "https://raw.githubusercontent.com/apigee/microsoft/master/azure-apigee-extension"
     }
   },
   "variables": {
@@ -225,7 +222,7 @@
         "fileUris": [
           "https://raw.githubusercontent.com/apigee/microsoft/16x/azure-apigee-extension/install-apigee.sh"
         ],
-        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('ftpUserName'),' ',base64(parameters('ftpPassword')), ' ' , parameters('edgeVersion'))]"
+        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('ftpUserName'),' ',base64(parameters('ftpPassword')), ' ' , parameters('edgeVersion'), ' ', parameters('ansibleScriptLocation') )]"
       }
     }
   }]

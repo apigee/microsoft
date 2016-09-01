@@ -1,7 +1,9 @@
-FILE_BASEPATH="https://raw.githubusercontent.com/apigee/microsoft/16x/azure-apigee-extension"
 FTP_USER=$1
 FTP_PASSWORD=$2
 EDGE_VERSION=$3
+#FILE_BASEPATH="https://raw.githubusercontent.com/apigee/microsoft/16x/azure-apigee-extension"
+FILE_BASEPATH=$4
+
 
 FTP_PASSWORD=`echo ${FTP_PASSWORD} | base64 --decode`
 
