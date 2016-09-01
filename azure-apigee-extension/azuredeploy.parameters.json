@@ -1,15 +1,33 @@
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-  "contentVersion": "1.0.0.0",
-  "parameters": {
-    "location": { "value": "West US"},
-    "newStorageAccountName": { "value": ""},
-    "vmDnsName": { "value": ""},
-    "adminUserName": { "value": "admin"},
-    "adminPassword": { "value": "" },
-    "ftpUserName": { "value": "apigee" },
-    "ftpPassword": { "value": "" },
-    "edgeVersion": { "value" : "4.16.05" },
-    "ansibleScriptLocation" : { "value": "https://raw.githubusercontent.com/apigee/microsoft/16x/azure-apigee-extension" }
-  }
+   "$schema":"http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+   "contentVersion":"1.0.0.0",
+   "parameters":{
+      "location":{
+         "value":"West US"
+      },
+      "newStorageAccountName":{
+         "value":""
+      },
+      "vmDnsName":{
+         "value":""
+      },
+      "adminUserName":{
+         "value":"admin"
+      },
+      "adminPassword":{
+         "value":""
+      },
+      "ftpUserName":{
+         "value":"apigee"
+      },
+      "ftpPassword":{
+         "value":""
+      },
+      "edgeVersion":{
+         "value":"4.16.05"
+      },
+      "scriptLocation":{
+         "value":"https://raw.githubusercontent.com/apigee/microsoft/master/azure-apigee-extension"
+      }
+   }
 }

@@ -85,7 +85,7 @@
       "type": "string",
       "defaultValue": "4.16.05"
     },
-    "ansibleScriptLocation" : {
+    "scriptLocation" : {
       "type": "string",
       "defaultValue": "https://raw.githubusercontent.com/apigee/microsoft/master/azure-apigee-extension"
     }
@@ -220,9 +220,9 @@
       "typeHandlerVersion": "1.2",
       "settings": {
         "fileUris": [
-          "https://raw.githubusercontent.com/apigee/microsoft/16x/azure-apigee-extension/install-apigee.sh"
+          "[concat(parameters('scriptLocation'), '/install-apigee.sh')]"
         ],
-        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('ftpUserName'),' ',base64(parameters('ftpPassword')), ' ' , parameters('edgeVersion'), ' ', parameters('ansibleScriptLocation') )]"
+        "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('ftpUserName'),' ',base64(parameters('ftpPassword')), ' ' , parameters('edgeVersion'), ' ', parameters('scriptLocation') )]"
       }
     }
   }]

@@ -1,24 +1,97 @@
 #!/bin/bash
 #This is the name used for all the artifacts created using this script
-# ex: ./create-image.sh apigee apigeeedgetrail apigeetrail "iLoveapi\$" msft "bs%msftpassword\$l1"
+# ex: ./create-image.sh -g apigee -n apigeeedgetrail -u apigeetrail -p "iLoveapi\$" -k msft -s "bs%msftpassword\$l1"
 
-if [ "$#" -ne 6 ]; then
-  echo "Usage: ./create-image resource artifact edge-user edge-passwordi access-user access-password"  
-  echo "e.g : ./create-image apigee apigeeedgetrail apigeetrail Secret123 msft xyz3rty" 
+azure_paramerer_file=azuredeploy.parameters.json
+
+function usage ()
+{
+  echo 'Usage : Script -g <resource group> -n < deployment name> -u <VM User> -p <VM Password> -k <apigee FTP user> -s < apigee FTP Password> -b <Optional Branch Name>'
+  echo "        -g              Resource group Name apigee"
+  echo "        -n              Depployment Artifact name e.g apigeetrail"
+  echo "        -u              VM Admin User e.g apigeetrail"
+  echo "        -p              VM Admin Password "
+  echo "        -k              Apigee FTP User Name e.g msft"
+  echo "        -s              Apigee FTP Password "
+  echo "        -b              GIT Branch e.g https://raw.githubusercontent.com/apigee/microsoft/16x/azure-apigee-extension"
   exit 1
+
+}
+
+
+while [[ $# -gt 1 ]]
+do
+key="$1"
+
+case $key in
+    -g)
+    GROUP="$2"
+    shift # past argument
+    ;;
+    -n)
+    ARTIFACTS_NAME="$2"
+    shift # past argument
+    ;;
+    -u)
+    ADMIN_USER="$2"
+    shift # past argument
+    ;;
+    -p)
+    ADMIN_PASSWORD="$2"
+    shift # past argument
+    ;;
+    -k)
+    APIGEE_ACCESS_USERNAME="$2"
+    shift # past argument
+    ;;
+    -s)
+    APIGEE_ACCESS_PASSWORD="$2"
+    shift # past argument
+    ;;
+    -b)
+    GIT_BRANCH="$2"
+    shift # past argument
+    ;;
+    -*)
+    usage;
+    shift
+    ;;
+    *)
+            # unknown option
+    ;;
+esac
+shift # past argument or value
+done
+
+# extra validation for all required parameters
+if [ "$GROUP" = "" ]
+then
+  usage
 fi
-
-echo "starting to create image : " $(date)
-GROUP=$1
-ARTIFACTS_NAME=$2
-ADMIN_USER=$3
-ADMIN_PASSWORD=$4
-APIGEE_ACCESS_USERNAME=$5
-APIGEE_ACCESS_PASSWORD=$6
-
-azure_paramerer_file=azuredeploybase.parameters.json
-
-azure config mode arm
+if [ "$ARTIFACTS_NAME" = "" ]
+then
+  usage
+fi
+if [ "$ADMIN_USER" = "" ]
+then
+  usage
+fi
+if [ "$ADMIN_PASSWORD" = "" ]
+then
+  usage
+fi
+if [ "$APIGEE_ACCESS_USERNAME" = "" ]
+then
+  usage
+fi
+if [ "$APIGEE_ACCESS_PASSWORD" = "" ]
+then
+  usage
+fi
+if [ "$GIT_BRANCH" = "" ]
+then
+  GIT_BRANCH="master"
+fi
 
 
 update_azure_parameters() {
@@ -34,6 +107,13 @@ update_azure_parameters() {
 	cat ${azure_paramerer_file}.bk > ${azure_paramerer_file}
 	cat ${azure_paramerer_file} | jq --arg APIGEE_ACCESS_PASSWORD $APIGEE_ACCESS_PASSWORD '.parameters.ftpPassword.value=$APIGEE_ACCESS_PASSWORD' > ${azure_paramerer_file}.bk
 	cat ${azure_paramerer_file}.bk > ${azure_paramerer_file}
+	
+	eval script_location=$(cat azuredeploy.json | jq '.parameters.scriptLocation.defaultValue' | sed -e 's/master/$GIT_BRANCH/g')
+	echo $script_location
+	cat ${azure_paramerer_file} | jq --arg SCRIPT_LOCATION ${script_location} '.parameters.scriptLocation.value=$SCRIPT_LOCATION' > ${azure_paramerer_file}.bk
+	cat ${azure_paramerer_file}.bk > ${azure_paramerer_file}
+	
+	
 	rm -fr ${azure_paramerer_file}.bk
 	echo "Updated parameters file from inputs"
 }
@@ -58,11 +138,30 @@ update_azure_vm() {
 
 	echo "Uninstalling Custom extensions"
 	azure vm extension set -u ${GROUP} ${ARTIFACTS_NAME} newuserscript Microsoft.OSTCExtensions 1.2 -q
-
-	echo "Deprovisioning user with sudo waagent -deprovision+user"
-	ip=$(azure network public-ip show -g $GROUP myPublicIP-${ARTIFACTS_NAME} | grep FQDN | cut -d ':' -f 3 | tr -d ' ')
-	ssh ${ADMIN_USER}@$ip  sudo waagent -deprovision+user
+	
+	ssh_automate_deprovision;
 }
+
+ssh_automate_deprovision() {
+
+echo "Deprovisioning user with sudo waagent -deprovision+user"
+ip=$(azure network public-ip show -g $GROUP myPublicIP-${ARTIFACTS_NAME} | grep FQDN | cut -d ':' -f 3 | tr -d ' ')
+
+expect <<- DONE
+        eval spawn ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  ${ADMIN_USER}@${ip}
+        #use correct prompt
+        set prompt ":|#|\\\$"
+        expect "password"
+        send "${ADMIN_PASSWORD}\r"
+        send "sudo waagent -deprovision+user\r"
+        expect "Do you want to proceed (y/n)?"
+        send "y\r"
+        send "exit\r"
+        expect eof
+DONE
+
+}
+
 
 stop_vm_capture_image() {
 	now=$(date +"%Y-%m-%d-%S")
@@ -88,49 +187,93 @@ stop_vm_capture_image() {
 }
 
 
+function call_update_azure_parameters() {
+        echo "This will update the parameters file with input parameters"
 
-update_azure_parameters;
+        read -r -p "Are you sure? [y/N] " response
+        if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
+        then
+                update_azure_parameters;
+        elif [[ $response =~ ^([nN][oO]|[nN])$ ]]
+        then
+                exit;
+        else
+                call_update_azure_parameters;
+        fi
+}
 
-echo "This will delete the group : " $GROUP
 
-read -r -p "Are you sure? [y/N] " response
-if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
-then
-   azure_remove;
-else
-   exit; 
-fi
+function call_azure_remove() {
+	echo "This will delete the group : " $GROUP
+
+	read -r -p "Are you sure? [y/N] " response
+	if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
+	then
+   		azure_remove;
+	elif [[ $response =~ ^([nN][oO]|[nN])$ ]]
+	then
+		exit;
+	else
+   		call_azure_remove; 
+	fi
+}
+
+function call_azure_deploy() {
+
+	echo "Starting the deployment.Please check if all base parameters are updated"
+
+	read -r -p "Are you sure? [y/N] " response
+	if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
+	then
+   		azure_deploy;
+	elif [[ $response =~ ^([nN][oO]|[nN])$ ]]
+	then
+		exit;
+	else
+   		call_azure_deploy;
+	fi
+
+}
+
+function call_update_azure_vm() {
+
+	echo "Check installation before we disable user provisioning and uninstall extenstion."
+	echo "Deployment Finished."
+
+	read -r -p "Are you sure? [y/N] " response
+	if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
+	then
+   		update_azure_vm;
+	elif [[ $response =~ ^([nN][oO]|[nN])$ ]]
+	then
+		exit;
+	else
+   		call_update_azure_vm;
+	fi
+
+}
+
+function call_stop_vm_capture_image() {
+
+	echo "Now Capturing image"
+
+	read -r -p "Are you sure? [y/N] " response
+	if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
+	then
+   		stop_vm_capture_image;
+	elif [[ $response =~ ^([nN][oO]|[nN])$ ]]
+        then
+                exit;
+	else
+   		call_stop_vm_capture_image;
+	fi
+}
 
 
-echo "Starting the deployment.Please check if all base parameters are updated"
+azure config mode arm
+call_update_azure_parameters;
+call_azure_remove;
+call_azure_deploy;
+call_update_azure_vm;
+call_stop_vm_capture_image;
 
-read -r -p "Are you sure? [y/N] " response
-if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
-then
-   azure_deploy;
-else
-   exit;
-fi
-
-echo "Check installation before we disable user provisioning and uninstall extenstion."
-echo "Deployment Finished."
-
-read -r -p "Are you sure? [y/N] " response
-if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
-then
-   update_azure_vm;
-else
-   exit;
-fi
-
-echo "Now Capturing image"
-
-read -r -p "Are you sure? [y/N] " response
-if [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
-then
-   stop_vm_capture_image;
-else
-   exit;
-fi
-
-exit;
