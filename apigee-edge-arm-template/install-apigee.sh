@@ -1,7 +1,13 @@
 #sudo ./install-apigee.sh apigeetrial apigeetrial@apigee.com secret apigeetrial.apigee.net Medium apigeetrial.apigee.net 10.0.0.1:10.0.0.2:10.0.0.3:10.0.0.4:10.0.0.5 $LICENSE $SSH
 
 echo 'executing the install script' >>${ARMLOGPATH}
-ARMLOGPATH=/tmp/apigee/armextension.log
+mkdir -p /tmp/apigee/log
+ARMLOGPATH=/tmp/apigee/log/armextension.log
+echo "Changing the ansible log location"
+sed -i "s|./ansible.log|/tmp/apigee/log/ansible.log|g" ansible.cfg
+echo "setting the installation log file to log directory"
+ln -Ts /tmp/setup-root.log /tmp/apigee/log/setup-root.log
+
 
 echo 'Initializing variables' >>${ARMLOGPATH}
 
