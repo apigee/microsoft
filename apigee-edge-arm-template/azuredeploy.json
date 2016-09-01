@@ -124,7 +124,8 @@
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "runtimePublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))]",
-    "storageAccountName": "apigeeedgetrail2"
+    "storageAccountName": "apigeeedgetrail2",
+    "image" : "http://apigeeedgetrail2.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigeeedge-osDisk.0cfef008-76b7-4542-b6f2-23f12d7cfc5e.vhd"
 
   },
   "resources": [
@@ -203,6 +204,9 @@
             "value": "[parameters('sshKey')]"
           },"storageAccountName": {
             "value": "[variables('storageAccountName')]"
+          },
+          "image": {
+            "value": "[variables('image')]"
           }
         }
       }
@@ -241,8 +245,12 @@
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
-          },"storageAccountName": {
+          },
+          "storageAccountName": {
             "value": "[variables('storageAccountName')]"
+          },
+          "image": {
+            "value": "[variables('image')]"
           }
         }
       }
@@ -281,8 +289,12 @@
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
-          },"storageAccountName": {
+          },
+          "storageAccountName": {
             "value": "[variables('storageAccountName')]"
+          },
+          "image": {
+            "value": "[variables('image')]"
           }
         }
       }
@@ -321,8 +333,12 @@
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
-          },"storageAccountName": {
+          },
+          "storageAccountName": {
             "value": "[variables('storageAccountName')]"
+          },
+          "image": {
+            "value": "[variables('image')]"
           }
         }
       }
@@ -388,6 +404,12 @@
           },
           "storageAccountName": {
             "value": "[variables('storageAccountName')]"
+          },
+          "image": {
+            "value": "[variables('image')]"
+          },
+          "templateBaseUrl" : {
+            "value" : "[variables('templateBaseUrl')]"
           },
           "hostNames": {
             "value": {

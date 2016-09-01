@@ -77,6 +77,12 @@
       "metadata": {
         "description": "Image SKU"
       }
+    },
+    "image": {
+      "type": "securestring"
+    },
+    "templateBaseUrl": {
+      "type": "securestring"
     }
     
   },
@@ -160,7 +166,7 @@
             "name": "[concat(variables('vmName'),'-osDisk')]",
             "createOption": "FromImage",
             "image": {
-              "uri": "http://apigeeedgetrail2.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigeeedge-osDisk.0cfef008-76b7-4542-b6f2-23f12d7cfc5e.vhd"
+              "uri": "[parameters('image')]"
             },
             "vhd": {
               "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
@@ -193,7 +199,7 @@
       "typeHandlerVersion": "1.5",
       "settings": {
         "fileUris": [
-          "https://raw.githubusercontent.com/apigee/microsoft/16x/apigee-edge-arm-template/install-apigee.sh"
+          "[concat(parameters('templateBaseUrl'), 'install-apigee.sh')]"
         ]
       },
       "protectedSettings": {

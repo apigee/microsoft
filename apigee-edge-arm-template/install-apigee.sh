@@ -2,7 +2,6 @@
 
 echo 'executing the install script' >>${ARMLOGPATH}
 ARMLOGPATH=/tmp/apigee/armextension.log
-BASE_GIT_URL='https://raw.githubusercontent.com/apigee/microsoft/16x/apigee-edge-arm-template/'
 
 echo 'Initializing variables' >>${ARMLOGPATH}
 
