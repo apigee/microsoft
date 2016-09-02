@@ -146,6 +146,8 @@ do
 		echo $key  >>${ARMLOGPATH}
 		sed -i.bak s/${key}/${i}/g /tmp/apigee/ansible-scripts/inventory/hosts
 		sed -i.bak s/${key}/${i}/g /tmp/apigee/ansible-scripts/config/config.txt
+		sed -i.bak s/${key}/${i}/g /tmp/apigee/ansible-scripts/config/setup-org-prod.txt
+		sed -i.bak s/${key}/${i}/g /tmp/apigee/ansible-scripts/config/setup-org-test.txt
 		echo $i  >>${ARMLOGPATH}
 		((c++))
 	fi
