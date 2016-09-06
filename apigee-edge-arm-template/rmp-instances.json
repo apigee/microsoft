@@ -236,7 +236,6 @@
             "version": "latest"
           },
           "osDisk": {
-            "osType": "Linux",
             "name": "[concat(variables('vmName'),'-osDisk')]",
             "createOption": "FromImage",
             "vhd": {
