@@ -141,6 +141,11 @@
         "name": "vmCopyLoop",
         "count": "[variables('vmCount')]"
       },
+      "plan": {
+        "name": "apigee-edge-private-cloud",
+        "publisher": "apigee",
+        "product": "apigee-edge"
+      },
       "properties": {
 
         "hardwareProfile": {
@@ -161,13 +166,16 @@
           }
         },
         "storageProfile": {
+          "imageReference": {
+            "publisher": "apigee",
+            "offer": "apigee-edge",
+            "sku": "apigee-edge-private-cloud",
+            "version": "latest"
+          },
           "osDisk": {
             "osType": "Linux",
             "name": "[concat(variables('vmName'),'-osDisk')]",
             "createOption": "FromImage",
-            "image": {
-              "uri": "[parameters('image')]"
-            },
             "vhd": {
               "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
             },
