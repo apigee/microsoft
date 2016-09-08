@@ -125,7 +125,11 @@
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "runtimePublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))]",
     "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]",
-    "image" : "sample"
+    "image" : "Not Applicable",
+    "sku": "apigee-edge-private-cloud",
+    "product": "apigee-edge-preview",
+    "publisher": "apigee",
+    "version" : "latest"
 
   },
   "resources": [
@@ -208,6 +212,18 @@
           },
           "image": {
             "value": "[variables('image')]"
+          },
+          "sku": {
+            "value": "[variables('sku')]"
+          },
+          "product": {
+            "value": "[variables('product')]"
+          },
+          "publisher": {
+            "value": "[variables('publisher')]"
+          },
+          "version": {
+            "value": "[variables('location')]"
           }
         }
       }
@@ -252,6 +268,18 @@
           },
           "image": {
             "value": "[variables('image')]"
+          },
+          "sku": {
+            "value": "[variables('sku')]"
+          },
+          "product": {
+            "value": "[variables('product')]"
+          },
+          "publisher": {
+            "value": "[variables('publisher')]"
+          },
+          "version": {
+            "value": "[variables('location')]"
           }
         }
       }
@@ -296,6 +324,18 @@
           },
           "image": {
             "value": "[variables('image')]"
+          },
+          "sku": {
+            "value": "[variables('sku')]"
+          },
+          "product": {
+            "value": "[variables('product')]"
+          },
+          "publisher": {
+            "value": "[variables('publisher')]"
+          },
+          "version": {
+            "value": "[variables('location')]"
           }
         }
       }
@@ -340,6 +380,18 @@
           },
           "image": {
             "value": "[variables('image')]"
+          },
+          "sku": {
+            "value": "[variables('sku')]"
+          },
+          "product": {
+            "value": "[variables('product')]"
+          },
+          "publisher": {
+            "value": "[variables('publisher')]"
+          },
+          "version": {
+            "value": "[variables('location')]"
           }
         }
       }
@@ -411,6 +463,18 @@
           },
           "templateBaseUrl" : {
             "value" : "[variables('templateBaseUrl')]"
+          },
+          "sku": {
+            "value": "[variables('sku')]"
+          },
+          "product": {
+            "value": "[variables('product')]"
+          },
+          "publisher": {
+            "value": "[variables('publisher')]"
+          },
+          "version": {
+            "value": "[variables('location')]"
           },
           "hostNames": {
             "value": {

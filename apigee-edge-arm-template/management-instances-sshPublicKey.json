@@ -57,31 +57,22 @@
     "storageAccountName": {
       "type": "string"
     },
-    "imagePublisher": {
-      "type": "string",
-      "defaultValue": "OpenLogic",
-      "metadata": {
-        "description": "Image Publisher"
-      }
-    },
-    "imageOffer": {
-      "type": "string",
-      "defaultValue": "CentOS",
-      "metadata": {
-        "description": "Image Offer"
-      }
-    },
-    "imageSKU": {
-      "type": "string",
-      "defaultValue": "6.6",
-      "metadata": {
-        "description": "Image SKU"
-      }
-    },
     "image": {
       "type": "string"
     },
     "templateBaseUrl": {
+      "type": "string"
+    },
+    "sku": {
+      "type": "string"
+    },
+    "product": {
+      "type": "string"
+    },
+    "publisher": {
+      "type": "string"
+    },
+    "version": {
       "type": "string"
     }
     
@@ -142,9 +133,9 @@
         "count": "[variables('vmCount')]"
       },
       "plan": {
-        "name": "apigee-edge-private-cloud",
-        "product": "apigee-edge-preview",
-        "publisher": "apigee"
+        "name": "[parameters('sku')]",
+        "product": "[parameters('product')]",
+        "publisher": "[parameters('publisher')]"
       },
       "properties": {
 
@@ -167,10 +158,10 @@
         },
         "storageProfile": {
           "imageReference": {
-            "publisher": "apigee",
-            "offer": "apigee-edge-preview",
-            "sku": "apigee-edge-private-cloud",
-            "version": "latest"
+            "publisher": "[parameters('publisher')]",
+            "offer": "[parameters('product')]",
+            "sku": "[parameters('sku')]",
+            "version": "[parameters('version')]"
           },
           "osDisk": {
             "name": "[concat(variables('vmName'),'-osDisk')]",
