@@ -30,6 +30,18 @@
     },
     "image": {
       "type": "string"
+    },
+    "sku": {
+      "type": "string"
+    },
+    "product": {
+      "type": "string"
+    },
+    "publisher": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
     }
 
   },
