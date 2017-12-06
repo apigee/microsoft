@@ -17,13 +17,12 @@ cd /tmp/apigee
 yum install wget -y
 yum install unzip -y
 yum install curl -y
+#yum install ansible -y
+curl -O https://storage.googleapis.com/apigee/ansible-2.3.0.0-3.el7.noarch.rpm
+yum install ansible-2.3.0.0-3.el7.noarch.rpm -y
 
-yum install python-setuptools -y
-easy_install pip -y
-pip install boto
-yum install libselinux-python -y
-pip install httplib2
-
+sudo wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+rpm -ivh epel-release-latest-7.noarch.rpm
 
 setenforce 0 >> /tmp/setenforce.out
 cat /etc/selinux/config > /tmp/beforeSelinux.out
@@ -48,9 +47,6 @@ chmod 777 /opt/apigee/data/apigee-mirror/repos/bootstrap_${EDGE_VERSION}.sh
 /opt/apigee/apigee-service/bin/apigee-service apigee-provision install
 /opt/apigee/apigee-service/bin/apigee-service apigee-validate install
 
-curl -o /tmp/apigee/epel-release-6-8.noarch.rpm  http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
-rpm -ivh /tmp/apigee/epel-release-6-8.noarch.rpm
-yum install ansible -y
 
 #Get ansible scripts in /tmp/apigee/ansible directory
 mkdir /tmp/apigee/ansible-scripts
@@ -69,15 +65,21 @@ curl -o /tmp/apigee/ansible-scripts/config/setup-org-prod.txt  $FILE_BASEPATH/an
 curl -o /tmp/apigee/ansible-scripts/config/setup-org-test.txt  $FILE_BASEPATH/ansible-scripts/config/setup-org-test.txt
 
 curl -o /tmp/apigee/ansible-scripts/playbook/ansible.cfg  $FILE_BASEPATH/ansible-scripts/playbook/ansible.cfg
+curl -o /tmp/apigee/ansible-scripts/playbook/dp-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/dp-playbook.yaml
 curl -o /tmp/apigee/ansible-scripts/playbook/ds-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/ds-playbook.yaml
 curl -o /tmp/apigee/ansible-scripts/playbook/rmp-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/rmp-playbook.yaml
+curl -o /tmp/apigee/ansible-scripts/playbook/r-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/r-playbook.yaml
+curl -o /tmp/apigee/ansible-scripts/playbook/mp-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/mp-playbook.yaml
 curl -o /tmp/apigee/ansible-scripts/playbook/ps-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/ps-playbook.yaml
 curl -o /tmp/apigee/ansible-scripts/playbook/qs-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/qs-playbook.yaml
 curl -o /tmp/apigee/ansible-scripts/playbook/ms-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/ms-playbook.yaml
 curl -o /tmp/apigee/ansible-scripts/playbook/orgsetup-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/orgsetup-playbook.yaml
 curl -o /tmp/apigee/ansible-scripts/playbook/edge-prerequisite-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/edge-prerequisite-playbook.yaml
+curl -o /tmp/apigee/ansible-scripts/playbook/edge-presetup-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/edge-presetup-playbook.yaml
 curl -o /tmp/apigee/ansible-scripts/playbook/edge-components-setup-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/edge-components-setup-playbook.yaml
 curl -o /tmp/apigee/ansible-scripts/playbook/edge-setup-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/edge-setup-playbook.yaml
+curl -o /tmp/apigee/ansible-scripts/playbook/edge-dashboard-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/edge-dashboard-playbook.yaml
+curl -o /tmp/apigee/ansible-scripts/playbook/edge-telegraf-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/edge-telegraf-playbook.yaml
 curl -o /tmp/apigee/ansible-scripts/playbook/edge-uninstall-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/edge-uninstall-playbook.yaml
 
 
