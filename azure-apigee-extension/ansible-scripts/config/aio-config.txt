@@ -16,6 +16,7 @@ LB=LBDNS
 HOSTIP=HOST1_INTERNALIP
 ADMIN_EMAIL=
 APIGEE_ADMINPW=
+ENABLE_SYSTEM_CHECK=n
 LICENSE_FILE=/tmp/apigee/license.txt
 MSIP=$IP1
 USE_LDAP_REMOTE_HOST=n
@@ -33,6 +34,7 @@ CASS_CLUSTERNAME=Apigee
 CASS_HOSTS="$IP1"
 SKIP_SMTP=y
 SMTPHOST=smtp.example.com
+SMTPMAILFROM=apiadmin@apigee.com
 SMTPUSER=smtp@example.com
 # 0 for no username
 SMTPPASSWORD=smtppwd

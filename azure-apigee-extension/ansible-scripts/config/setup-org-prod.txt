@@ -24,5 +24,6 @@ VHOST_PORT=9001
 VHOST_NAME=default
 # If you have a DNS entry for the virtual host.
 VHOST_ALIAS=$LB
+VHOST_BASEURL=http://$LB
 AXGROUP=axgroup001
 # Specify the analytics group.

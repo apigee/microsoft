@@ -24,6 +24,7 @@ LB=LBDNS
 HOSTIP=$(hostname -i)
 ADMIN_EMAIL=
 APIGEE_ADMINPW=
+ENABLE_SYSTEM_CHECK=n
 LICENSE_FILE=/tmp/apigee/license.txt
 MSIP=$IP1
 USE_LDAP_REMOTE_HOST=n
@@ -43,6 +44,7 @@ PG_MASTER=$IP8
 PG_STANDBY=$IP9
 SKIP_SMTP=y
 SMTPHOST=smtp.gmail.com
+SMTPMAILFROM=apiadmin@apigee.com
 SMTPUSER=0
 # 0 for no username
 SMTPPASSWORD=0

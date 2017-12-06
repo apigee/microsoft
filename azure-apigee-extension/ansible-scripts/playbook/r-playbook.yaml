@@ -1,11 +1,11 @@
-- hosts: ms
+- hosts: rmp
   vars:
     apigee_source_path: ../config
     apigee_dest_path: /tmp/apigee
     apigee_config_file_name: config.txt
   tasks:
-  - name: Run Setup with MS profile
-    command: "/opt/apigee/apigee-setup/bin/setup.sh -p ms -f {{apigee_dest_path}}/{{apigee_config_file_name}}"
+  - name: Run Setup with r profile
+    command: "/opt/apigee/apigee-setup/bin/setup.sh -p r -f {{apigee_dest_path}}/{{apigee_config_file_name}}"
     register: task_result
     until: task_result.rc == 0
     retries: 3
