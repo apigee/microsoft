@@ -37,13 +37,18 @@ echo "ALL ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 curl https://software.apigee.com/bootstrap_${EDGE_VERSION}.sh -o /tmp/apigee/bootstrap_${EDGE_VERSION}.sh
 chmod 777 /tmp/apigee/bootstrap_${EDGE_VERSION}.sh
+echo "before bootstrap execution" >> /tmp/apigee/log/progress.txt
 /tmp/apigee/bootstrap_${EDGE_VERSION}.sh apigeeuser=${FTP_USER} apigeepassword=${FTP_PASSWORD} JAVA_FIX=I
+echo "bootstrap executed" >> /tmp/apigee/log/progress.txt
 /opt/apigee/apigee-service/bin/apigee-service apigee-mirror install
+echo "installed mirror" >> /tmp/apigee/log/progress.txt
 /opt/apigee/apigee-service/bin/apigee-service apigee-mirror sync --only-new-rpms
+echo "mirror synched" >> /tmp/apigee/log/progress.txt
 chmod 777 /opt/apigee/data/apigee-mirror/repos/bootstrap_${EDGE_VERSION}.sh
 /opt/apigee/data/apigee-mirror/repos/bootstrap_${EDGE_VERSION}.sh apigeeprotocol="file://" apigeerepobasepath=/opt/apigee/data/apigee-mirror/repos
 
 /opt/apigee/apigee-service/bin/apigee-service apigee-setup install
+echo "apigee setup" >> /tmp/apigee/log/progress.txt
 /opt/apigee/apigee-service/bin/apigee-service apigee-provision install
 /opt/apigee/apigee-service/bin/apigee-service apigee-validate install
 
