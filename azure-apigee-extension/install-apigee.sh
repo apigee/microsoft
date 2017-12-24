@@ -18,20 +18,24 @@ yum install wget -y
 yum install unzip -y
 yum install curl -y
 #yum install ansible -y
+
+rpm -e epel-release
+sudo wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+rpm -ivh epel-release-latest-7.noarch.rpm
+
+
 curl -O https://storage.googleapis.com/apigee/ansible-2.3.0.0-3.el7.noarch.rpm
 yum install ansible-2.3.0.0-3.el7.noarch.rpm -y
 
-sudo wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-rpm -ivh epel-release-latest-7.noarch.rpm
 
 setenforce 0 >> /tmp/setenforce.out
 cat /etc/selinux/config > /tmp/beforeSelinux.out
 sed -i 's^SELINUX=enforcing^SELINUX=disabled^g' /etc/selinux/config || true
 cat /etc/selinux/config > /tmp/afterSeLinux.out
 
-/etc/init.d/iptables save
-/etc/init.d/iptables stop
-chkconfig iptables off
+#/etc/init.d/iptables save
+#/etc/init.d/iptables stop
+#chkconfig iptables off
 echo "ALL ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 
@@ -91,5 +95,4 @@ curl -o /tmp/apigee/ansible-scripts/playbook/edge-uninstall-playbook.yaml  $FILE
 cat /dev/null > /etc/yum/vars/apigeepassword
 cat /dev/null > /etc/yum/vars/apigeeuser
 cat /dev/null > /etc/yum/vars/apigeecredentialswithat
-sed -i 's^enabled=1^enabled=0^g' /etc/yum.repos.d/epel.repo || true
 
