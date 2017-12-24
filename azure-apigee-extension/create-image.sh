@@ -1,6 +1,6 @@
 #!/bin/bash
 #This is the name used for all the artifacts created using this script
-# ex: ./create-image.sh -g apigee -n apigeeedgetrail -u apigeetrail -p "iLoveapi\$" -k msft -s "bs%msftpassword\$l1"
+# ex: ./create-image.sh -g apigee -n apigeeedgetrail -u apigeetrail -p "iLoveapi\$" -k apigeese -s "password" -b 17x
 
 azure_paramerer_file=azuredeploy.parameters.json
 
@@ -131,7 +131,7 @@ azure_remove() {
 
 azure_deploy() {
 	azure group create $GROUP "West US"
-        azure group deployment create -g $GROUP -f azuredeploy.json -e ${azure_paramerer_file} -v -q
+    azure group deployment create -g $GROUP -f azuredeploy.json -e ${azure_paramerer_file} -v -q
 }
 
 update_azure_vm() {
@@ -145,16 +145,19 @@ update_azure_vm() {
 ssh_automate_deprovision() {
 
 echo "Deprovisioning user with sudo waagent -deprovision+user"
-ip=$(azure network public-ip show -g $GROUP myPublicIP-${ARTIFACTS_NAME} | grep FQDN | cut -d ':' -f 3 | tr -d ' ')
+ip=$(azure network public-ip show -g $GROUP myPublicIP-${ARTIFACTS_NAME} | grep Fqdn | cut -d ':' -f 3 | tr -d ' ')
 
 expect <<- DONE
         eval spawn ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no  ${ADMIN_USER}@${ip}
         #use correct prompt
+        #set prompt ":|#|\\\$"
         set prompt ":|#|\\\$"
+
         expect "password"
         send "${ADMIN_PASSWORD}\r"
+        expect "$ "
         send "sudo waagent -deprovision+user\r"
-        expect "Do you want to proceed (y/n)?"
+        expect "Do you want to proceed (y/n)"
         send "y\r"
         send "exit\r"
         expect eof
@@ -170,6 +173,7 @@ stop_vm_capture_image() {
 	echo $(date)
 	azure config mode arm
 	azure vm stop -g $GROUP -n ${ARTIFACTS_NAME}
+	azure vm deallocate -g $GROUP -n ${ARTIFACTS_NAME}
 	azure vm generalize -g $GROUP -n ${ARTIFACTS_NAME}
 	azure vm capture -g $GROUP -n ${ARTIFACTS_NAME} -p apigeeedge -t apigee-edge-trail-aio-profile.json
 
