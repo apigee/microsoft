@@ -43,6 +43,9 @@
     },
     "version": {
       "type": "string"
+    },
+    "templateBaseUrl": {
+      "type": "string"
     }
 
   },
