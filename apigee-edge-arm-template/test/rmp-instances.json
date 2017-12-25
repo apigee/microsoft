@@ -241,15 +241,13 @@
           }
         },
         "storageProfile": {
-          "imageReference": {
-            "publisher": "[parameters('publisher')]",
-            "offer": "[parameters('product')]",
-            "sku": "[parameters('sku')]",
-            "version": "[parameters('version')]"
-          },
           "osDisk": {
             "name": "[concat(variables('vmName'),'-osDisk')]",
             "createOption": "FromImage",
+            "osType": "Linux",
+            "image": {
+              "uri": "[parameters('image')]"
+            },
             "vhd": {
               "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
             },
@@ -264,7 +262,34 @@
           }]
         }
       }
+    },
+    {
+    "type": "Microsoft.Compute/virtualMachines/extensions",
+    "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex(),'/newuserscript')]",
+    "apiVersion": "2015-06-15",
+    "location": "[parameters('location')]",
+    "dependsOn": [
+      "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), copyindex())]"
+    ],
+    "copy": {
+        "name": "vmCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
+    "properties": {
+      "publisher": "Microsoft.OSTCExtensions",
+      "type": "CustomScriptForLinux",
+      "typeHandlerVersion": "1.5",
+      "settings": {
+        "fileUris": [
+          "[concat(parameters('templateBaseUrl'), 'set-firewall.sh')]"
+        ]
+      },
+      "protectedSettings": {
+          
+          "commandToExecute": "sh set-firewall.sh"
+        }
     }
+  }
   ],
   "outputs": {
     "ip1": {
