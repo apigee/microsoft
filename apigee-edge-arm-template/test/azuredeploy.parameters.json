@@ -1,39 +1,41 @@
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    
     "location": {
       "value": "West US"
     },
-    "vmDnsName": {
-      "value": "apigeeedgetrail"
+    "tshirtSize": {
+      "value": "XSmall"
+    },
+    "apigeeDeploymentName": {
+      "value": "apigeeedge1node"
     },
     "adminUserName": {
-      "value": "apigeetrail"
+      "value": "apigeetrial"
     },
-    "adminPassword": {  
-      "value": ".Apigee123"
+    "authenticationType": {
+      "value": "password"
     },
-     "apigeeSuperAdmin": {
+    "password": {
+      "value": "iLovaeapi$"
+    },
+    "sshKey": {
+      "value": "COPY_PUBLIC_KEY_HERE"
+    },
+    "apigeeAdminEmail": {
       "value": "opdk@apigee.com"
     },
-    "apigeeSuperAdminPassword": {
-      "value": ".Apigee123"
+    "apigeeAdminPassword": {
+      "value": "Secret123"
     },
-     "apigeeOrgName": {
-      "value": "demo"
+    "licenseFileText": {
+      "value": "JakHrOe9fuHhHyJzxqJ5uXlQrzk/vo/PaJpEg/NXN1kKKGQuBkv0o1BVnoRsGlMMxGK3DmShvQlFFHYWJIqCcJ2woZn3TfuFf0t7LSmWSoPxpPRUVM7NS3mXv3UtVp5XjFajEiByyGaejNrShgOiKmveJkczmcWq3g9UbfeIjhxTVpuh4fgzHOeUoPGg/gzlgYlAaU7MgNKonGKIYq23huUBYfiIB6ZoLjwy+EBBLLYmf38Gw1gxdjtbcxpAfVgVykecudT60zaqD1iUJxluJYF8NtiKkIvW01Oa6PZcuaWZql8UV6KicnWnZJZzdLhTZskwz+DqcwNf0R1+UaFaPg=="
     },
-    "apigeeOrgEnv": {
-      "value": "test"
-    },
-    "apigeeEnvVhost": {
-      "value": "default"
-    },
-    "apigeeEnvVhostPort": {
-      "value": "9001"
-    },
-    "edgeVersion": {
-      "value": "4.15.07.03"
+    "sshPrivateKey": {
+      "value": "COPY_PRIVATE_KEY_HERE"
     }
+
   }
 }
