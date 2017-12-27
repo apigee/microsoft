@@ -11,6 +11,14 @@
     retries: 3
     delay: 1
     sudo: yes
+  - name: Default MP Properties
+    command: "{{ item }}"
+    with_items:
+    - "mkdir -p /opt/apigee/customer"
+    - "mkdir -p /opt/apigee/customer/application"
+    - "echo 'conf_system_jsse.enableSNIExtension=true' >> /opt/apigee/customer/application/message-processor.properties"
+    - "chown apigee:apigee /opt/apigee/customer/application/message-processor.properties"
+    sudo: yes
   - name: Restart RMP
     command: "/opt/apigee/apigee-service/bin/apigee-all restart"
     sudo: yes
