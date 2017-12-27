@@ -197,12 +197,7 @@ ansible-playbook -i ../inventory/hosts  edge-prerequisite-playbook.yaml  -u ${lo
 ansible-playbook -i ../inventory/hosts  edge-components-setup-playbook.yaml  -u ${login_user} --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
 
 echo "Ansible Scripts Executed"  >>${ARMLOGPATH}
-firewall-cmd --zone=public --add-port=9000/tcp --permanent
-firewall-cmd --zone=public --add-port=9001/tcp --permanent
-firewall-cmd --zone=public --add-port=9002/tcp --permanent
-firewall-cmd --zone=public --add-port=8080/tcp --permanent
-firewall-cmd --zone=public --add-port=3000/tcp --permanent
-firewall-cmd --reload
+
 
 echo 'script execution ended at:'>>${ARMLOGPATH}
 echo $(date)>>${ARMLOGPATH}
