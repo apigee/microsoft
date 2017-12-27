@@ -36,6 +36,14 @@ cat /etc/selinux/config > /tmp/afterSeLinux.out
 #/etc/init.d/iptables save
 #/etc/init.d/iptables stop
 #chkconfig iptables off
+yum install -y iptables-services
+systemctl mask firewalld
+systemctl enable iptables
+systemctl stop firewalld
+systemctl start iptables
+iptables --flush
+service iptables save
+
 echo "ALL ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 
