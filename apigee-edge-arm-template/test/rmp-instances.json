@@ -135,7 +135,7 @@
               "id": "[variables('lbPoolID')]"
             },
             "protocol": "tcp",
-            "frontendPort": 9001,
+            "frontendPort": 80,
             "backendPort": 9001,
             "enableFloatingIP": false,
             "idleTimeoutInMinutes": 5,
@@ -153,7 +153,7 @@
               "id": "[variables('lbPoolID')]"
             },
             "protocol": "tcp",
-            "frontendPort": 9002,
+            "frontendPort": 8080,
             "backendPort": 9002,
             "enableFloatingIP": false,
             "idleTimeoutInMinutes": 5,
@@ -260,34 +260,7 @@
           }]
         }
       }
-    },
-    {
-    "type": "Microsoft.Compute/virtualMachines/extensions",
-    "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex(),'/newuserscript')]",
-    "apiVersion": "2015-06-15",
-    "location": "[parameters('location')]",
-    "dependsOn": [
-      "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), copyindex())]"
-    ],
-    "copy": {
-        "name": "vmCopyLoop",
-        "count": "[variables('vmCount')]"
-      },
-    "properties": {
-      "publisher": "Microsoft.OSTCExtensions",
-      "type": "CustomScriptForLinux",
-      "typeHandlerVersion": "1.5",
-      "settings": {
-        "fileUris": [
-          "[concat(parameters('templateBaseUrl'), 'set-firewall.sh')]"
-        ]
-      },
-      "protectedSettings": {
-          
-          "commandToExecute": "sh set-firewall.sh"
-        }
     }
-  }
   ],
   "outputs": {
     "ip1": {
