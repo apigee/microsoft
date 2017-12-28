@@ -286,10 +286,10 @@ function call_stop_vm_capture_image() {
 }
 
 
-#azure config mode arm
-#call_update_azure_parameters;
-#call_azure_remove;
-#call_azure_deploy;
-#call_update_azure_vm;
+azure config mode arm
+call_update_azure_parameters;
+call_azure_remove;
+call_azure_deploy;
+call_update_azure_vm;
 call_stop_vm_capture_image;
 
