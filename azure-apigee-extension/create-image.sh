@@ -1,18 +1,19 @@
 #!/bin/bash
 #This is the name used for all the artifacts created using this script
-# ex: ./create-image.sh -g apigee -n apigeeedgetrail -u apigeetrail -p "iLoveapi\$" -k apigeese -s "password" -b 17x
+# ex: ./create-image.sh -g apigee -n apigeeedgetrail -u apigeetrail -p "iLoveapi\$" -k apigeese -s "password" -v 4.17.09 -b 17x
 
 azure_paramerer_file=azuredeploy.parameters.json
 
 function usage ()
 {
-  echo 'Usage : Script -g <resource group> -n < deployment name> -u <VM User> -p <VM Password> -k <apigee FTP user> -s < apigee FTP Password> -b <Optional Branch Name>'
+  echo 'Usage : Script -g <resource group> -n < deployment name> -u <VM User> -p <VM Password> -k <apigee FTP user> -s < apigee FTP Password> -v <Apigee Edge Version> -b <Optional Branch Name>'
   echo "        -g              Resource group Name apigee"
   echo "        -n              Depployment Artifact name e.g apigeetrail"
   echo "        -u              VM Admin User e.g apigeetrail"
   echo "        -p              VM Admin Password "
   echo "        -k              Apigee FTP User Name e.g msft"
   echo "        -s              Apigee FTP Password "
+  echo "        -v              Apigee Edge Version "
   echo "        -b              GIT Branch e.g 16x"
   exit 1
 
@@ -46,6 +47,10 @@ case $key in
     ;;
     -s)
     APIGEE_ACCESS_PASSWORD="$2"
+    shift # past argument
+    ;;
+    -v)
+    APIGEE_EDGE_VERSION="$2"
     shift # past argument
     ;;
     -b)
@@ -88,6 +93,10 @@ if [ "$APIGEE_ACCESS_PASSWORD" = "" ]
 then
   usage
 fi
+if [ "$APIGEE_EDE_VERSION" = "" ]
+then
+  usage
+fi
 if [ "$GIT_BRANCH" = "" ]
 then
   GIT_BRANCH="master"
@@ -106,6 +115,9 @@ update_azure_parameters() {
 	cat ${azure_paramerer_file} | jq --arg APIGEE_ACCESS_USERNAME $APIGEE_ACCESS_USERNAME '.parameters.ftpUserName.value=$APIGEE_ACCESS_USERNAME' > ${azure_paramerer_file}.bk
 	cat ${azure_paramerer_file}.bk > ${azure_paramerer_file}
 	cat ${azure_paramerer_file} | jq --arg APIGEE_ACCESS_PASSWORD $APIGEE_ACCESS_PASSWORD '.parameters.ftpPassword.value=$APIGEE_ACCESS_PASSWORD' > ${azure_paramerer_file}.bk
+	cat ${azure_paramerer_file}.bk > ${azure_paramerer_file}
+
+	cat ${azure_paramerer_file} | jq --arg APIGEE_EDGE_VERSION $APIGEE_EDGE_VERSION '.parameters.edgeVersion.value=$APIGEE_EDGE_VERSION' > ${azure_paramerer_file}.bk
 	cat ${azure_paramerer_file}.bk > ${azure_paramerer_file}
 	
 	eval script_location=$(cat azuredeploy.json | jq '.parameters.scriptLocation.defaultValue' | sed -e 's/master/$GIT_BRANCH/g')
