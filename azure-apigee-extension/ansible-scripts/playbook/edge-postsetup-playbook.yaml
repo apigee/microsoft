@@ -1,0 +1,10 @@
+---
+- hosts: apigee
+  vars:
+    apigee_dest_path: /tmp/apigee
+  tasks:
+  - name: autoenable services
+    command: "/opt/apigee/apigee-service/bin/apigee-all enable_autostart"
+    retries: 3
+    delay: 1
+    sudo: yes
