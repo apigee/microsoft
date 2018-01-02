@@ -10,11 +10,12 @@
     },
     "location": {
       "type": "string",
-      "defaultValue": "West US",
+      "defaultValue": "Central US",
       "allowedValues": [
         "East US",
         "West US",
         "West Europe",
+        "Central US",
         "East Asia",
         "South East Asia"
       ],
@@ -24,7 +25,7 @@
     },
     "vmSize": {
       "type": "string",
-      "defaultValue": "Standard_A3",
+      "defaultValue": "Standard_D4s_v3",
       "allowedValues": [
         "Standard_A3",
         "Standard_A6",
@@ -39,7 +40,9 @@
         "Standard_D11",
         "Standard_D12",
         "Standard_D13",
-        "Standard_D14"
+        "Standard_D14",
+        "Standard_D2s_v3",
+        "Standard_D4s_v3"
       ],
       "metadata": {
         "description": "Size of the Virtual Machine."
