@@ -80,7 +80,7 @@
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-', parameters('authenticationType') ,'.json')]",
-      "managementInstanceSize":"Standard_A3"
+      "managementInstanceSize":"Standard_D16s_v3"
 
     },
     "tshirtSizeMedium": {
@@ -91,7 +91,7 @@
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
-      "managementInstanceSize":"Standard_A3"
+      "managementInstanceSize":"Standard_D4s_v3"
 
     },
     "tshirtSizeLarge": {
@@ -102,7 +102,7 @@
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
-      "managementInstanceSize":"Standard_A4"
+      "managementInstanceSize":"Standard_D4s_v3"
 
     },
     "tshirtSize": "[variables(concat('tshirtSize', parameters('tshirtSize')))]",
@@ -124,7 +124,7 @@
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "runtimePublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))]",
     "storageAccountName": "apigeeedgetrail2",
-    "image" : "http://apigeeedgetrail2.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigeeedge-osDisk.50e0bc09-6d37-4ef2-9f00-a4e2a2f5a0e0.vhd",
+    "image" : "http://apigeeedgetrail2.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigeeedge-osDisk.1ed56bbd-89ff-4423-a1e0-e3ea11ba9b24.vhd",
     "sku": "apigee-edge-private-cloud",
     "product": "apigee-edge",
     "publisher": "apigee",
@@ -158,7 +158,7 @@
           },
           "machineSettings": {
             "value": {
-              "vmSize": "Standard_A2",
+              "vmSize": "Standard_D4s_v3",
               "diskSize": "250",
               "vmCount": 1
             }
@@ -198,7 +198,7 @@
           },
           "machineSettings": {
             "value": {
-              "vmSize": "Standard_A4",
+              "vmSize": "Standard_D2s_v3",
               "diskSize": "250",
               "vmCount": 2
             }
@@ -254,7 +254,7 @@
           },
           "machineSettings": {
             "value": {
-              "vmSize": "Standard_A2",
+              "vmSize": "Standard_D2s_v3",
               "diskSize": "250",
               "vmCount": 2
             }
@@ -310,7 +310,7 @@
           },
           "machineSettings": {
             "value": {
-              "vmSize": "Standard_A3",
+              "vmSize": "Standard_D2s_v3",
               "diskSize": "500",
               "vmCount": 2
             }
@@ -366,7 +366,7 @@
           },
           "machineSettings": {
             "value": {
-              "vmSize": "Standard_A3",
+              "vmSize": "Standard_D2s_v3",
               "diskSize": "250",
               "vmCount": 2
             }
