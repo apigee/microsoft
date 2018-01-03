@@ -126,7 +126,7 @@
     "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]",
     "image" : "Not Applicable",
     "sku": "apigee-edge-private-cloud",
-    "product": "apigee-edge",
+    "product": "apigee-edge-preview",
     "publisher": "apigee",
     "version" : "4.17.09"
 
