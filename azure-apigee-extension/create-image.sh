@@ -142,7 +142,7 @@ azure_remove() {
 
 
 azure_deploy() {
-	azure group create $GROUP "West US"
+	azure group create $GROUP "Central US"
     azure group deployment create -g $GROUP -f azuredeploy.json -e ${azure_paramerer_file} -v -q
 }
 
