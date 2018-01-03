@@ -1,12 +1,12 @@
 #sudo ./install-apigee.sh apigeetrial apigeetrial@apigee.com secret apigeetrial.apigee.net Medium apigeetrial.apigee.net 10.0.0.1:10.0.0.2:10.0.0.3:10.0.0.4:10.0.0.5 $LICENSE $SSH
 
-echo 'executing the install script' >>${ARMLOGPATH}
 mkdir -p /tmp/apigee/log
 ARMLOGPATH=/tmp/apigee/log/armextension.log
-echo "Changing the ansible log location"
-sed -i "s|./ansible.log|/tmp/apigee/log/ansible.log|g" /tmp/apigee/ansible-scripts/playbook/ansible.cfg
-echo "setting the installation log file to log directory"
-ln -Ts /tmp/setup-root.log /tmp/apigee/log/setup-root.log
+echo 'executing the install script' >>${ARMLOGPATH}
+#echo "Changing the ansible log location"
+#sed -i "s|./ansible.log|/tmp/apigee/log/ansible.log|g" /tmp/apigee/ansible-scripts/playbook/ansible.cfg
+#echo "setting the installation log file to log directory"
+#ln -Ts /tmp/setup-root.log /tmp/apigee/log/setup-root.log
 
 
 echo 'Initializing variables' >>${ARMLOGPATH}
@@ -19,7 +19,7 @@ VHOST_ALIAS=$4
 VHOST_NAME='default'
 VHOST_PORT_PROD='9001'
 VHOST_PORT_TEST='9002'
-EDGE_VERSION='4.16.05'
+EDGE_VERSION='4.17.09'
 DEPLOYMENT_TOPOLOGY=$5
 LB_IP_ALIAS=$6
 HOST_NAMES=$7
@@ -27,6 +27,7 @@ LICENSE_TEXT=$8
 SSH_KEY=$9
 
 login_user=$USER_NAME
+MSIP=$(hostname -i)
 
 echo 'script execution started at:'>>${ARMLOGPATH}
 echo $(date)>>${ARMLOGPATH}
@@ -73,7 +74,7 @@ else
 
 	cd /tmp/apigee
 	yum install dos2unix -y
-	echo $SSH_KEY | tr " " "\n"> ssh_key.pem
+	echo $SSH_KEY | tr " " "\n" > ssh_key.pem
 	dos2unix ssh_key.pem
 
 	#This is all because the spaces in the bellow lines are also converted to new lines!
@@ -137,7 +138,6 @@ echo "deployment topology: " $TOPOLOGY_TYPE >> ${ARMLOGPATH}
 
 echo "Changing hosts in hosts and config file: " >> ${ARMLOGPATH}
 
- 
 c=1
 for i in "${hosts_ary[@]}"
 do
@@ -146,6 +146,7 @@ do
 		echo $key  >>${ARMLOGPATH}
 		sed -i.bak s/${key}/${i}/g /tmp/apigee/ansible-scripts/inventory/hosts
 		sed -i.bak s/${key}/${i}/g /tmp/apigee/ansible-scripts/config/config.txt
+		sed -i.bak s/${key}/${i}/g /tmp/apigee/ansible-scripts/config/grafana.txt
 		sed -i.bak s/${key}/${i}/g /tmp/apigee/ansible-scripts/config/setup-org-prod.txt
 		sed -i.bak s/${key}/${i}/g /tmp/apigee/ansible-scripts/config/setup-org-test.txt
 		echo $i  >>${ARMLOGPATH}
@@ -173,14 +174,30 @@ sed -i.bak s/LBDNS/"${LB_IP_ALIAS}"/g config.txt
 sed -i.bak s/LBDNS/"${LB_IP_ALIAS}"/g setup-org-prod.txt
 sed -i.bak s/LBDNS/"${LB_IP_ALIAS}"/g setup-org-test.txt
 
+echo "Changing configuration of dev portals"
+sed -i.bak s/DEVPORTAL_ADMIN_USERNAME=/DEVPORTAL_ADMIN_USERNAME="${APIGEE_ADMIN_EMAIL}"/g dp-config.txt
+sed -i.bak s/DEVPORTAL_ADMIN_PWD=/DEVPORTAL_ADMIN_PWD="${APW}"/g dp-config.txt
+sed -i.bak s/DEVPORTAL_ADMIN_EMAIL=/DEVPORTAL_ADMIN_EMAIL="${APIGEE_ADMIN_EMAIL}"/g dp-config.txt
+
+sed -i.bak s/DEVADMIN_USER=/DEVADMIN_USER="${APIGEE_ADMIN_EMAIL}"/g dp-config.txt
+sed -i.bak s/DEVADMIN_PWD=/DEVADMIN_PWD="${APW}"/g dp-config.txt
+sed -i.bak s/EDGE_ORG=/EDGE_ORG="${ORG_NAME}"/g dp-config.txt
+sed -i.bak s/MGMTIP/${MSIP}/g dp-config.txt
+
+if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
+    sed -i.bak s/VHOST_BASEURL=.*//g setup-org-prod.txt
+    sed -i.bak s/VHOST_BASEURL=.*//g setup-org-test.txt
+fi
 
 echo 'sed commands done' >> ${ARMLOGPATH}
 echo 'Running ansible commands' >> ${ARMLOGPATH}
 
 cd /tmp/apigee/ansible-scripts/playbook
+ansible-playbook -i ../inventory/hosts  edge-prerequisite-playbook.yaml  -u ${login_user} --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
 ansible-playbook -i ../inventory/hosts  edge-components-setup-playbook.yaml  -u ${login_user} --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
 
 echo "Ansible Scripts Executed"  >>${ARMLOGPATH}
+
 
 echo 'script execution ended at:'>>${ARMLOGPATH}
 echo $(date)>>${ARMLOGPATH}

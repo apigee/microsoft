@@ -131,6 +131,7 @@
           },
           "osDisk": {
             "name": "[concat(variables('vmName'),'-osDisk')]",
+            "osType": "Linux",
             "createOption": "FromImage",
             "caching": "ReadWrite",
             "vhd": {

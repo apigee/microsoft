@@ -3,13 +3,13 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "location": {
-      "value": "West US"
+      "value": "Central US"
     },
     "tshirtSize": {
       "value": "Medium"
     },
     "apigeeDeploymentName": {
-      "value": "apigeeedge5node1"
+      "value": "apigeeedge5node"
     },
     "adminUserName": {
       "value": "apigeetrial"

@@ -29,7 +29,7 @@
     },
     "authenticationType": {
       "type": "string",
-      "defaultValue": "sshPublicKey",
+      "defaultValue": "password",
       "metadata": {
         "descritpion": "Type of authentication "
       }
@@ -72,7 +72,7 @@
     }
   },
   "variables": {
-    "templateBaseUrl": "https://raw.githubusercontent.com/apigee/microsoft/16x/apigee-edge-arm-template/",
+    "templateBaseUrl": "https://raw.githubusercontent.com/apigee/microsoft/17x/apigee-edge-arm-template/test/",
     "tshirtSizeXSmall": {
       "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
       "datastoreInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
@@ -80,7 +80,7 @@
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-', parameters('authenticationType') ,'.json')]",
-      "managementInstanceSize":"Standard_A3"
+      "managementInstanceSize":"Standard_D16s_v3"
 
     },
     "tshirtSizeMedium": {
@@ -91,7 +91,7 @@
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
-      "managementInstanceSize":"Standard_A3"
+      "managementInstanceSize":"Standard_D4s_v3"
 
     },
     "tshirtSizeLarge": {
@@ -102,7 +102,7 @@
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
-      "managementInstanceSize":"Standard_A4"
+      "managementInstanceSize":"Standard_D4s_v3"
 
     },
     "tshirtSize": "[variables(concat('tshirtSize', parameters('tshirtSize')))]",
@@ -128,7 +128,7 @@
     "sku": "apigee-edge-private-cloud",
     "product": "apigee-edge",
     "publisher": "apigee",
-    "version" : "4.16.05"
+    "version" : "4.17.09"
 
   },
   "resources": [
@@ -158,7 +158,7 @@
           },
           "machineSettings": {
             "value": {
-              "vmSize": "Standard_A2",
+              "vmSize": "Standard_D4s_v3",
               "diskSize": "250",
               "vmCount": 1
             }
@@ -198,7 +198,7 @@
           },
           "machineSettings": {
             "value": {
-              "vmSize": "Standard_A4",
+              "vmSize": "Standard_D2s_v3",
               "diskSize": "250",
               "vmCount": 2
             }
@@ -254,7 +254,7 @@
           },
           "machineSettings": {
             "value": {
-              "vmSize": "Standard_A2",
+              "vmSize": "Standard_D2s_v3",
               "diskSize": "250",
               "vmCount": 2
             }
@@ -310,7 +310,7 @@
           },
           "machineSettings": {
             "value": {
-              "vmSize": "Standard_A3",
+              "vmSize": "Standard_D2s_v3",
               "diskSize": "500",
               "vmCount": 2
             }
@@ -366,7 +366,7 @@
           },
           "machineSettings": {
             "value": {
-              "vmSize": "Standard_A3",
+              "vmSize": "Standard_D2s_v3",
               "diskSize": "250",
               "vmCount": 2
             }
