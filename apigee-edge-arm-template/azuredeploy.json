@@ -128,8 +128,8 @@
     "sku": "apigee-edge-private-cloud",
     "product": "apigee-edge",
     "publisher": "apigee",
-    "version" : "4.17.09"
-
+    "version" : "4.17.09",
+    "providerGuid": "[toUpper('b6dd345e-8ee1-4d3d-b276-a84bdfb88fe6')]"
   },
   "resources": [
 
@@ -167,6 +167,9 @@
             "value": "[parameters('sshKey')]"
           },"storageAccountName": {
             "value": "[variables('storageAccountName')]"
+          },
+          "providerGuid": {
+            "value": "[variables('providerGuid')]"
           }
         }
       }
@@ -223,6 +226,9 @@
           },
           "version": {
             "value": "[variables('version')]"
+          },
+          "providerGuid": {
+            "value": "[variables('providerGuid')]"
           }
         }
       }
@@ -279,6 +285,9 @@
           },
           "version": {
             "value": "[variables('version')]"
+          },
+          "providerGuid": {
+            "value": "[variables('providerGuid')]"
           }
         }
       }
@@ -335,6 +344,9 @@
           },
           "version": {
             "value": "[variables('version')]"
+          },
+          "providerGuid": {
+            "value": "[variables('providerGuid')]"
           }
         }
       }
@@ -391,6 +403,9 @@
           },
           "version": {
             "value": "[variables('version')]"
+          },
+          "providerGuid": {
+            "value": "[variables('providerGuid')]"
           }
         }
       }
@@ -474,6 +489,9 @@
           },
           "version": {
             "value": "[variables('version')]"
+          },
+          "providerGuid": {
+            "value": "[variables('providerGuid')]"
           },
           "hostNames": {
             "value": {

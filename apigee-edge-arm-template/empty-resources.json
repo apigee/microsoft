@@ -42,6 +42,9 @@
     },
     "version": {
       "type": "string"
+    },
+    "providerGuid": {
+      "type": "string"
     }
 
   },
