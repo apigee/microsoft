@@ -69,6 +69,54 @@
       "metadata": {
         "description": "License file that is given to your organization by Apigee. Paste the content of the file here"
       }
+    },
+    "org": {
+      "type": "string",
+      "metadata": {
+        "description": "Org Name"
+      }
+    },
+    "smtp-host": {
+      "type": "string",
+      "defaultValue" : "smtp.gmail.com",
+      "metadata": {
+        "description": "SMTP host"
+      }
+    },
+    "smtp-port": {
+      "type": "string",
+      "defaultValue" : "25",
+      "metadata": {
+        "description": "SMTP port"
+      }
+    },
+    "smtp-ssl": {
+      "type": "string",
+      "defaultValue" : "n",
+      "metadata": {
+        "description": "SMTP SSL Enabled (y/n)"
+      }
+    },
+    "smtp-username": {
+      "type": "string",
+      "defaultValue" : "",
+      "metadata": {
+        "description": "SMTP username"
+      }
+    },
+    "smtp-password": {
+      "type": "string",
+      "defaultValue" : "",
+      "metadata": {
+        "description": "SMTP Password"
+      }
+    },
+    "smtp-mailfrom": {
+      "type": "string",
+      "defaultValue" : "apiadmin@apigee.com",
+      "metadata": {
+        "description": "SMTP Mail From"
+      }
     }
   },
   "variables": {
@@ -124,7 +172,7 @@
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "runtimePublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))]",
     "storageAccountName": "apigeeedgetrail2",
-    "image" : "http://apigeeedgetrail2.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigeeedge-osDisk.1ed56bbd-89ff-4423-a1e0-e3ea11ba9b24.vhd",
+    "image" : "http://apigeeedgetrail.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigeeedge-osDisk.1348e0b3-f7b3-4ece-bbc4-8e5e5576e5e6.vhd",
     "sku": "apigee-edge-private-cloud",
     "product": "apigee-edge",
     "publisher": "apigee",
@@ -462,6 +510,27 @@
           },
           "apigeeAdminPassword": {
             "value": "[parameters('apigeeAdminPassword')]"
+          },
+          "org": {
+            "value" : "[parameters('org')]"
+          },
+          "smtp-host": {
+            "value" : "[parameters('smtp-host')]"
+          },
+          "smtp-port": {
+            "value" : "[parameters('smtp-port')]"
+          },
+          "smtp-ssl": {
+            "value" : "[parameters('smtp-ssl')]"
+          },
+          "smtp-username": {
+            "value" : "[parameters('smtp-username')]",
+          },
+          "smtp-password": {
+            "value" : "[parameters('smtp-password')]"
+          },
+          "smtp-mailfrom": {
+            "value" : "[parameters('smtp-mailfrom')]"
           },
           "sshPrivateKey": {
             "value": "[parameters('sshPrivateKey')]"

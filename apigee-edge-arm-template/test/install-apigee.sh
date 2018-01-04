@@ -12,7 +12,6 @@ echo 'executing the install script' >>${ARMLOGPATH}
 echo 'Initializing variables' >>${ARMLOGPATH}
 
 USER_NAME=$1
-ORG_NAME=$1
 APIGEE_ADMIN_EMAIL=$2
 APW=$3
 VHOST_ALIAS=$4
@@ -25,6 +24,14 @@ LB_IP_ALIAS=$6
 HOST_NAMES=$7
 LICENSE_TEXT=$8
 SSH_KEY=$9
+ORG_NAME=${10}
+SMTPHOST=${11}
+SMTPPORT=${12}
+SMTPSSL=${13}
+SMTPUSER=${14}
+SMTPPASSWORD=${15}
+SMTPMAILFROM=${16}
+SKIP_SMTP="n"
 
 login_user=$USER_NAME
 MSIP=$(hostname -i)
@@ -174,6 +181,15 @@ sed -i.bak s/LBDNS/"${LB_IP_ALIAS}"/g config.txt
 sed -i.bak s/LBDNS/"${LB_IP_ALIAS}"/g setup-org-prod.txt
 sed -i.bak s/LBDNS/"${LB_IP_ALIAS}"/g setup-org-test.txt
 
+echo "Changing SMTP Settings"
+sed -i.bak s/SKIP_SMTP=.*/SKIP_SMTP=${SKIP_SMTP}/g config.txt
+sed -i.bak s/SMTPHOST=.*/SMTPHOST=${SMTPHOST}/g config.txt
+sed -i.bak s/SMTPMAILFROM=.*/SMTPMAILFROM=${SMTPMAILFROM}/g config.txt
+sed -i.bak s/SMTPUSER=.*/SMTPUSER=${SMTPUSER}/g config.txt
+sed -i.bak s/SMTPPASSWORD=.*/SMTPPASSWORD=${SMTPPASSWORD}/g config.txt
+sed -i.bak s/SMTPSSL=.*/SMTPSSL=${SMTPSSL}/g config.txt
+sed -i.bak s/SMTPPORT=.*/SMTPPORT="${SMTPPORT}"/g config.txt
+
 echo "Changing configuration of dev portals"
 sed -i.bak s/DEVPORTAL_ADMIN_USERNAME=/DEVPORTAL_ADMIN_USERNAME="${APIGEE_ADMIN_EMAIL}"/g dp-config.txt
 sed -i.bak s/DEVPORTAL_ADMIN_PWD=/DEVPORTAL_ADMIN_PWD="${APW}"/g dp-config.txt
@@ -183,6 +199,14 @@ sed -i.bak s/DEVADMIN_USER=/DEVADMIN_USER="${APIGEE_ADMIN_EMAIL}"/g dp-config.tx
 sed -i.bak s/DEVADMIN_PWD=/DEVADMIN_PWD="${APW}"/g dp-config.txt
 sed -i.bak s/EDGE_ORG=/EDGE_ORG="${ORG_NAME}"/g dp-config.txt
 sed -i.bak s/MGMTIP/${MSIP}/g dp-config.txt
+
+sed -i.bak s/SMTPHOST=.*/SMTPHOST=${SMTPHOST}/g dp-config.txt
+sed -i.bak s/SMTPMAILFROM=.*/SMTPMAILFROM=${SMTPMAILFROM}/g dp-config.txt
+sed -i.bak s/SMTPUSER=.*/SMTPUSER=${SMTPUSER}/g dp-config.txt
+sed -i.bak s/SMTPPASSWORD=.*/SMTPPASSWORD=${SMTPPASSWORD}/g dp-config.txt
+sed -i.bak s/SMTPSSL=.*/SMTPSSL=${SMTPSSL}/g dp-config.txt
+sed -i.bak s/SMTPPORT=.*/SMTPPORT="${SMTPPORT}"/g dp-config.txt
+
 
 if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
     sed -i.bak s/VHOST_BASEURL=.*//g setup-org-prod.txt
