@@ -42,6 +42,9 @@
     },
     "version": {
       "type": "string"
+    },
+    "providerGuid": {
+      "type": "string"
     }
   },
   "variables": {
@@ -69,6 +72,9 @@
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('nicName'), parameters('vmtypeprefix'), copyindex())]",
       "location": "[parameters('location')]",
+      "tags": {
+        "provider": "[parameters('providerGuid')]"
+      },
       "copy": {
         "name": "nicCopyLoop",
         "count": "[variables('vmCount')]"
@@ -89,6 +95,9 @@
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex())]",
       "location": "[parameters('location')]",
+      "tags": {
+        "provider": "[parameters('providerGuid')]"
+      },
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), parameters('vmtypeprefix'), copyindex())]"
       ],

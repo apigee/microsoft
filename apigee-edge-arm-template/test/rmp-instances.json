@@ -46,6 +46,9 @@
     },
     "templateBaseUrl": {
       "type": "string"
+    },
+    "providerGuid": {
+      "type": "string"
     }
 
   },
@@ -88,6 +91,9 @@
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('runtimePublicIPAddressName')]",
       "location": "[parameters('location')]",
+      "tags": {
+        "provider": "[parameters('providerGuid')]"
+      },
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
@@ -108,6 +114,9 @@
       "name": "[variables('lbName')]",
       "type": "Microsoft.Network/loadBalancers",
       "location": "[parameters('location')]",
+      "tags": {
+        "provider": "[parameters('providerGuid')]"
+      },
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', variables('runtimePublicIPAddressName'))]"
 
@@ -177,7 +186,9 @@
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('nicName'), parameters('vmtypeprefix'), copyindex())]",
       "location": "[parameters('location')]",
-
+      "tags": {
+        "provider": "[parameters('providerGuid')]"
+      },
       "dependsOn": [
         "[concat('Microsoft.Network/loadBalancers/', variables('lbName'))]"
       ],
@@ -207,6 +218,9 @@
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex())]",
       "location": "[parameters('location')]",
+      "tags": {
+        "provider": "[parameters('providerGuid')]"
+      },
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/',variables('runtimePublicIPAddressName'))]",
         "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), parameters('vmtypeprefix'), copyindex())]",
