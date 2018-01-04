@@ -144,7 +144,7 @@
               "id": "[variables('lbPoolID')]"
             },
             "protocol": "tcp",
-            "frontendPort": 9001,
+            "frontendPort": 80,
             "backendPort": 9001,
             "enableFloatingIP": false,
             "idleTimeoutInMinutes": 5,
@@ -162,7 +162,7 @@
               "id": "[variables('lbPoolID')]"
             },
             "protocol": "tcp",
-            "frontendPort": 9002,
+            "frontendPort": 8080,
             "backendPort": 9002,
             "enableFloatingIP": false,
             "idleTimeoutInMinutes": 5,
