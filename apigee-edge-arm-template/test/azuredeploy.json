@@ -171,7 +171,7 @@
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "runtimePublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))]",
-    "storageAccountName": "apigeeedgetrail2",
+    "storageAccountName": "apigeeedgetrail",
     "image" : "http://apigeeedgetrail.blob.core.windows.net/system/Microsoft.Compute/Images/vhds/apigeeedge-osDisk.1348e0b3-f7b3-4ece-bbc4-8e5e5576e5e6.vhd",
     "sku": "apigee-edge-private-cloud",
     "product": "apigee-edge",
@@ -524,7 +524,7 @@
             "value" : "[parameters('smtp-ssl')]"
           },
           "smtp-username": {
-            "value" : "[parameters('smtp-username')]",
+            "value" : "[parameters('smtp-username')]"
           },
           "smtp-password": {
             "value" : "[parameters('smtp-password')]"
