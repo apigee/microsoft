@@ -44,9 +44,6 @@
     "version": {
       "type": "string"
     },
-    "templateBaseUrl": {
-      "type": "string"
-    },
     "providerGuid": {
       "type": "string"
     }
