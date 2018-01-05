@@ -19,6 +19,15 @@
       "type": "string",
       "defaultValue": "apigeetrial"
     },
+    "machineSettings": {
+      "type": "object"
+    },
+    "password": {
+      "type": "securestring"
+    },
+    "sshKey": {
+      "type": "string"
+    },
     "apigeeAdminEmail": {
       "type": "string"
     },
@@ -54,15 +63,6 @@
     "smtp-mailfrom": {
       "type": "string",
       "defaultValue" : ""
-    },
-    "password": {
-      "type": "securestring"
-    },
-    "machineSettings": {
-      "type": "object"
-    },
-    "sshKey": {
-      "type": "string"
     },
     "storageAccountName": {
       "type": "string"
@@ -100,9 +100,7 @@
     "storageAccountType": "Standard_LRS",
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
-    "vmCount": "[parameters('machineSettings').vmCount]",
-    "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]"
-
+    "vmCount": "[parameters('machineSettings').vmCount]"
   },
   "resources": [
 
