@@ -100,7 +100,8 @@
     "storageAccountType": "Standard_LRS",
     "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
-    "vmCount": "[parameters('machineSettings').vmCount]"
+    "vmCount": "[parameters('machineSettings').vmCount]",
+    "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]"
   },
   "resources": [
 
