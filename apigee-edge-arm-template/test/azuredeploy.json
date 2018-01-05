@@ -129,7 +129,7 @@
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-', parameters('authenticationType') ,'.json')]",
       "managementInstanceSize":"Standard_D16s_v3",
-      "devportalInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'devportal-instances.json')]",
+      "devportalInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'devportal-instances-', parameters('authenticationType'),'.json')]",
       "devportalInstanceSize":"Standard_D4s_v3"
 
     },
@@ -142,7 +142,7 @@
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
       "managementInstanceSize":"Standard_D4s_v3",
-      "devportalInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'devportal-instances.json')]",
+      "devportalInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'devportal-instances-', parameters('authenticationType'),'.json')]",
       "devportalInstanceSize":"Standard_D4s_v3"
 
     },
@@ -155,7 +155,7 @@
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
       "managementInstanceSize":"Standard_D4s_v3",
-      "devportalInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'devportal-instances.json')]",
+      "devportalInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'devportal-instances-', parameters('authenticationType'),'.json')]",
       "devportalInstanceSize":"Standard_D4s_v3"
 
     },
@@ -610,14 +610,14 @@
             "value": "[parameters('apigeeDeploymentName')]"
           },
           "vmtypeprefix": {
-            "value": "management"
+            "value": "devportal"
           },
           "adminUserName": {
             "value": "[parameters('adminUserName')]"
           },
           "machineSettings": {
             "value": {
-              "vmSize": "[variables('tshirtSize').devportalnstanceSize]",
+              "vmSize": "[variables('tshirtSize').devportalInstanceSize]",
               "diskSize": "250",
               "vmCount": 1
             }
@@ -627,9 +627,6 @@
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
-          },
-          "tshirtSize": {
-            "value": "[parameters('tshirtSize')]"
           },
           "apigeeAdminEmail": {
             "value": "[parameters('apigeeAdminEmail')]"
@@ -660,12 +657,6 @@
           },
           "smtp-mailfrom": {
             "value" : "[parameters('smtp-mailfrom')]"
-          },
-          "sshPrivateKey": {
-            "value": "[parameters('sshPrivateKey')]"
-          },
-          "licenseFileText": {
-            "value": "[parameters('licenseFileText')]"
           },
           "storageAccountName": {
             "value": "[variables('storageAccountName')]"
