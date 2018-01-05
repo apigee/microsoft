@@ -64,9 +64,6 @@
       "name": "[parameters('storageAccountName')]",
       "apiVersion": "2015-06-15",
       "location": "[parameters('location')]",
-      "tags": {
-        "provider": "[parameters('providerGuid')]"
-      },
       "properties": {
         "accountType": "[variables('storageAccountType')]"
       }
