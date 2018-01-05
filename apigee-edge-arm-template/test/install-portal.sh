@@ -65,7 +65,10 @@ sed -i.bak s/SMTPPORT=.*/SMTPPORT="${SMTPPORT}"/g dp-config.txt
 cp -fr /tmp/apigee/ansible-scripts/config/dp-config.txt /tmp/apigee/dp-config.txt
 cd /tmp/apigee/ansible-scripts/playbook
 
-ansible-playbook -i ../inventory/hosts  dp-playbook.yaml  -u ${login_user} --private-key ${key_path}  >>/tmp/ansible_output.log
+#ansible-playbook -i ../inventory/hosts  dp-playbook.yaml  -u ${login_user} --private-key ${key_path}  >>/tmp/ansible_output.log
+/opt/apigee/apigee-setup/bin/setup.sh -p pdb -f /tmp/apigee/dp-config.txt
+/opt/apigee/apigee-setup/bin/setup.sh -p dp -f /tmp/apigee/dp-config.txt
+
 
 echo "Ansible Scripts Executed"  >>${ARMLOGPATH}
 
