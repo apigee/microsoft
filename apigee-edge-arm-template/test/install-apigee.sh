@@ -191,6 +191,7 @@ sed -i.bak s/SMTPSSL=.*/SMTPSSL=${SMTPSSL}/g config.txt
 sed -i.bak s/SMTPPORT=.*/SMTPPORT="${SMTPPORT}"/g config.txt
 
 echo "Changing configuration of dev portals"
+
 sed -i.bak s/DEVPORTAL_ADMIN_USERNAME=/DEVPORTAL_ADMIN_USERNAME="${APIGEE_ADMIN_EMAIL}"/g dp-config.txt
 sed -i.bak s/DEVPORTAL_ADMIN_PWD=/DEVPORTAL_ADMIN_PWD="${APW}"/g dp-config.txt
 sed -i.bak s/DEVPORTAL_ADMIN_EMAIL=/DEVPORTAL_ADMIN_EMAIL="${APIGEE_ADMIN_EMAIL}"/g dp-config.txt
@@ -217,8 +218,8 @@ echo 'sed commands done' >> ${ARMLOGPATH}
 echo 'Running ansible commands' >> ${ARMLOGPATH}
 
 cd /tmp/apigee/ansible-scripts/playbook
-ansible-playbook -i ../inventory/hosts  edge-prerequisite-playbook.yaml  -u ${login_user} --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
-ansible-playbook -i ../inventory/hosts  edge-components-setup-playbook.yaml  -u ${login_user} --private-key ${key_path} -vvvv >>/tmp/ansible_output.log
+ansible-playbook -i ../inventory/hosts  edge-prerequisite-playbook.yaml  -u ${login_user} --private-key ${key_path} >>/tmp/ansible_output.log
+ansible-playbook -i ../inventory/hosts  edge-components-setup-playbook.yaml  -u ${login_user} --private-key ${key_path}  >>/tmp/ansible_output.log
 
 echo "Ansible Scripts Executed"  >>${ARMLOGPATH}
 
