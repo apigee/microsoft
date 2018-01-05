@@ -147,7 +147,8 @@
             "priority": 102,
             "direction": "Inbound"
           }
-        }, {
+        }, 
+        {
           "name": "management-api",
           "properties": {
             "description": "Allow RDP",
@@ -160,7 +161,22 @@
             "priority": 104,
             "direction": "Inbound"
           }
-        }, {
+        },
+        {
+          "name": "devportal-ui",
+          "properties": {
+            "description": "Allow RDP",
+            "protocol": "Tcp",
+            "sourcePortRange": "*",
+            "destinationPortRange": "8079",
+            "sourceAddressPrefix": "Internet",
+            "destinationAddressPrefix": "*",
+            "access": "Allow",
+            "priority": 105,
+            "direction": "Inbound"
+          }
+        }, 
+        {
           "name": "default-http-port",
           "properties": {
             "description": "Allow RDP",
@@ -170,7 +186,7 @@
             "sourceAddressPrefix": "Internet",
             "destinationAddressPrefix": "*",
             "access": "Allow",
-            "priority": 105,
+            "priority": 106,
             "direction": "Inbound"
           }
         }, {
@@ -183,7 +199,7 @@
             "sourceAddressPrefix": "Internet",
             "destinationAddressPrefix": "*",
             "access": "Allow",
-            "priority": 106,
+            "priority": 107,
             "direction": "Inbound"
           }
         }]
