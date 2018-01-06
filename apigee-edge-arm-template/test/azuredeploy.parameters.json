@@ -30,8 +30,29 @@
     "apigeeAdminPassword": {
       "value": "Secret123"
     },
+    "org": {
+      "value" : "apigeetrial"
+    },
+    "smtp-host": {
+      "value" : "smtp.gmail.com"
+    },
+    "smtp-port": {
+      "value" : "465"
+    },
+    "smtp-ssl": {
+      "value" : "y"
+    },
+    "smtp-username": {
+      "value" : "youremail@gmail.com"
+    },
+    "smtp-password": {
+      "value" : "App Password in Gmail"
+    },
+    "smtp-mailfrom": {
+      "value" : "apiadmin@apigee.com"
+    },
     "licenseFileText": {
-      "value": "JakHrOe9fuHhHyJzxqJ5uXlQrzk/vo/PaJpEg/NXN1kKKGQuBkv0o1BVnoRsGlMMxGK3DmShvQlFFHYWJIqCcJ2woZn3TfuFf0t7LSmWSoPxpPRUVM7NS3mXv3UtVp5XjFajEiByyGaejNrShgOiKmveJkczmcWq3g9UbfeIjhxTVpuh4fgzHOeUoPGg/gzlgYlAaU7MgNKonGKIYq23huUBYfiIB6ZoLjwy+EBBLLYmf38Gw1gxdjtbcxpAfVgVykecudT60zaqD1iUJxluJYF8NtiKkIvW01Oa6PZcuaWZql8UV6KicnWnZJZzdLhTZskwz+DqcwNf0R1+UaFaPg=="
+      "value": "COPY_LICENSE_FILE_TEXT_HERE"
     },
     "sshPrivateKey": {
       "value": "COPY_PRIVATE_KEY_HERE"
