@@ -73,14 +73,33 @@
 				},
 
 				{
+					"name": "org",
+					"type": "Microsoft.Common.TextBox",
+					"label": "Apigee Org",
+					"defaultValue": "apigeetrial",
+					"toolTip": "An organization is the top-level container in Apigee Edge",
+					"osPlatform": "Linux",
+					"constraints": {
+						"required": true,
+						"regex": "^[a-z0-9]{3,24}$",
+						"validationMessage": "Org name must be between 3 and 24 characters long, and can contain only numbers and lowercase letters."
+
+					}
+				},
+				{
 					"name": "apigeeAdminEmail",
 					"type": "Microsoft.Common.TextBox",
-					"label": "Apigee Admin Email",
+					"label": "Apigee Admin Email Address",
 					"defaultValue": "apigeetrial@apigee.com",
 					"toolTip": "Admin username for the Apigee Management UI/API cluster",
-					"osPlatform": "Linux"
-				},
+					"osPlatform": "Linux",
+					"constraints": {
+						"required": true,
+						"regex": "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$",
+						"validationMessage": "Apigee Admin Email must be valid email"
 
+					}
+				},
 				{
 					"name": "apigeeAdminPassword",
 					"type": "Microsoft.Common.PasswordBox",
@@ -98,7 +117,68 @@
 						"validationMessage": "The password must be between 6 and 72 characters long, and contain characters from at least 3 of the following groups: uppercase characters, lowercase characters, numbers, and special characters."
 
 					}
-				}, 
+				},
+				{
+					"name": "smtp-host",
+					"type": "Microsoft.Common.TextBox",
+					"label": "SMTP Host",
+					"defaultValue": "smtp.gmail.com",
+					"toolTip": "SMTP Host",
+					"osPlatform": "Linux"
+				},
+				{
+					"name": "smtp-ssl",
+					"type": "Microsoft.Common.OptionsGroup",
+					"label": "SSL(y/n)",
+					"defaultValue": "y",
+					"toolTip": "SMTP SSL",
+					 "constraints": {
+					    "allowedValues": [
+					      {
+					        "label": "Yes",
+					        "value": "y"
+					      },
+					      {
+					        "label": "No",
+					        "value": "n"
+					      }
+					    ]
+					},
+					"visible": true,
+					"osPlatform": "Linux"
+				},
+				{
+					"name": "smtp-port",
+					"type": "Microsoft.Common.TextBox",
+					"label": "SMTP Port",
+					"defaultValue": "465",
+					"toolTip": "If no SSL, use a different port, such as 25",
+					"osPlatform": "Linux"
+				},
+				{
+					"name": "smtp-username",
+					"type": "Microsoft.Common.TextBox",
+					"label": "SMTP User name",
+					"defaultValue": "",
+					"toolTip": "SMTP User name",
+					"osPlatform": "Linux"
+				},
+				{
+					"name": "smtp-password",
+					"type": "Microsoft.Common.TextBox",
+					"label": "SMTP User Password",
+					"defaultValue": "",
+					"toolTip": "SMTP User Password",
+					"osPlatform": "Linux"
+				},
+				{
+					"name": "smtp-mailfrom",
+					"type": "Microsoft.Common.TextBox",
+					"label": "SMTP Mailfrom",
+					"defaultValue": "My Company <myco@company.com>",
+					"toolTip": "MailFrom",
+					"osPlatform": "Linux"
+				},
 				{
 					"name": "licenseFile",
 					"type": "Microsoft.Common.FileUpload",
