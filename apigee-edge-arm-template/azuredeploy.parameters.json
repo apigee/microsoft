@@ -1,33 +1,55 @@
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-06-15/deploymentParameters.json#",
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
+    
     "location": {
-      "value": "Central US"
+      "value": "West US"
     },
     "tshirtSize": {
-      "value": "Medium"
+      "value": "XSmall"
     },
     "apigeeDeploymentName": {
-      "value": "apigeeedge5node"
+      "value": "apigeeedge1node"
     },
     "adminUserName": {
       "value": "apigeetrial"
     },
     "authenticationType": {
-      "value": "sshPublickey"
+      "value": "password"
     },
     "password": {
-      "value": "PASSWORD_OPTIONAL"
+      "value": "iLovaeapi$"
     },
     "sshKey": {
       "value": "COPY_PUBLIC_KEY_HERE"
     },
     "apigeeAdminEmail": {
-      "value": "apigeetrial@apigee.com"
+      "value": "opdk@apigee.com"
     },
     "apigeeAdminPassword": {
-      "value": "APIGEE_ADMIN_PASSWORD"
+      "value": "Secret123"
+    },
+    "org": {
+      "value" : "apigeetrial"
+    },
+    "smtp-host": {
+      "value" : "smtp.gmail.com"
+    },
+    "smtp-port": {
+      "value" : "465"
+    },
+    "smtp-ssl": {
+      "value" : "y"
+    },
+    "smtp-username": {
+      "value" : "youremail@gmail.com"
+    },
+    "smtp-password": {
+      "value" : "App Password in Gmail"
+    },
+    "smtp-mailfrom": {
+      "value" : "apiadmin@apigee.com"
     },
     "licenseFileText": {
       "value": "COPY_LICENSE_FILE_TEXT_HERE"
@@ -35,5 +57,6 @@
     "sshPrivateKey": {
       "value": "COPY_PRIVATE_KEY_HERE"
     }
+
   }
 }
