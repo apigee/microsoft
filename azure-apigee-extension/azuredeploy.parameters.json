@@ -1,33 +1,33 @@
 {
-   "$schema":"http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
-   "contentVersion":"1.0.0.0",
-   "parameters":{
-      "location":{
-         "value":"West US"
-      },
-      "newStorageAccountName":{
-         "value":""
-      },
-      "vmDnsName":{
-         "value":""
-      },
-      "adminUserName":{
-         "value":"admin"
-      },
-      "adminPassword":{
-         "value":""
-      },
-      "ftpUserName":{
-         "value":"apigee"
-      },
-      "ftpPassword":{
-         "value":""
-      },
-      "edgeVersion":{
-         "value":"4.17.09"
-      },
-      "scriptLocation":{
-         "value":"https://raw.githubusercontent.com/apigee/microsoft/master/azure-apigee-extension"
-      }
-   }
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "value": "Central US"
+    },
+    "newStorageAccountName": {
+      "value": "apigeeedgetrail2"
+    },
+    "vmDnsName": {
+      "value": "apigeeedgetrail2"
+    },
+    "adminUserName": {
+      "value": "apigeetrail"
+    },
+    "adminPassword": {
+      "value": "iLoveapi$"
+    },
+    "ftpUserName": {
+      "value": ""
+    },
+    "ftpPassword": {
+      "value": ""
+    },
+    "edgeVersion": {
+      "value": "4.17.09"
+    },
+    "scriptLocation": {
+      "value": "https://raw.githubusercontent.com/apigee/microsoft/17x/azure-apigee-extension"
+    }
+  }
 }
