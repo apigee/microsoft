@@ -121,7 +121,7 @@
     }
   },
   "variables": {
-    "templateBaseUrl": "[uri(deployment().properties.templateLink.uri, '/')]",
+    "templateBaseUrl": "[uri(deployment().properties.templateLink.uri, 'apigee/microsoft/tree/17x')]",
     "tshirtSizeXSmall": {
       "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
       "datastoreInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
