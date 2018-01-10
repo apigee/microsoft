@@ -3,7 +3,7 @@ cd solutions-template
 cp -fr ../azuredeploy.json mainTemplate.json
 cp -fr ../azuredeploy.parameters.json mainTemplate.parameters.json
 mkdir -p templates
-cp -fr ../templates/createUiDefinition.json templates/
+cp -fr ../createUiDefinition.json .
 cp -fr ../templates/analytics-instances.json templates/
 cp -fr ../templates/empty-resources.json templates/
 cp -fr ../templates/internal-instances.json templates/
