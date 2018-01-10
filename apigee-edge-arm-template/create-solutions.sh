@@ -2,18 +2,19 @@ mkdir -p solutions-template
 cd solutions-template
 cp -fr ../azuredeploy.json mainTemplate.json
 cp -fr ../azuredeploy.parameters.json mainTemplate.parameters.json
-cp -fr ../templates/createUiDefinition.json .
-cp -fr ../templates/analytics-instances.json .
-cp -fr ../templates/empty-resources.json .
-cp -fr ../templates/internal-instances.json .
-cp -fr ../templates/shared-resources.json .
-cp -fr ../templates/install-apigee.sh .
-cp -fr ../templates/install-portal.sh .
-cp -fr ../templates/management-instances-password.json .
-cp -fr ../templates/management-instances-sshPublicKey.json .
-cp -fr ../templates/devportal-instances-password.json .
-cp -fr ../templates/devportal-instances-sshPublicKey.json .
-cp -fr ../templates/rmp-instances.json .
+mkdir -p templates
+cp -fr ../templates/createUiDefinition.json templates/
+cp -fr ../templates/analytics-instances.json templates/
+cp -fr ../templates/empty-resources.json templates/
+cp -fr ../templates/internal-instances.json templates/
+cp -fr ../templates/shared-resources.json templates/
+cp -fr ../templates/install-apigee.sh templates/
+cp -fr ../templates/install-portal.sh templates/
+cp -fr ../templates/management-instances-password.json templates/
+cp -fr ../templates/management-instances-sshPublicKey.json templates/
+cp -fr ../templates/devportal-instances-password.json templates/
+cp -fr ../templates/devportal-instances-sshPublicKey.json templates/
+cp -fr ../templates/rmp-instances.json templates/
 cp -fr ../metadata.json .
 cp -fr ../README.md .
 cd ..
