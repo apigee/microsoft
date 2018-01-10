@@ -30,6 +30,10 @@
     "authenticationType": {
       "type": "string",
       "defaultValue": "password",
+      "allowedValues": [
+        "password",
+        "sshPublicKey"
+      ],
       "metadata": {
         "descritpion": "Type of authentication "
       }
