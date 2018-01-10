@@ -1,3 +1,5 @@
+rm -fr solutions-template.zip
+rm -fr solutions-template
 mkdir -p solutions-template
 cd solutions-template
 cp -fr ../azuredeploy.json mainTemplate.json
@@ -17,7 +19,8 @@ cp -fr ../templates/devportal-instances-sshPublicKey.json templates/
 cp -fr ../templates/rmp-instances.json templates/
 cp -fr ../metadata.json .
 cp -fr ../README.md .
+
+zip -r solutions-template.zip *
+mv solutions-template.zip ..
 cd ..
-rm -fr solutions-template.zip
-zip -rj solutions-template.zip solutions-template
 rm -fr solutions-template
