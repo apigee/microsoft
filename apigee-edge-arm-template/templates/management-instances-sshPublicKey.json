@@ -1,0 +1,258 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "metadata": {
+        "description": "Deployment location of where Apigee will be installed"
+      }
+    },
+    "vmDnsName": {
+      "type": "string"
+    },
+    "vmtypeprefix": {
+      "type": "string",
+      "defaultValue": "multinode"
+    },
+    "adminUserName": {
+      "type": "string",
+      "defaultValue": "apigeetrial"
+    },
+    "machineSettings": {
+      "type": "object"
+    },
+    "password": {
+      "type": "securestring"
+    },
+    "sshKey": {
+      "type": "string"
+    },
+    "tshirtSize": {
+      "type": "string",
+      "defaultValue": "XSmall"
+
+    },
+    "apigeeAdminEmail": {
+      "type": "string"
+    },
+    "apigeeAdminPassword": {
+      "type": "securestring"
+    },
+    "org": {
+      "type": "string"
+    },
+    "smtp-host": {
+      "type": "string",
+      "defaultValue" : "smtp.gmail.com"
+    },
+    "smtp-port": {
+      "type": "string",
+      "defaultValue" : "25"
+    },
+    "smtp-ssl": {
+      "type": "string",
+      "defaultValue" : "y"
+    },
+    "smtp-username": {
+      "type": "string",
+      "defaultValue" : ""
+    },
+    "smtp-password": {
+      "type": "string",
+      "defaultValue" : ""
+    },
+    "smtp-mailfrom": {
+      "type": "string",
+      "defaultValue" : ""
+    },
+    "sshPrivateKey": {
+      "type": "securestring",
+      "metadata": {
+        "description": "The private key for the username given. This is used to login to other instances if a multi node deployment is selected."
+      }
+    },
+    "licenseFileText": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Licnese file that is given to your organization by Apigee. Paste the content of the file here"
+      }
+    },
+    "hostNames": {
+      "type": "object"
+    },
+    "storageAccountName": {
+      "type": "string"
+    },
+    "image": {
+      "type": "string"
+    },
+    "templateBaseUrl": {
+      "type": "string"
+    },
+    "sku": {
+      "type": "string"
+    },
+    "product": {
+      "type": "string"
+    },
+    "publisher": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "providerGuid": {
+      "type": "string"
+    }
+    
+  },
+  "variables": {
+    "apiVersion": "2015-06-15",
+    "nicName": "[concat('ApigeeVMNic-',parameters('vmDnsName'))]",
+    "addressPrefix": "10.0.0.0/16",
+    "subnet1Name": "Subnet-1",
+    "subnet1Prefix": "10.0.0.0/24",
+    "publicIPAddressName": "[concat('ApigeeManagementPublicIP-',parameters('vmDnsName'))]",
+    "publicIPAddressType": "Dynamic",
+    "vmStorageAccountContainerName": "vhds",
+    "vmName": "[parameters('vmDnsName')]",
+    "virtualNetworkName": "[concat('ApigeeVNET-',parameters('vmDnsName'))]",
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
+    "storageAccountType": "Standard_LRS",
+    "subnet1Ref": "[concat(variables('vnetID'),'/subnets/',variables('subnet1Name'))]",
+    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
+    "vmCount": "[parameters('machineSettings').vmCount]",
+    "sshKeyPath": "[concat('/home/',parameters('adminUserName'),'/.ssh/authorized_keys')]"
+
+  },
+  "resources": [
+    {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/networkInterfaces",
+      "name": "[concat(variables('nicName'), parameters('vmtypeprefix'), copyindex())]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "provider": "[parameters('providerGuid')]"
+      },
+      "copy": {
+        "name": "nicCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
+      "properties": {
+        "ipConfigurations": [{
+          "name": "ipconfig1",
+          "properties": {
+            "privateIPAllocationMethod": "Dynamic",
+            "publicIPAddress": {
+              "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
+            },
+            "subnet": {
+              "id": "[variables('subnet1Ref')]"
+            }
+          }
+        }]
+      }
+    }, {
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Compute/virtualMachines",
+      "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex())]",
+      "location": "[parameters('location')]",
+      "tags": {
+        "provider": "[parameters('providerGuid')]"
+      },
+      "dependsOn": [
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'), parameters('vmtypeprefix'), copyindex())]"
+      ],
+      "copy": {
+        "name": "vmCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
+      "plan": {
+        "name": "[parameters('sku')]",
+        "product": "[parameters('product')]",
+        "publisher": "[parameters('publisher')]"
+      },
+      "properties": {
+
+        "hardwareProfile": {
+          "vmSize": "[parameters('machineSettings').vmSize]"
+        },
+        "osProfile": {
+          "computerName": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex())]",
+          "adminUsername": "[parameters('adminUserName')]",
+          "linuxConfiguration": {
+            "disablePasswordAuthentication": "true",
+            "ssh": {
+              "publicKeys": [{
+                "path": "[variables('sshKeyPath')]",
+                "keyData": "[parameters('sshKey')]"
+              }]
+            }
+
+          }
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[parameters('publisher')]",
+            "offer": "[parameters('product')]",
+            "sku": "[parameters('sku')]",
+            "version": "[parameters('version')]"
+          },
+          "osDisk": {
+            "name": "[concat(variables('vmName'),'-osDisk')]",
+            "osType": "Linux",
+            "createOption": "FromImage",
+            "image": {
+              "uri": "[parameters('image')]"
+            },
+            "vhd": {
+              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
+            },
+            "caching": "ReadWrite"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [{
+            "id": "[resourceId('Microsoft.Network/networkInterfaces', concat(variables('nicName'), parameters('vmtypeprefix'), copyindex()) )]"
+          }]
+        }
+      }
+    },
+    {
+    "type": "Microsoft.Compute/virtualMachines/extensions",
+    "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex(),'/newuserscript')]",
+    "apiVersion": "2015-06-15",
+    "location": "[parameters('location')]",
+    "dependsOn": [
+      "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), copyindex())]"
+    ],
+    "copy": {
+        "name": "vmCopyLoop",
+        "count": "[variables('vmCount')]"
+      },
+    "properties": {
+      "publisher": "Microsoft.OSTCExtensions",
+      "type": "CustomScriptForLinux",
+      "typeHandlerVersion": "1.5",
+      "settings": {
+        "fileUris": [
+          "[concat(parameters('templateBaseUrl'), 'install-apigee.sh')]"
+        ]
+      },
+      "protectedSettings": {
+          
+          "commandToExecute": "[concat('sh install-apigee.sh',' ',parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',parameters('hostNames').management_public_ip,' ',parameters('tshirtSize'),' ',parameters('hostNames').runtime_public_ip,' ',reference(concat(variables('nicName'), parameters('vmtypeprefix'), 0)).ipConfigurations[0].properties.privateIPAddress,':',parameters('hostNames').datastore_ip1,':',parameters('hostNames').datastore_ip2,':',parameters('hostNames').rmp_ip1,':',parameters('hostNames').rmp_ip2,':',parameters('hostNames').qpid_ip1,':',parameters('hostNames').qpid_ip2,':',parameters('hostNames').analytics_ip1,':',parameters('hostNames').analytics_ip2,' ',base64(parameters('licenseFileText')),' ',base64(parameters('sshPrivateKey')),' ',parameters('org'),' ', parameters('smtp-host'),' ',parameters('smtp-port'), ' ', parameters('smtp-ssl'), ' ', parameters('smtp-username'), ' ', parameters('smtp-password'),' ', parameters('smtp-mailfrom'))]"
+        }
+    }
+  }
+  ],
+  "outputs": {
+    "ip1": {
+      "value": "[reference(concat(variables('nicName'), parameters('vmtypeprefix'), 0)).ipConfigurations[0].properties.privateIPAddress]",
+      "type": "string"
+    }
+    
+  }
+
+}
