@@ -5,9 +5,7 @@ This project allows you to install edge in Azure using Azure resource manager te
 ## Prerequisite
 
 ### azure
-- Sign in to azure portal for a 
-- Install azure sdk from https://docs.microsoft.com/en-us/azure/cli-install-nodejs
-- Initialize your account with azure login
+- Create an account with azure portal. You may get free quota to run aio. To run multi node, you need additional CPU quota and have to request azure support team to upgrade quota. 
 
 ## Apigee Private Cloud
 Please go through http://docs.apigee.com/private-cloud/content/version-41705 to know more about Apigee Edge Private Cloud.
@@ -20,7 +18,7 @@ Please go through http://docs.apigee.com/private-cloud/content/version-41705 to 
  - Supported Deployment Topologies
 
 Edge Topology- 1 node
-![Edge Topology- 2 node](/images/2node.png)
+![Edge Topology- 1 node](/images/1node.png)
 
 Edge Topology- 5 node
 ![Edge Topology- 5 node](/images/5node.png)
