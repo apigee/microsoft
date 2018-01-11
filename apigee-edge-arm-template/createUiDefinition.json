@@ -159,7 +159,7 @@
 					"name": "smtp-username",
 					"type": "Microsoft.Common.TextBox",
 					"label": "SMTP User name",
-					"defaultValue": "",
+					"defaultValue": "apiadmin@gmail.com",
 					"toolTip": "SMTP User name",
 					"osPlatform": "Linux"
 				},
@@ -167,7 +167,7 @@
 					"name": "smtp-password",
 					"type": "Microsoft.Common.PasswordBox",
 					"label": "SMTP User Password",
-					"defaultValue": "",
+					"defaultValue": "apipassword",
 					"toolTip": "SMTP User Password",
 					"osPlatform": "Linux"
 				},
@@ -218,10 +218,16 @@
 			"authenticationType": "[basics('SSHCredntials').authenticationType]",
 			"password": "[basics('SSHCredntials').password]",
 			"sshKey": "[basics('SSHCredntials').sshPublicKey]",
-
 			"tshirtSize": "[steps('ApigeeSetupInformation').clusterType]",
 			"apigeeAdminEmail": "[steps('ApigeeSetupInformation').apigeeAdminEmail]",
 			"apigeeAdminPassword": "[steps('ApigeeSetupInformation').apigeeAdminPassword]",
+			"org": "[steps('ApigeeSetupInformation').org]",
+			"smtp-host": "[steps('ApigeeSetupInformation').smtp-host]",
+			"smtp-ssl": "[steps('ApigeeSetupInformation').smtp-ssl]",
+			"smtp-port": "[steps('ApigeeSetupInformation').smtp-port]",
+			"smtp-username": "[steps('ApigeeSetupInformation').smtp-username]",
+			"smtp-password": "[steps('ApigeeSetupInformation').smtp-password]",
+			"smtp-mailfrom": "[steps('ApigeeSetupInformation').smtp-mailfrom]",
 			"licenseFileText": "[steps('ApigeeSetupInformation').licenseFile]",
 			"sshPrivateKey": "[steps('ApigeeSetupInformation').sshPrivateKey]"
 
