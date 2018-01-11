@@ -190,7 +190,12 @@
 					"label": "SMTP Mailfrom",
 					"defaultValue": "noreply@apigee.com",
 					"toolTip": "MailFrom",
-					"osPlatform": "Linux"
+					"osPlatform": "Linux",
+					"constraints": {
+						"required": true,
+						"regex": "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$",
+						"validationMessage": "SMTP Mail from must be valid email"
+					}
 				},
 				{
 					"name": "licenseFile",

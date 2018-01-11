@@ -159,17 +159,30 @@
 					"name": "smtp-username",
 					"type": "Microsoft.Common.TextBox",
 					"label": "SMTP User name",
-					"defaultValue": "",
+					"defaultValue": "apiadmin@gmail.com",
 					"toolTip": "SMTP User name",
 					"osPlatform": "Linux"
 				},
 				{
 					"name": "smtp-password",
-					"type": "Microsoft.Common.TextBox",
-					"label": "SMTP User Password",
-					"defaultValue": "",
-					"toolTip": "SMTP User Password",
-					"osPlatform": "Linux"
+					"type": "Microsoft.Common.PasswordBox",
+					"label": {
+						"password": "SMTP Password",
+						"confirmPassword": "SMTP Confirm password"
+					},
+					"toolTip": {
+						"password": "SMTP User Password"
+					},
+					"osPlatform": "Linux",
+					"constraints": {
+				    	"required": false,
+				    	"regex": "",
+				    	"validationMessage": ""
+				  	},
+				  	"options": {
+				    	"hideConfirmation": true
+				  	},
+				  	"visible": true
 				},
 				{
 					"name": "smtp-mailfrom",
@@ -177,7 +190,12 @@
 					"label": "SMTP Mailfrom",
 					"defaultValue": "noreply@apigee.com",
 					"toolTip": "MailFrom",
-					"osPlatform": "Linux"
+					"osPlatform": "Linux",
+					"constraints": {
+						"required": true,
+						"regex": "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$",
+						"validationMessage": "SMTP Mail from must be valid email"
+					}
 				},
 				{
 					"name": "licenseFile",
@@ -218,10 +236,16 @@
 			"authenticationType": "[basics('SSHCredntials').authenticationType]",
 			"password": "[basics('SSHCredntials').password]",
 			"sshKey": "[basics('SSHCredntials').sshPublicKey]",
-
 			"tshirtSize": "[steps('ApigeeSetupInformation').clusterType]",
 			"apigeeAdminEmail": "[steps('ApigeeSetupInformation').apigeeAdminEmail]",
 			"apigeeAdminPassword": "[steps('ApigeeSetupInformation').apigeeAdminPassword]",
+			"org": "[steps('ApigeeSetupInformation').org]",
+			"smtp-host": "[steps('ApigeeSetupInformation').smtp-host]",
+			"smtp-ssl": "[steps('ApigeeSetupInformation').smtp-ssl]",
+			"smtp-port": "[steps('ApigeeSetupInformation').smtp-port]",
+			"smtp-username": "[steps('ApigeeSetupInformation').smtp-username]",
+			"smtp-password": "[steps('ApigeeSetupInformation').smtp-password]",
+			"smtp-mailfrom": "[steps('ApigeeSetupInformation').smtp-mailfrom]",
 			"licenseFileText": "[steps('ApigeeSetupInformation').licenseFile]",
 			"sshPrivateKey": "[steps('ApigeeSetupInformation').sshPrivateKey]"
 
