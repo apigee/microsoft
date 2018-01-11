@@ -8,7 +8,7 @@ This project allows you to install edge in Azure using Azure resource manager te
 - Create an account with azure portal. You may get free quota to run aio. To run multi node, you need additional CPU quota and have to request azure support team to upgrade quota. 
 
 ## Apigee Private Cloud
-Please go through http://docs.apigee.com/private-cloud/content/version-41705 to know more about Apigee Edge Private Cloud.
+Please go through http://docs.apigee.com/private-cloud/content/version-41709 to know more about Apigee Edge Private Cloud.
 
 ## Apigee Deployment on Azure
 
@@ -72,6 +72,35 @@ Once the VM is successfully provisioned, you can access Apigee Management UI htt
     | smtp-password       | SMTP password|
     | smtp-mailfrom       | SMTP mail from|
     
+- An example of parameters reference would be 
+
+
+    | properties        | Description                                    |
+    | ----------------- |:-----------------------------------------------| 
+    | Resource Group    | driveapigee            |
+    | Location          | Central US    | 
+    | Location          | Central US                                   |
+    | Tshirt Size              | Medium                         |
+    | Apigee Deployment Name           | driveapigee      |
+    | Admin User Name| apigeetrial                        |
+    | Authentication Type    | sshPublicKey                  |
+    | password     | iLoveapi$123                          |
+    | Ssh Key          | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDob0vmpjxLKoN9zx7Zk0VbPYl8ayu7DJ3PDG4SMpdkQmrU9p+kQ== apigeetrial
+                               |
+    | Apigee Admin Email         | apigeetrial@apigee.com               |
+    | Apigee Admin Password          | Secret123                                     |
+    | Ssh Private Key      |-----BEGIN RSA PRIVATE KEY-----
+MIIJKQIBAAKCAgEA6G7OHtJBZEoLS1+7rEQCw6fZ4dZ/bzPKTwhEWaK3aFsHts9D
+OYDCLUfcN/y8lX8Mi81b5ijFISr+JqV2xXyzvDxYPzgjLKwtKXRDv1nq7Oku7xQW
+-----END RSA PRIVATE KEY-----|
+    | License File Text          |                         |
+    | Org      | apigeetrial              |
+    | Smtp-host           | smtp.gmail.com                                 |
+    | smtp-port          | 465                                |
+    | smtp-ssl           | y                   |
+    | smtp-username        | myname@apigee.com|
+    | smtp-password       | MyGmailAppGenPassword|
+    | smtp-mailfrom       | noreply@apigee.com|
     
 
 ## Troubleshootig
