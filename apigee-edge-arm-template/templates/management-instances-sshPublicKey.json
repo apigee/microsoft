@@ -203,9 +203,6 @@
             "name": "[concat(variables('vmName'),'-osDisk')]",
             "osType": "Linux",
             "createOption": "FromImage",
-            "image": {
-              "uri": "[parameters('image')]"
-            },
             "vhd": {
               "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
             },
