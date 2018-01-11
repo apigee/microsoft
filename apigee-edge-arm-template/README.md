@@ -28,7 +28,7 @@ Edge Topology- 9 node
 
 
 ## Getting Started
-- Create a ssh key pair 
+- Create a ssh key pair with the user apigeetrial. Replace -C parameter if your machine's admin user is different than apigeetrial.
     ```
     ssh-keygen -t rsa -b 4096 -C "apigeetrial" -N "" -f apigeetrial.key
     ```
@@ -45,7 +45,32 @@ Edge Topology- 9 node
    - This template allows you to create a Apigee Instance in Azure.The template presently supports `aio` profile of the opdk, where all the components are installed on one box.
 Once the VM is successfully provisioned, you can access Apigee Management UI http://<FQDN name or public IP>:9000/
 
-- Understanding Parameters.
+- Understanding Parameters
+![Understanding Parameters](/images/azuredeploy.png)
+
+| properties        | Description                                    |
+    | ----------------- |:-----------------------------------------------| 
+    | Resource Group    | Always recommened to have apigee edge installed in a new Resource Group            |
+    | Location          | azure location. Choose from the dropdown.    | 
+    | Location          | Type in the same location you had choosen from the dropdown                                   |
+    | Tshirt Size              | Choose XSmall for 1 node, Medium for 5 node and Large for 5 node installation                           |
+    | Apigee Deployment Name           | Name of the deployment      |
+    | Admin User Name| Admin user name of machine. If you change the default value, you must create the key pair for that user as described above.                        |
+    | Authentication Type    | Choose from possible case of password or sshPublicKey. For Medium and Large it always has to be sshKey                    |
+    | password     | If you have choosen authentication type as password, please provide the machine password. Please give 6 - 72 characters with 1 capital, 1 numeric and 1 special characters.                          |
+    | Ssh Key          | The ssh Public Key. If you have choosen authenticationType as sshPublicKey, please copy and paste the contents from apigeetrial.key.pub here.                                |
+    | Apigee Admin Email         | Apigee Edge system user email address               |
+    | Apigee Admin Password          | Apigee Edge system user password                                     |
+    | Ssh Private Key      | Private key of the generated pair. Copy and paste the contents of apigeetrial.key here.                                |
+    | License File Text          | Copy and Paste the contents of Apigee Edge license file.                        |
+    | Org      | Apigee Edge Organization              |
+    | Smtp-host           | SMTP Host                                 |
+    | smtp-port          | SMTP port (25 for non ssl, 465 for ssl)                                 |
+    | smtp-ssl           | y or n                   |
+    | smtp-username        | SMTP user name|
+    | smtp-password       | SMTP password|
+    | smtp-mailfrom       | SMTP mail from|
+
 
     
     
