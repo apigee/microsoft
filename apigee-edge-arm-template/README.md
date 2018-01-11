@@ -45,9 +45,11 @@ Edge Topology- 9 node
    - This template allows you to create a Apigee Instance in Azure.The template presently supports `aio` profile of the opdk, where all the components are installed on one box.
 Once the VM is successfully provisioned, you can access Apigee Management UI http://<FQDN name or public IP>:9000/
 
-
 - Understanding Parameters
-| properties        | Description                                    |
+![Understanding Parameters](/images/azuredeploy.png)
+
+
+    | properties        | Description                                    |
     | ----------------- |:-----------------------------------------------| 
     | Resource Group    | Always recommened to have apigee edge installed in a new Resource Group            |
     | Location          | azure location. Choose from the dropdown.    | 
