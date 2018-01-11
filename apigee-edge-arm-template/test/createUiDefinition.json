@@ -175,7 +175,7 @@
 					"name": "smtp-mailfrom",
 					"type": "Microsoft.Common.TextBox",
 					"label": "SMTP Mailfrom",
-					"defaultValue": "API Admin <noreply@apigee.com>",
+					"defaultValue": "noreply@apigee.com",
 					"toolTip": "MailFrom",
 					"osPlatform": "Linux"
 				},
