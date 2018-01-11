@@ -85,8 +85,7 @@ Once the VM is successfully provisioned, you can access Apigee Management UI htt
     | Admin User Name| apigeetrial                        |
     | Authentication Type    | sshPublicKey                  |
     | password     | iLoveapi$123                          |
-    | Ssh Key          | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDob0vmpjxLKoN9zx7Zk0VbPYl8ayu7DJ3PDG4SMpdkQmrU9p+kQ== apigeetrial
-                               |
+    | Ssh Key          | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDob0vmpjxLKoN9zx7Zk0VbPYl8ayu7DJ3PDG4SMpdkQmrU9p+kQ== apigeetrial|
     | Apigee Admin Email         | apigeetrial@apigee.com               |
     | Apigee Admin Password          | Secret123                                     |
     | Ssh Private Key      |-----BEGIN RSA PRIVATE KEY-----
@@ -101,7 +100,7 @@ OYDCLUfcN/y8lX8Mi81b5ijFISr+JqV2xXyzvDxYPzgjLKwtKXRDv1nq7Oku7xQW
     | smtp-username        | myname@apigee.com|
     | smtp-password       | MyGmailAppGenPassword|
     | smtp-mailfrom       | noreply@apigee.com|
-    
+
 
 ## Troubleshootig
 
