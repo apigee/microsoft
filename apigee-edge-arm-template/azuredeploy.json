@@ -181,7 +181,7 @@
     "sku": "apigee-edge-private-cloud",
     "product": "apigee-edge",
     "publisher": "apigee",
-    "version" : "4.17.09",
+    "version" : "latest",
     "providerGuid": "[toUpper('b6dd345e-8ee1-4d3d-b276-a84bdfb88fe6')]"
   },
   "resources": [
