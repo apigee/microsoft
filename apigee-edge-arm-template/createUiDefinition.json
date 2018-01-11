@@ -166,7 +166,13 @@
 				{
 					"name": "smtp-password",
 					"type": "Microsoft.Common.PasswordBox",
-					"label": "SMTP User Password",
+					"label": {
+						"password": "SMTP Password",
+						"confirmPassword": "SMTP Confirm password"
+					},
+					"toolTip": {
+						"password": "SMTP User Password"
+					},
 					"defaultValue": "apipassword",
 					"toolTip": "SMTP User Password",
 					"osPlatform": "Linux"
