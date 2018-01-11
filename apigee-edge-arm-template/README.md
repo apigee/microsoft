@@ -47,7 +47,8 @@ Once the VM is successfully provisioned, you can access Apigee Management UI htt
 
 - Understanding Parameters
 ![Understanding Parameters](/images/azuredeploy.png)
-```
+
+- Parameters References
 | properties        | Description                                    |
     | ----------------- |:-----------------------------------------------| 
     | Resource Group    | Always recommened to have apigee edge installed in a new Resource Group            |
