@@ -165,7 +165,7 @@
 				},
 				{
 					"name": "smtp-password",
-					"type": "Microsoft.Common.TextBox",
+					"type": "Microsoft.Common.PasswordBox",
 					"label": "SMTP User Password",
 					"defaultValue": "",
 					"toolTip": "SMTP User Password",

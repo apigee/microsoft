@@ -109,7 +109,7 @@
       }
     },
     "smtp-password": {
-      "type": "string",
+      "type": "securestring",
       "defaultValue" : "",
       "metadata": {
         "description": "SMTP Password"
