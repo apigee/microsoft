@@ -159,7 +159,7 @@
 					"name": "smtp-username",
 					"type": "Microsoft.Common.TextBox",
 					"label": "SMTP User name",
-					"defaultValue": "",
+					"defaultValue": "apiadmin@gmail.com",
 					"toolTip": "SMTP User name",
 					"osPlatform": "Linux"
 				},
@@ -167,7 +167,7 @@
 					"name": "smtp-password",
 					"type": "Microsoft.Common.PasswordBox",
 					"label": "SMTP User Password",
-					"defaultValue": "",
+					"defaultValue": "apipassword",
 					"toolTip": "SMTP User Password",
 					"osPlatform": "Linux"
 				},

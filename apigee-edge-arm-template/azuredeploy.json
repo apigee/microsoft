@@ -104,14 +104,14 @@
     },
     "smtp-username": {
       "type": "string",
-      "defaultValue" : "",
+      "defaultValue" : "apiadmin@gmail.com",
       "metadata": {
         "description": "SMTP username"
       }
     },
     "smtp-password": {
       "type": "securestring",
-      "defaultValue" : "",
+      "defaultValue" : "apipassword",
       "metadata": {
         "description": "SMTP Password"
       }
