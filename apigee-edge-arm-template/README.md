@@ -88,11 +88,8 @@ Once the VM is successfully provisioned, you can access Apigee Management UI htt
     | Ssh Key          | ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDob0vmpjxLKoN9zx7Zk0VbPYl8ayu7DJ3PDG4SMpdkQmrU9p+kQ== apigeetrial|
     | Apigee Admin Email         | apigeetrial@apigee.com               |
     | Apigee Admin Password          | Secret123                                     |
-    | Ssh Private Key      |-----BEGIN RSA PRIVATE KEY-----
-MIIJKQIBAAKCAgEA6G7OHtJBZEoLS1+7rEQCw6fZ4dZ/bzPKTwhEWaK3aFsHts9D
-OYDCLUfcN/y8lX8Mi81b5ijFISr+JqV2xXyzvDxYPzgjLKwtKXRDv1nq7Oku7xQW
------END RSA PRIVATE KEY-----|
-    | License File Text          |                         |
+    | Ssh Private Key      |-----BEGIN RSA PRIVATE KEY-----MIIJKQIBAAKCAgEA6G7OHtJBZEoLS1+7rEQCw6fZ4dZ/bzPKTwhEWaK3aFsHts9DOYDCLUfcN/y8lX8Mi81b5ijFISr+JqV2xXyzvDxYPzgjLKwtKXRDv1nq7Oku7xQW-----END RSA PRIVATE KEY-----|
+    | License File Text          | JQWascds==                        |
     | Org      | apigeetrial              |
     | Smtp-host           | smtp.gmail.com                                 |
     | smtp-port          | 465                                |
