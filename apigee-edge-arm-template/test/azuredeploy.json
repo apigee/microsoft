@@ -117,7 +117,7 @@
     },
     "smtp-mailfrom": {
       "type": "string",
-      "defaultValue" : "apiadmin@apigee.com",
+      "defaultValue" : "noreply@apigee.com",
       "metadata": {
         "description": "SMTP Mail From"
       }

@@ -184,7 +184,7 @@ sed -i.bak s/LBDNS/"${LB_IP_ALIAS}"/g setup-org-test.txt
 echo "Changing SMTP Settings"
 sed -i.bak s/SKIP_SMTP=.*/SKIP_SMTP=${SKIP_SMTP}/g config.txt
 sed -i.bak s/SMTPHOST=.*/SMTPHOST=${SMTPHOST}/g config.txt
-sed -i.bak s/SMTPMAILFROM=.*/SMTPMAILFROM=${SMTPMAILFROM}/g config.txt
+sed -i.bak s/SMTPMAILFROM=.*/SMTPMAILFROM="\"${SMTPMAILFROM}\""/g config.txt
 sed -i.bak s/SMTPUSER=.*/SMTPUSER=${SMTPUSER}/g config.txt
 sed -i.bak s/SMTPPASSWORD=.*/SMTPPASSWORD=${SMTPPASSWORD}/g config.txt
 sed -i.bak s/SMTPSSL=.*/SMTPSSL=${SMTPSSL}/g config.txt
@@ -202,7 +202,7 @@ sed -i.bak s/EDGE_ORG=/EDGE_ORG="${ORG_NAME}"/g dp-config.txt
 sed -i.bak s/MGMTIP/${MSIP}/g dp-config.txt
 
 sed -i.bak s/SMTPHOST=.*/SMTPHOST=${SMTPHOST}/g dp-config.txt
-sed -i.bak s/SMTPMAILFROM=.*/SMTPMAILFROM=${SMTPMAILFROM}/g dp-config.txt
+sed -i.bak s/SMTPMAILFROM=.*/SMTPMAILFROM="\"${SMTPMAILFROM}\""/g dp-config.txt
 sed -i.bak s/SMTPUSER=.*/SMTPUSER=${SMTPUSER}/g dp-config.txt
 sed -i.bak s/SMTPPASSWORD=.*/SMTPPASSWORD=${SMTPPASSWORD}/g dp-config.txt
 sed -i.bak s/SMTPSSL=.*/SMTPSSL=${SMTPSSL}/g dp-config.txt
@@ -218,6 +218,8 @@ echo 'sed commands done' >> ${ARMLOGPATH}
 echo 'Running ansible commands' >> ${ARMLOGPATH}
 
 cd /tmp/apigee/ansible-scripts/playbook
+#Temporary fixes for playbook
+curl -O https://storage.googleapis.com/apigee/edge-prerequisite-playbook.yaml
 ansible-playbook -i ../inventory/hosts  edge-prerequisite-playbook.yaml  -u ${login_user} --private-key ${key_path} >>/tmp/ansible_output.log
 ansible-playbook -i ../inventory/hosts  edge-components-setup-playbook.yaml  -u ${login_user} --private-key ${key_path}  >>/tmp/ansible_output.log
 

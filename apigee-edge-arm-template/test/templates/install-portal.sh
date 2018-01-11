@@ -55,7 +55,7 @@ sed -i.bak s/EDGE_ORG=/EDGE_ORG="${ORG_NAME}"/g dp-config.txt
 sed -i.bak s/MGMTIP/${MSIP}/g dp-config.txt
 
 sed -i.bak s/SMTPHOST=.*/SMTPHOST=${SMTPHOST}/g dp-config.txt
-sed -i.bak s/SMTPMAILFROM=.*/SMTPMAILFROM=${SMTPMAILFROM}/g dp-config.txt
+sed -i.bak s/SMTPMAILFROM=.*/SMTPMAILFROM="\"${SMTPMAILFROM}\""/g dp-config.txt
 sed -i.bak s/SMTPUSER=.*/SMTPUSER=${SMTPUSER}/g dp-config.txt
 sed -i.bak s/SMTPPASSWORD=.*/SMTPPASSWORD=${SMTPPASSWORD}/g dp-config.txt
 sed -i.bak s/SMTPSSL=.*/SMTPSSL=${SMTPSSL}/g dp-config.txt

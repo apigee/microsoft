@@ -166,18 +166,36 @@
 				{
 					"name": "smtp-password",
 					"type": "Microsoft.Common.PasswordBox",
-					"label": "SMTP User Password",
-					"defaultValue": "apipassword",
-					"toolTip": "SMTP User Password",
-					"osPlatform": "Linux"
+					"label": {
+						"password": "SMTP Password",
+						"confirmPassword": "SMTP Confirm password"
+					},
+					"toolTip": {
+						"password": "SMTP User Password"
+					},
+					"osPlatform": "Linux",
+					"constraints": {
+				    	"required": false,
+				    	"regex": "",
+				    	"validationMessage": ""
+				  	},
+				  	"options": {
+				    	"hideConfirmation": true
+				  	},
+				  	"visible": true
 				},
 				{
 					"name": "smtp-mailfrom",
 					"type": "Microsoft.Common.TextBox",
 					"label": "SMTP Mailfrom",
-					"defaultValue": "My Company <myco@company.com>",
+					"defaultValue": "noreply@apigee.com",
 					"toolTip": "MailFrom",
-					"osPlatform": "Linux"
+					"osPlatform": "Linux",
+					"constraints": {
+						"required": true,
+						"regex": "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$",
+						"validationMessage": "SMTP Mail from must be valid email"
+					}
 				},
 				{
 					"name": "licenseFile",
