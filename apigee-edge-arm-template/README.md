@@ -47,6 +47,7 @@ Once the VM is successfully provisioned, you can access Apigee Management UI htt
 
 - Understanding Parameters
 ![Understanding Parameters](/images/azuredeploy.png)
+```
 | properties        | Description                                    |
     | ----------------- |:-----------------------------------------------| 
     | Resource Group    | Always recommened to have apigee edge installed in a new Resource Group            |
@@ -70,7 +71,7 @@ Once the VM is successfully provisioned, you can access Apigee Management UI htt
     | smtp-password       | SMTP password|
     | smtp-mailfrom       | SMTP mail from|
 
-
+```
     
     
 
