@@ -154,6 +154,11 @@
         "name": "vmCopyLoop",
         "count": "[variables('vmCount')]"
       },
+      "plan": {
+        "name": "[parameters('sku')]",
+        "product": "[parameters('product')]",
+        "publisher": "[parameters('publisher')]"
+      },
       "properties": {
 
         "hardwareProfile": {
