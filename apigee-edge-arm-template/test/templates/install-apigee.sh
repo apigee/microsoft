@@ -218,6 +218,8 @@ echo 'sed commands done' >> ${ARMLOGPATH}
 echo 'Running ansible commands' >> ${ARMLOGPATH}
 
 cd /tmp/apigee/ansible-scripts/playbook
+#Temporary fixes for playbook
+curl -O https://storage.googleapis.com/apigee/edge-prerequisite-playbook.yaml
 ansible-playbook -i ../inventory/hosts  edge-prerequisite-playbook.yaml  -u ${login_user} --private-key ${key_path} >>/tmp/ansible_output.log
 ansible-playbook -i ../inventory/hosts  edge-components-setup-playbook.yaml  -u ${login_user} --private-key ${key_path}  >>/tmp/ansible_output.log
 
