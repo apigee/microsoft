@@ -10,7 +10,7 @@ This project allows you to install edge in Azure using Azure resource manager te
 ## Apigee Private Cloud
 Please go through http://docs.apigee.com/private-cloud/content/version-41705 to know more about Apigee Edge Private Cloud.
 
-## Apigee Deployment on GCP
+## Apigee Deployment on Azure
 
  - At this point of time, supported topologies are 1,5 and 9. 
  - Additionally it also create Developer portal in a separate node for all supported toplogies. So for example if you choose to deploy 5 node topology, it will deploy developer portal on 6th node.
@@ -47,7 +47,6 @@ Once the VM is successfully provisioned, you can access Apigee Management UI htt
 
 - Understanding Parameters
 ![Understanding Parameters](/images/azuredeploy.png)
-
 | properties        | Description                                    |
     | ----------------- |:-----------------------------------------------| 
     | Resource Group    | Always recommened to have apigee edge installed in a new Resource Group            |
