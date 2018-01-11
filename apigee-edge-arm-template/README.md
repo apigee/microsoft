@@ -71,8 +71,6 @@ Once the VM is successfully provisioned, you can access Apigee Management UI htt
     | smtp-username        | SMTP user name|
     | smtp-password       | SMTP password|
     | smtp-mailfrom       | SMTP mail from|
-
-```
     
     
 
