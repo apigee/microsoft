@@ -173,9 +173,16 @@
 					"toolTip": {
 						"password": "SMTP User Password"
 					},
-					"defaultValue": "apipassword",
-					"toolTip": "SMTP User Password",
-					"osPlatform": "Linux"
+					"osPlatform": "Linux",
+					"constraints": {
+				    	"required": false,
+				    	"regex": "",
+				    	"validationMessage": ""
+				  	},
+				  	"options": {
+				    	"hideConfirmation": true
+				  	},
+				  	"visible": true
 				},
 				{
 					"name": "smtp-mailfrom",
