@@ -43,10 +43,11 @@ Edge Topology- 9 node
 </a>
 
    - This template allows you to create a Apigee Instance in Azure.Once the deployment is successful, you can access Apigee Edge. You need to get the public IP/DNS of Managment server and Devportal machine.
-
-   Edge UI  -  http://<FQDN name or public IP>:9000/
-   Magemement Server - http://<FQDN name or public IP>:8080/
-   Developer Portal -  http://<FQDN name or public IP>:8079/
+  ```
+     Edge UI  :  http://<FQDN name or public IP>:9000/
+     Magemement Server : http://<FQDN name or public IP>:8080/
+     Developer Portal :  http://<FQDN name or public IP>:8079/
+   ```
 
 - Understanding Parameters
 ![Understanding Parameters](/images/azuredeploy.png)
