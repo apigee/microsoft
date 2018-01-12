@@ -32,7 +32,7 @@ Edge Topology- 9 node
     ```
     ssh-keygen -t rsa -b 4096 -C "apigeetrial" -N "" -f apigeetrial.key
     ```
-    This generates a key pair file apigee.key and apigee.key.pub
+    This generates a key pair file apigeetrial.key and apigeetrial.key.pub
     - so the public key file should like  
           ```
             sh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDMQYOx.....2OA0jecyUx+3+Okp2dzhw== apigeetrial
@@ -42,8 +42,11 @@ Edge Topology- 9 node
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
-   - This template allows you to create a Apigee Instance in Azure.The template presently supports `aio` profile of the opdk, where all the components are installed on one box.
-Once the VM is successfully provisioned, you can access Apigee Management UI http://<FQDN name or public IP>:9000/
+   - This template allows you to create a Apigee Instance in Azure.Once the deployment is successful, you can access Apigee Edge. You need to get the public IP/DNS of Managment server and Devportal machine.
+
+   Edge UI  -  http://<FQDN name or public IP>:9000/
+   Magemement Server - http://<FQDN name or public IP>:8080/
+   Developer Portal -  http://<FQDN name or public IP>:8079/
 
 - Understanding Parameters
 ![Understanding Parameters](/images/azuredeploy.png)
