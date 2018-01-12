@@ -106,7 +106,22 @@ Edge Topology- 9 node
 ## Troubleshootig
 
 It uses ansible based scripts for multi node installation and there can be cases where the edge doesnt get installed even after 30 minutes. It may require additional diaganosis on what may have gone wrong in installation.
-o what may have gone wrong.
+
+- Logging on to box
+```
+    For sshPublicKey authenticationType
+    ssh -i apigeetrial.key apigeetrial@<FQDN of MGMT>
+    
+    For password authenticationType
+    ssh apigeetrial:<password>@<FQDN of MGMT>
+```
+- Log files
+```
+/tmp/apigee/log/armextension.log - The log file that tracks the azure extension proggress
+/tmp/apigee/log/ansible.log - The log file of running ansible logs
+/tmp/apigee/log/setup-root.log - The apigee setup log file.
+
+```
 
 
 ## License
