@@ -86,7 +86,8 @@
 						"regex": "^[a-z0-9]{3,24}$",
 						"validationMessage": "Org name must be between 3 and 24 characters long, and can contain only numbers and lowercase letters."
 
-					}
+					},
+					"visible": true
 				},
 				{
 					"name": "apigeeAdminEmail",
@@ -166,9 +167,9 @@
 					"osPlatform": "Linux",
 					"constraints": {
 						"required": true,
-						"regex": "'^[0-9]+$'",
+						"regex": "^[0-9]+$",
 						"validationMessage": "SMTP Port should be only numbers"
-					}
+					},
 					"visible": true
 				},
 				{
@@ -182,7 +183,7 @@
 						"required": false,
 						"regex": "",
 						"validationMessage": ""
-					}
+					},
 					"visible": true
 				},
 				{
@@ -217,7 +218,8 @@
 						"required": true,
 						"regex": "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$",
 						"validationMessage": "SMTP Mail from must be valid email"
-					}
+					},
+				  	"visible": true
 				},
 				{
 					"name": "licenseFile",
@@ -233,8 +235,10 @@
 						"uploadMode": "file",
 						"openMode": "text",
 						"encoding": "UTF-8"
-					}
-				}, {
+					},
+				  	"visible": true
+				}, 
+				{
 					"name": "sshPrivateKey",
 					"type": "Microsoft.Common.FileUpload",
 					"label": "SSH Private Key",
@@ -249,7 +253,6 @@
 						"encoding": "UTF-8"
 					},
 					"visible": "[not(equals(steps('ApigeeSetupInformation').clusterType,'XSmall'))]"
-				}
 				}
 			]
 		}],
