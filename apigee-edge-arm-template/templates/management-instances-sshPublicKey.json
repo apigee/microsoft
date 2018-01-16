@@ -104,11 +104,13 @@
     },
     "providerGuid": {
       "type": "string"
+    },
+    "storageAccountBaseUrl" : {
+      "type" : "string"
     }
     
   },
   "variables": {
-    "apiVersion": "2015-06-15",
     "nicName": "[concat('ApigeeVMNic-',parameters('vmDnsName'))]",
     "addressPrefix": "10.0.0.0/16",
     "subnet1Name": "Subnet-1",
@@ -128,7 +130,7 @@
   },
   "resources": [
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2017-10-01",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('nicName'), parameters('vmtypeprefix'), copyindex())]",
       "location": "[parameters('location')]",
@@ -154,7 +156,7 @@
         }]
       }
     }, {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2017-12-01",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex())]",
       "location": "[parameters('location')]",
@@ -204,7 +206,7 @@
             "osType": "Linux",
             "createOption": "FromImage",
             "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
+              "uri": "[concat(parameters('storageAccountBaseUrl'),variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
             },
             "caching": "ReadWrite"
           }
@@ -219,7 +221,7 @@
     {
     "type": "Microsoft.Compute/virtualMachines/extensions",
     "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex(),'/newuserscript')]",
-    "apiVersion": "2015-06-15",
+    "apiVersion": "2017-12-01",
     "location": "[parameters('location')]",
     "dependsOn": [
       "[concat('Microsoft.Compute/virtualMachines/', variables('vmName'), parameters('vmtypeprefix'), copyindex())]"

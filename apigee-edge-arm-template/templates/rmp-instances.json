@@ -46,6 +46,9 @@
     },
     "providerGuid": {
       "type": "string"
+    },
+    "storageAccountBaseUrl" : {
+      "type" : "string"
     }
 
   },
@@ -84,7 +87,7 @@
   "resources": [
 
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2017-10-01",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('runtimePublicIPAddressName')]",
       "location": "[parameters('location')]",
@@ -102,7 +105,7 @@
     {
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[variables('availabilitySetName')]",
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2017-12-01",
       "location": "[parameters('location')]",
       "tags": {
         "provider": "[parameters('providerGuid')]"
@@ -110,7 +113,7 @@
       "properties": {}
     }, 
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2017-10-01",
       "name": "[variables('lbName')]",
       "type": "Microsoft.Network/loadBalancers",
       "location": "[parameters('location')]",
@@ -182,7 +185,7 @@
         }]
       }
     }, {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2017-10-01",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(variables('nicName'), parameters('vmtypeprefix'), copyindex())]",
       "location": "[parameters('location')]",
@@ -214,7 +217,7 @@
         }]
       }
     }, {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "2017-12-01",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(variables('vmName'), parameters('vmtypeprefix'), copyindex())]",
       "location": "[parameters('location')]",
@@ -269,7 +272,7 @@
             "osType": "Linux",
             "createOption": "FromImage",
             "vhd": {
-              "uri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
+              "uri": "[concat(parameters('storageAccountBaseUrl'),variables('vmStorageAccountContainerName'),'/', variables('vmName'), parameters('vmtypeprefix'), copyindex(), '-osdisk.vhd')]"
             },
             "caching": "ReadWrite"
           }

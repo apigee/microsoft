@@ -1,6 +1,7 @@
 {
-	"handler": "Microsoft.Compute.MultiVm",
-	"version": "0.0.1-preview",
+	"$schema": "https://schema.management.azure.com/schemas/0.1.2-preview/CreateUIDefinition.MultiVm.json#",
+    "handler": "Microsoft.Compute.MultiVm",
+    "version": "0.1.2-preview",
 	"parameters": {
 		"basics": [{
 			"name": "apigeeDeploymentName",
@@ -69,7 +70,8 @@
 							"label": "Large",
 							"value": "Large"
 						}]
-					}
+					},
+					"visible": true
 				},
 
 				{
@@ -98,7 +100,8 @@
 						"regex": "^\\w+([\\.-]?\\w+)*@\\w+([\\.-]?\\w+)*(\\.\\w{2,3})+$",
 						"validationMessage": "Apigee Admin Email must be valid email"
 
-					}
+					},
+					"visible": true
 				},
 				{
 					"name": "apigeeAdminPassword",
@@ -116,7 +119,8 @@
 						"regex": "^(?:(?=.*[a-z])(?:(?=.*[A-Z])(?=.*[\\d\\W])|(?=.*\\W)(?=.*\\d))|(?=.*\\W)(?=.*[A-Z])(?=.*\\d)).{6,72}$",
 						"validationMessage": "The password must be between 6 and 72 characters long, and contain characters from at least 3 of the following groups: uppercase characters, lowercase characters, numbers, and special characters."
 
-					}
+					},
+					"visible": true
 				},
 				{
 					"name": "smtp-host",
@@ -124,7 +128,13 @@
 					"label": "SMTP Host",
 					"defaultValue": "smtp.gmail.com",
 					"toolTip": "SMTP Host",
-					"osPlatform": "Linux"
+					"osPlatform": "Linux",
+					"constraints": {
+						"required": true,
+						"regex": "^(([a-zA-Z]|[a-zA-Z][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])$",
+						"validationMessage": "SMTP Username from must be valid email"
+					},
+					"visible": true
 				},
 				{
 					"name": "smtp-ssl",
@@ -153,7 +163,13 @@
 					"label": "SMTP Port",
 					"defaultValue": "465",
 					"toolTip": "If no SSL, use a different port, such as 25",
-					"osPlatform": "Linux"
+					"osPlatform": "Linux",
+					"constraints": {
+						"required": true,
+						"regex": "'^[0-9]+$'",
+						"validationMessage": "SMTP Port should be only numbers"
+					}
+					"visible": true
 				},
 				{
 					"name": "smtp-username",
@@ -161,7 +177,13 @@
 					"label": "SMTP User name",
 					"defaultValue": "apiadmin@gmail.com",
 					"toolTip": "SMTP User name",
-					"osPlatform": "Linux"
+					"osPlatform": "Linux",
+					"constraints": {
+						"required": false,
+						"regex": "",
+						"validationMessage": ""
+					}
+					"visible": true
 				},
 				{
 					"name": "smtp-password",
@@ -218,14 +240,16 @@
 					"label": "SSH Private Key",
 					"toolTip": "Used for multi node deployments (Medium/Large profiles)",
 					"constraints": {
-						"required": true
+						"required": "[not(equals(steps('ApigeeSetupInformation').clusterType,'XSmall'))]"
 					},
 					"options": {
 						"multiple": false,
 						"uploadMode": "file",
 						"openMode": "text",
 						"encoding": "UTF-8"
-					}
+					},
+					"visible": "[not(equals(steps('ApigeeSetupInformation').clusterType,'XSmall'))]"
+				}
 				}
 			]
 		}],

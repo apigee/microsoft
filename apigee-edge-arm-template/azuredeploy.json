@@ -111,7 +111,6 @@
     },
     "smtp-password": {
       "type": "securestring",
-      "defaultValue" : "apipassword",
       "metadata": {
         "description": "SMTP Password"
       }
@@ -189,7 +188,7 @@
     {
       "name": "shared",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
+      "apiVersion": "2017-05-10",
       "properties": {
         "mode": "Incremental",
         "templateLink": {
@@ -229,7 +228,7 @@
     }, {
       "name": "datastoreInstances",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
+      "apiVersion": "2017-05-10",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'shared')]"
       ],
@@ -282,13 +281,17 @@
           },
           "providerGuid": {
             "value": "[variables('providerGuid')]"
+          },
+          "storageAccountBaseUrl" :
+          {
+            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]",
           }
         }
       }
     }, {
       "name": "qpidInstances",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
+      "apiVersion": "2017-05-10",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'shared')]"
       ],
@@ -341,13 +344,17 @@
           },
           "providerGuid": {
             "value": "[variables('providerGuid')]"
+          },
+          "storageAccountBaseUrl" :
+          {
+            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]",
           }
         }
       }
     }, {
       "name": "analyticsInstances",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
+      "apiVersion": "2017-05-10",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'shared')]"
       ],
@@ -400,13 +407,17 @@
           },
           "providerGuid": {
             "value": "[variables('providerGuid')]"
+          },
+          "storageAccountBaseUrl" :
+          {
+            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]",
           }
         }
       }
     }, {
       "name": "rmpInstances",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
+      "apiVersion": "2017-05-10",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'shared')]"
       ],
@@ -459,6 +470,10 @@
           },
           "providerGuid": {
             "value": "[variables('providerGuid')]"
+          },
+          "storageAccountBaseUrl" :
+          {
+            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]",
           }
         }
       }
@@ -466,7 +481,7 @@
     {
       "name": "managementInstances",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
+      "apiVersion": "2017-05-10",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'shared')]",
         "[concat('Microsoft.Resources/deployments/', 'datastoreInstances')]",
@@ -590,7 +605,7 @@
     {
       "name": "devportalInstances",
       "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2016-02-01",
+      "apiVersion": "2017-05-10",
       "dependsOn": [
         "[concat('Microsoft.Resources/deployments/', 'shared')]",
         "[concat('Microsoft.Resources/deployments/', 'datastoreInstances')]",
@@ -684,6 +699,10 @@
           },
           "providerGuid": {
             "value": "[variables('providerGuid')]"
+          },
+          "storageAccountBaseUrl" :
+          {
+            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]",
           }
         }
       }

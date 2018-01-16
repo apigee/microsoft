@@ -45,6 +45,9 @@
     },
     "providerGuid": {
       "type": "string"
+    },
+    "storageAccountBaseUrl" : {
+      "type" : "string"
     }
 
   },
