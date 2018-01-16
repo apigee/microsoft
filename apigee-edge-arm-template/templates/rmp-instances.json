@@ -203,9 +203,6 @@
         "ipConfigurations": [{
           "name": "ipconfig1",
           "properties": {
-            "networkSecurityGroup": {
-              "id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('securityGroupName'))]"
-            },
             "privateIPAllocationMethod": "Dynamic",
             "subnet": {
               "id": "[variables('subnet1Ref')]"
