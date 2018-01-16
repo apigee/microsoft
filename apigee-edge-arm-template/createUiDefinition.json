@@ -252,7 +252,7 @@
 						"openMode": "text",
 						"encoding": "UTF-8"
 					},
-					"visible": "[not(equals(steps('ApigeeSetupInformation').clusterType,'XSmall'))]"
+					"visible": true
 				}
 			]
 		}],
@@ -275,7 +275,6 @@
 			"smtp-mailfrom": "[steps('ApigeeSetupInformation').smtp-mailfrom]",
 			"licenseFileText": "[steps('ApigeeSetupInformation').licenseFile]",
 			"sshPrivateKey": "[steps('ApigeeSetupInformation').sshPrivateKey]"
-
 
 
 		}
