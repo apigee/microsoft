@@ -214,6 +214,15 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
     sed -i.bak s/VHOST_BASEURL=.*//g setup-org-test.txt
 fi
 
+if ["$SMTPUSER" == ""]; then
+	sed -i.bak s/SMTPUSER=.*//g config.txt
+	sed -i.bak s/SMTPUSER=.*//g dp-config.txt
+fi
+if ["$SMTPPASSWORD" == ""]; then
+	sed -i.bak s/SMTPPASSWORD=.*//g config.txt
+	sed -i.bak s/SMTPPASSWORD=.*//g dp-config.txt
+fi
+
 echo 'sed commands done' >> ${ARMLOGPATH}
 echo 'Running ansible commands' >> ${ARMLOGPATH}
 

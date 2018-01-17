@@ -90,6 +90,7 @@
     },
     "sshPrivateKey": {
       "type": "securestring",
+      "defaultValue": "",
       "metadata": {
         "description": "The private key for the username given. This is used to login to other instances if a multi node deployment (Medium, Large t-shirt sizes) is selected."
       }
@@ -130,13 +131,14 @@
     },
     "smtp-username": {
       "type": "string",
-      "defaultValue" : "apiadmin@gmail.com",
+      "defaultValue" : "",
       "metadata": {
         "description": "SMTP username"
       }
     },
     "smtp-password": {
       "type": "securestring",
+      "defaultValue": "",
       "metadata": {
         "description": "SMTP Password"
       }
