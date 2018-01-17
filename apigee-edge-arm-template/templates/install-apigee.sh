@@ -218,6 +218,9 @@ if ["$SMTPUSER" == "apiadmin@apigee.com"]; then
 	sed -i.bak s/SMTPUSER=.*//g config.txt
 	sed -i.bak s/SMTPUSER=.*//g dp-config.txt
 fi
+if ["$SMTPUSER" == ""]; then
+	sed -i.bak s/SMTPUSER=.*//g config.txt
+fi
 if ["$SMTPPASSWORD" == ""]; then
 	sed -i.bak s/SMTPPASSWORD=.*//g config.txt
 	sed -i.bak s/SMTPPASSWORD=.*//g dp-config.txt

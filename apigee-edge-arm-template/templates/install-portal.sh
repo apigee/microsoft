@@ -64,6 +64,9 @@ sed -i.bak s/SMTPPORT=.*/SMTPPORT="${SMTPPORT}"/g dp-config.txt
 if ["$SMTPUSER" == "apiadmin@apigee.com"]; then
 	sed -i.bak s/SMTPUSER=.*//g /tmp/apigee/dp-config.txt
 fi
+if ["$SMTPUSER" == ""]; then
+	sed -i.bak s/SMTPUSER=.*//g /tmp/apigee/dp-config.txt
+fi
 if ["$SMTPPASSWORD" == ""]; then
 	sed -i.bak s/SMTPPASSWORD=.*//g /tmp/apigee/dp-config.txt
 fi
