@@ -288,7 +288,7 @@
 						"openMode": "text",
 						"encoding": "UTF-8"
 					},
-					"visible": true
+					"visible": "[not(equals(basics('SSHCredntials').authenticationType,'password'))]"
 				}
 			]
 		}],
