@@ -28,9 +28,9 @@ ORG_NAME=${10}
 SMTPHOST=${11}
 SMTPPORT=${12}
 SMTPSSL=${13}
-SMTPUSER=${14}
-SMTPPASSWORD=${15}
-SMTPMAILFROM=${16}
+SMTPMAILFROM=${14}
+SMTPUSER=${15}
+SMTPPASSWORD=${16}
 SKIP_SMTP="n"
 
 login_user=$USER_NAME
@@ -214,7 +214,7 @@ if [ "$DEPLOYMENT_TOPOLOGY" == "XSmall" ]; then
     sed -i.bak s/VHOST_BASEURL=.*//g setup-org-test.txt
 fi
 
-if ["$SMTPUSER" == ""]; then
+if ["$SMTPUSER" == "apiadmin@apigee.com"]; then
 	sed -i.bak s/SMTPUSER=.*//g config.txt
 	sed -i.bak s/SMTPUSER=.*//g dp-config.txt
 fi

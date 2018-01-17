@@ -131,7 +131,7 @@
     },
     "smtp-username": {
       "type": "string",
-      "defaultValue" : "",
+      "defaultValue" : "apiadmin@apigee.com",
       "metadata": {
         "description": "SMTP username"
       }

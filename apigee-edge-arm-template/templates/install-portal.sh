@@ -19,9 +19,9 @@ ORG_NAME=${5}
 SMTPHOST=${6}
 SMTPPORT=${7}
 SMTPSSL=${8}
-SMTPUSER=${9}
-SMTPPASSWORD=${10}
-SMTPMAILFROM=${11}
+SMTPMAILFROM=${9}
+SMTPUSER=${10}
+SMTPPASSWORD=${11}
 SKIP_SMTP="n"
 
 login_user=$USER_NAME
@@ -60,6 +60,13 @@ sed -i.bak s/SMTPUSER=.*/SMTPUSER=${SMTPUSER}/g dp-config.txt
 sed -i.bak s/SMTPPASSWORD=.*/SMTPPASSWORD=${SMTPPASSWORD}/g dp-config.txt
 sed -i.bak s/SMTPSSL=.*/SMTPSSL=${SMTPSSL}/g dp-config.txt
 sed -i.bak s/SMTPPORT=.*/SMTPPORT="${SMTPPORT}"/g dp-config.txt
+
+if ["$SMTPUSER" == "apiadmin@apigee.com"]; then
+	sed -i.bak s/SMTPUSER=.*//g /tmp/apigee/dp-config.txt
+fi
+if ["$SMTPPASSWORD" == ""]; then
+	sed -i.bak s/SMTPPASSWORD=.*//g /tmp/apigee/dp-config.txt
+fi
 
 #Manually copy the dp config to /tmp/apigee folder
 cp -fr /tmp/apigee/ansible-scripts/config/dp-config.txt /tmp/apigee/dp-config.txt
