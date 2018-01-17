@@ -20,6 +20,32 @@
         "description": "T-shirt size of the Apigee deployment"
       }
     },
+    "vmSize": {
+      "type": "string",
+      "defaultValue": "Standard_D4s_v3",
+      "allowedValues": [
+        "Standard_D2",
+        "Standard_D4",
+        "Standard_D8",
+        "Standard_D2_v3",
+        "Standard_D4_v3",
+        "Standard_DS2",
+        "Standard_DS3",
+        "Standard_DS4",
+        "Standard_DS2_v2",
+        "Standard_DS3_v2",
+        "Standard_DS4_v2",
+        "Standard_D2s_v3",
+        "Standard_D4s_v3",
+        "Standard_D8s_v3",
+        "Standard_A3",
+        "Standard_A4",
+        "Standard_A5"
+      ],
+      "metadata": {
+        "description": "VM Size of the Apigee deployment"
+      }
+    },
     "apigeeDeploymentName": {
       "type": "string"
     },
@@ -132,9 +158,9 @@
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-', parameters('authenticationType') ,'.json')]",
-      "managementInstanceSize":"Standard_D16s_v3",
+      "managementInstanceSize":"[parameters('vmSize')]",
       "devportalInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'devportal-instances-', parameters('authenticationType'),'.json')]",
-      "devportalInstanceSize":"Standard_D4s_v3"
+      "devportalInstanceSize":"[parameters('vmSize')]"
     },
     "tshirtSizeMedium": {
       "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
@@ -143,9 +169,9 @@
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
-      "managementInstanceSize":"Standard_D4s_v3",
+      "managementInstanceSize":"[parameters('vmSize')]",
       "devportalInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'devportal-instances-sshPublicKey.json')]",
-      "devportalInstanceSize":"Standard_D4s_v3"
+      "devportalInstanceSize":"[parameters('vmSize')]"
     },
     "tshirtSizeLarge": {
       "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
@@ -154,9 +180,9 @@
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
-      "managementInstanceSize":"Standard_D4s_v3",
+      "managementInstanceSize":"[parameters('vmSize')]",
       "devportalInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'devportal-instances-sshPublicKey.json')]",
-      "devportalInstanceSize":"Standard_D4s_v3"
+      "devportalInstanceSize":"[parameters('vmSize')]"
     },
     "tshirtSize": "[variables(concat('tshirtSize', parameters('tshirtSize')))]",
     "nicName": "[concat('ApigeeVMNic-',parameters('apigeeDeploymentName'))]",

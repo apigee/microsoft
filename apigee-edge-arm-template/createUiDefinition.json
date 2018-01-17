@@ -73,7 +73,43 @@
 					},
 					"visible": true
 				},
-
+				{
+		            "name": "vmSize",
+		            "type": "Microsoft.Compute.SizeSelector",
+		            "label": "Virtual machine size",
+		            "toolTip": "The size of the virtual machine for the Apigee Edge Server.",
+		            "recommendedSizes": [
+		              "Standard_DS3",
+		              "Standard_DS4",
+		              "Standard_DS3_v2",
+		              "Standard_DS4_v2",
+		              "Standard_D2s_v3",
+				      "Standard_D4s_v3"
+		            ],
+		            "constraints": {
+		              "allowedSizes": [
+		                "Standard_D2",
+				        "Standard_D4",
+				        "Standard_D8",
+				        "Standard_D2_v3",
+				        "Standard_D4_v3",
+				        "Standard_DS2",
+				        "Standard_DS3",
+				        "Standard_DS4",
+				        "Standard_DS2_v2",
+				        "Standard_DS3_v2",
+				        "Standard_DS4_v2",
+				        "Standard_D2s_v3",
+				        "Standard_D4s_v3",
+				        "Standard_D8s_v3",
+				        "Standard_A3",
+				        "Standard_A4",
+				        "Standard_A5"
+		              ]
+		            },
+		            "osPlatform": "Linux",
+		            "visible" : true
+		        },
 				{
 					"name": "org",
 					"type": "Microsoft.Common.TextBox",
@@ -264,6 +300,7 @@
 			"password": "[basics('SSHCredntials').password]",
 			"sshKey": "[basics('SSHCredntials').sshPublicKey]",
 			"tshirtSize": "[steps('ApigeeSetupInformation').clusterType]",
+			"vmSize": "[steps('ApigeeSetupInformation').vmSize]",
 			"apigeeAdminEmail": "[steps('ApigeeSetupInformation').apigeeAdminEmail]",
 			"apigeeAdminPassword": "[steps('ApigeeSetupInformation').apigeeAdminPassword]",
 			"org": "[steps('ApigeeSetupInformation').org]",
@@ -275,7 +312,6 @@
 			"smtp-mailfrom": "[steps('ApigeeSetupInformation').smtp-mailfrom]",
 			"licenseFileText": "[steps('ApigeeSetupInformation').licenseFile]",
 			"sshPrivateKey": "[steps('ApigeeSetupInformation').sshPrivateKey]"
-
 
 		}
 	}
