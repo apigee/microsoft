@@ -177,7 +177,7 @@
 					"name": "smtp-ssl",
 					"type": "Microsoft.Common.OptionsGroup",
 					"label": "SSL(y/n)",
-					"defaultValue": "y",
+					"defaultValue": "Yes",
 					"toolTip": "SMTP SSL",
 					 "constraints": {
 					    "allowedValues": [
