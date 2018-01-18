@@ -72,7 +72,7 @@
 							"value": "Large"
 						}]
 					},
-					"visible": true
+					"visible": "[not(equals(basics('SSHCredntials').authenticationType,'password'))]"
 				},
 				{
 		            "name": "vmSize",
