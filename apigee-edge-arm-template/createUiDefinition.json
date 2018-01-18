@@ -80,12 +80,12 @@
 		            "label": "Virtual machine size",
 		            "toolTip": "The size of the virtual machine for the Apigee Edge Server.",
 		            "recommendedSizes": [
-		              "Standard_DS3",
-		              "Standard_DS4",
 		              "Standard_DS3_v2",
 		              "Standard_DS4_v2",
 		              "Standard_D2s_v3",
-				      "Standard_D4s_v3"
+				      "Standard_D4s_v3",
+				      "Standard_DS3",
+		              "Standard_DS4"
 		            ],
 		            "constraints": {
 		              "allowedSizes": [
