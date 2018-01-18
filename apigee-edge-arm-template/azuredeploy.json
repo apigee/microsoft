@@ -238,7 +238,7 @@
           },
           "machineSettings": {
             "value": {
-              "vmSize": "Standard_D4s_v3",
+              "vmSize": "[variables('tshirtSize').managementInstanceSize]",
               "diskSize": "250",
               "vmCount": 1
             }
@@ -281,7 +281,7 @@
           },
           "machineSettings": {
             "value": {
-              "vmSize": "Standard_D2s_v3",
+              "vmSize": "[variables('tshirtSize').managementInstanceSize]",
               "diskSize": "250",
               "vmCount": 2
             }
@@ -344,7 +344,7 @@
           },
           "machineSettings": {
             "value": {
-              "vmSize": "Standard_D2s_v3",
+              "vmSize": "[variables('tshirtSize').managementInstanceSize]",
               "diskSize": "250",
               "vmCount": 2
             }
@@ -407,7 +407,7 @@
           },
           "machineSettings": {
             "value": {
-              "vmSize": "Standard_D2s_v3",
+              "vmSize": "[variables('tshirtSize').managementInstanceSize]",
               "diskSize": "500",
               "vmCount": 2
             }
@@ -470,7 +470,7 @@
           },
           "machineSettings": {
             "value": {
-              "vmSize": "Standard_D2s_v3",
+              "vmSize": "[variables('tshirtSize').managementInstanceSize]",
               "diskSize": "250",
               "vmCount": 2
             }
