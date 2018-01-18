@@ -72,7 +72,7 @@
 							"value": "Large"
 						}]
 					},
-					"visible": "[not(equals(basics('SSHCredntials').authenticationType,'password'))]"
+					"visible": "[equals(basics('SSHCredntials').authenticationType,'sshPublicKey'))]"
 				},
 				{
 					"name": "clusterType",
