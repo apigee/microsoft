@@ -52,7 +52,8 @@
 				"postValidation": "Done"
 			},
 			"bladeTitle": "Cluster cluster settings",
-			"elements": [{
+			"elements": [
+			   {
 					"name": "clusterType",
 					"type": "Microsoft.Common.DropDown",
 					"label": "Cluster Type",
@@ -71,7 +72,22 @@
 							"value": "Large"
 						}]
 					},
-					"visible": true
+					"visible": "[not(equals(basics('SSHCredntials').authenticationType,'password'))]"
+				},
+				{
+					"name": "clusterType",
+					"type": "Microsoft.Common.DropDown",
+					"label": "Cluster Type",
+					"defaultValue": "XSmall",
+					"toolTip": "Select 'XSmall' to deploy Apigee on one node. Select 'Medium' to deploy Apigee on 5 node clister. Select 'Large' to deploy Apigee on 9 node cluster",
+					"constraints": {
+						"required": true,
+						"allowedValues": [{
+							"label": "XSmall",
+							"value": "XSmall"
+						}]
+					},
+					"visible": "[equals(basics('SSHCredntials').authenticationType,'password')]"
 				},
 				{
 		            "name": "vmSize",
