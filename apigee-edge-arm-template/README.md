@@ -38,7 +38,7 @@ Edge Topology- 9 node
             sh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDMQYOx.....2OA0jecyUx+3+Okp2dzhw== apigeetrial
           ```
 - Deploy to Azure using link below
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fapigee%2Fmicrosoft%2Fmasterx%2Fapigee-edge-arm-template%2Fazuredeploy.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fapigee%2Fmicrosoft%2Fmaster%2Fapigee-edge-arm-template%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
