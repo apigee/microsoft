@@ -22,7 +22,7 @@
     },
     "vmSize": {
       "type": "string",
-      "defaultValue": "Standard_D4s_v3",
+      "defaultValue": "Standard_D2s_v3",
       "allowedValues": [
         "Standard_D2",
         "Standard_D4",
@@ -47,7 +47,8 @@
       }
     },
     "apigeeDeploymentName": {
-      "type": "string"
+      "type": "string",
+      "defaultValue": "apigeetrial"
     },
     "adminUserName": {
       "type": "string",
@@ -66,7 +67,7 @@
     },
     "password": {
       "type": "securestring",
-      "defaultValue": "",
+      "defaultValue": "Apigee@123",
       "metadata": {
         "descritpion": "Password for non SSH login (supported only for XSmall)"
       }
@@ -86,7 +87,8 @@
       }
     },
     "apigeeAdminPassword": {
-      "type": "securestring"
+      "type": "securestring",
+      "defaultValue": "Apigee@123"
     },
     "sshPrivateKey": {
       "type": "securestring",
@@ -103,35 +105,35 @@
     },
     "org": {
       "type": "string",
-      "defaultValue" : "apigeetrial",
+      "defaultValue": "apigeetrial",
       "metadata": {
         "description": "Org Name"
       }
     },
     "smtp-host": {
       "type": "string",
-      "defaultValue" : "smtp.gmail.com",
+      "defaultValue": "smtp.gmail.com",
       "metadata": {
         "description": "SMTP host"
       }
     },
     "smtp-port": {
       "type": "string",
-      "defaultValue" : "465",
+      "defaultValue": "465",
       "metadata": {
         "description": "SMTP port"
       }
     },
     "smtp-ssl": {
       "type": "string",
-      "defaultValue" : "y",
+      "defaultValue": "y",
       "metadata": {
         "description": "SMTP SSL Enabled (y/n)"
       }
     },
     "smtp-username": {
       "type": "string",
-      "defaultValue" : "apiadmin@apigee.com",
+      "defaultValue": "apiadmin@apigee.com",
       "metadata": {
         "description": "SMTP username"
       }
@@ -145,14 +147,14 @@
     },
     "smtp-mailfrom": {
       "type": "string",
-      "defaultValue" : "noreply@apigee.com",
+      "defaultValue": "noreply@apigee.com",
       "metadata": {
         "description": "SMTP Mail From"
       }
     }
   },
   "variables": {
-    "templateBaseUrl": "[uri(deployment().properties.templateLink.uri, 'templates/')]",
+    "templateBaseUrl": "https://raw.githubusercontent.com/apigee/microsoft/master/apigee-edge-arm-template/templates/",
     "tshirtSizeXSmall": {
       "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
       "datastoreInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
@@ -160,9 +162,9 @@
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'empty-resources.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-', parameters('authenticationType') ,'.json')]",
-      "managementInstanceSize":"[parameters('vmSize')]",
+      "managementInstanceSize": "[parameters('vmSize')]",
       "devportalInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'devportal-instances-', parameters('authenticationType'),'.json')]",
-      "devportalInstanceSize":"[parameters('vmSize')]"
+      "devportalInstanceSize": "[parameters('vmSize')]"
     },
     "tshirtSizeMedium": {
       "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
@@ -171,9 +173,9 @@
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
-      "managementInstanceSize":"[parameters('vmSize')]",
+      "managementInstanceSize": "[parameters('vmSize')]",
       "devportalInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'devportal-instances-sshPublicKey.json')]",
-      "devportalInstanceSize":"[parameters('vmSize')]"
+      "devportalInstanceSize": "[parameters('vmSize')]"
     },
     "tshirtSizeLarge": {
       "sharedTemplateUrl": "[concat(variables('templateBaseUrl'), 'shared-resources.json')]",
@@ -182,9 +184,9 @@
       "analyticsInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'analytics-instances.json')]",
       "rmpInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'rmp-instances.json')]",
       "managementInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'management-instances-sshPublicKey.json')]",
-      "managementInstanceSize":"[parameters('vmSize')]",
+      "managementInstanceSize": "[parameters('vmSize')]",
       "devportalInstancesTemplateUrl": "[concat(variables('templateBaseUrl'), 'devportal-instances-sshPublicKey.json')]",
-      "devportalInstanceSize":"[parameters('vmSize')]"
+      "devportalInstanceSize": "[parameters('vmSize')]"
     },
     "tshirtSize": "[variables(concat('tshirtSize', parameters('tshirtSize')))]",
     "nicName": "[concat('ApigeeVMNic-',parameters('apigeeDeploymentName'))]",
@@ -204,11 +206,11 @@
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "runtimePublicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('runtimePublicIPAddressName'))]",
     "storageAccountName": "[concat(uniqueString(resourceGroup().id, deployment().name), 'apigee')]",
-    "image" : "Not Applicable",
-    "sku": "apigee-edge-private-cloud",
-    "product": "apigee-edge",
-    "publisher": "apigee",
-    "version" : "latest",
+    "image": "Not Applicable",
+    "sku": "7.5",
+    "product": "CentOS",
+    "publisher": "OpenLogic",
+    "version": "latest",
     "providerGuid": "[toUpper('b6dd345e-8ee1-4d3d-b276-a84bdfb88fe6')]"
   },
   "resources": [
@@ -245,7 +247,8 @@
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
-          },"storageAccountName": {
+          },
+          "storageAccountName": {
             "value": "[variables('storageAccountName')]"
           },
           "providerGuid": {
@@ -310,9 +313,8 @@
           "providerGuid": {
             "value": "[variables('providerGuid')]"
           },
-          "storageAccountBaseUrl" :
-          {
-            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]",
+          "storageAccountBaseUrl": {
+            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]"
           }
         }
       }
@@ -373,9 +375,8 @@
           "providerGuid": {
             "value": "[variables('providerGuid')]"
           },
-          "storageAccountBaseUrl" :
-          {
-            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]",
+          "storageAccountBaseUrl": {
+            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]"
           }
         }
       }
@@ -436,9 +437,8 @@
           "providerGuid": {
             "value": "[variables('providerGuid')]"
           },
-          "storageAccountBaseUrl" :
-          {
-            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]",
+          "storageAccountBaseUrl": {
+            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]"
           }
         }
       }
@@ -499,9 +499,8 @@
           "providerGuid": {
             "value": "[variables('providerGuid')]"
           },
-          "storageAccountBaseUrl" :
-          {
-            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]",
+          "storageAccountBaseUrl": {
+            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]"
           }
         }
       }
@@ -559,25 +558,25 @@
             "value": "[parameters('apigeeAdminPassword')]"
           },
           "org": {
-            "value" : "[parameters('org')]"
+            "value": "[parameters('org')]"
           },
           "smtp-host": {
-            "value" : "[parameters('smtp-host')]"
+            "value": "[parameters('smtp-host')]"
           },
           "smtp-port": {
-            "value" : "[parameters('smtp-port')]"
+            "value": "[parameters('smtp-port')]"
           },
           "smtp-ssl": {
-            "value" : "[parameters('smtp-ssl')]"
+            "value": "[parameters('smtp-ssl')]"
           },
           "smtp-username": {
-            "value" : "[parameters('smtp-username')]"
+            "value": "[parameters('smtp-username')]"
           },
           "smtp-password": {
-            "value" : "[parameters('smtp-password')]"
+            "value": "[parameters('smtp-password')]"
           },
           "smtp-mailfrom": {
-            "value" : "[parameters('smtp-mailfrom')]"
+            "value": "[parameters('smtp-mailfrom')]"
           },
           "sshPrivateKey": {
             "value": "[parameters('sshPrivateKey')]"
@@ -591,8 +590,8 @@
           "image": {
             "value": "[variables('image')]"
           },
-          "templateBaseUrl" : {
-            "value" : "[variables('templateBaseUrl')]"
+          "templateBaseUrl": {
+            "value": "[variables('templateBaseUrl')]"
           },
           "sku": {
             "value": "[variables('sku')]"
@@ -623,9 +622,8 @@
           "providerGuid": {
             "value": "[variables('providerGuid')]"
           },
-          "storageAccountBaseUrl" :
-          {
-            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]",
+          "storageAccountBaseUrl": {
+            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]"
           }
         }
       }
@@ -681,28 +679,28 @@
             "value": "[parameters('apigeeAdminPassword')]"
           },
           "msip": {
-            "value" : "[reference('managementInstances').outputs.ip1.value]"
+            "value": "[reference('managementInstances').outputs.ip1.value]"
           },
           "org": {
-            "value" : "[parameters('org')]"
+            "value": "[parameters('org')]"
           },
           "smtp-host": {
-            "value" : "[parameters('smtp-host')]"
+            "value": "[parameters('smtp-host')]"
           },
           "smtp-port": {
-            "value" : "[parameters('smtp-port')]"
+            "value": "[parameters('smtp-port')]"
           },
           "smtp-ssl": {
-            "value" : "[parameters('smtp-ssl')]"
+            "value": "[parameters('smtp-ssl')]"
           },
           "smtp-username": {
-            "value" : "[parameters('smtp-username')]"
+            "value": "[parameters('smtp-username')]"
           },
           "smtp-password": {
-            "value" : "[parameters('smtp-password')]"
+            "value": "[parameters('smtp-password')]"
           },
           "smtp-mailfrom": {
-            "value" : "[parameters('smtp-mailfrom')]"
+            "value": "[parameters('smtp-mailfrom')]"
           },
           "storageAccountName": {
             "value": "[variables('storageAccountName')]"
@@ -710,8 +708,8 @@
           "image": {
             "value": "[variables('image')]"
           },
-          "templateBaseUrl" : {
-            "value" : "[variables('templateBaseUrl')]"
+          "templateBaseUrl": {
+            "value": "[variables('templateBaseUrl')]"
           },
           "sku": {
             "value": "[variables('sku')]"
@@ -728,9 +726,8 @@
           "providerGuid": {
             "value": "[variables('providerGuid')]"
           },
-          "storageAccountBaseUrl" :
-          {
-            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]",
+          "storageAccountBaseUrl": {
+            "value": "[reference('shared').outputs.storageBlobBaseUrl.value]"
           }
         }
       }

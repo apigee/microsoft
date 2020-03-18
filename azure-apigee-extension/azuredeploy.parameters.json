@@ -24,7 +24,7 @@
       "value": ""
     },
     "edgeVersion": {
-      "value": "4.17.09"
+      "value": "4.19.06"
     },
     "scriptLocation": {
       "value": "https://raw.githubusercontent.com/apigee/microsoft/17x/azure-apigee-extension"
