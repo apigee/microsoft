@@ -277,12 +277,44 @@ setup_ansible_config() {
 
 }
 
+setup_ansible() {
+
+	yum install wget -y
+	yum install unzip -y
+	yum install curl -y
+	#yum install ansible -y
+
+	rpm -e epel-release
+	sudo wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+	rpm -ivh epel-release-latest-7.noarch.rpm
+
+
+	curl -O https://storage.googleapis.com/apigee/ansible-2.3.0.0-3.el7.noarch.rpm
+	yum install ansible-2.3.0.0-3.el7.noarch.rpm -y
+
+
+	setenforce 0 >> /tmp/setenforce.out
+	cat /etc/selinux/config > /tmp/beforeSelinux.out
+	sed -i 's^SELINUX=enforcing^SELINUX=disabled^g' /etc/selinux/config || true
+	cat /etc/selinux/config > /tmp/afterSeLinux.out
+
+	yum install -y iptables-services
+	systemctl mask firewalld
+	systemctl enable iptables
+	systemctl stop firewalld
+	systemctl start iptables
+	iptables --flush
+	service iptables save
+
+	echo "ALL ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+}
+
 run_ansible() {
 
 	echo 'Running ansible commands' >> ${ARMLOGPATH}
 	cd /tmp/apigee/ansible-scripts/playbook
 	#Temporary fixes for playbook
-	curl -O https://storage.googleapis.com/apigee/edge-prerequisite-playbook.yaml
 	ansible-playbook -i ../inventory/hosts  edge-prerequisite-playbook.yaml  -u ${login_user} --private-key ${key_path} >>/tmp/ansible_output.log
 	ansible-playbook --extra-vars "apigee_user=$REPO_USER apigee_password=$REPO_PASSWORD repohost=$REPO_HOST repoprotocol=$REPO_PROTOCOL repostage=$REPO_STAGE version=$EDGE_VERSION" -i ../inventory/hosts  -u ${login_user} --private-key ${key_path} edge-presetup-playbook.yaml >>/tmp/ansible_output.log
 	ansible-playbook -i ../inventory/hosts  edge-components-setup-playbook.yaml  -u ${login_user} --private-key ${key_path}  >>/tmp/ansible_output.log
@@ -337,6 +369,7 @@ initialize_variables "$@"
 install_apigee
 setup_ssh_key_and_license
 setup_ansible_config
+setup_ansible
 run_ansible
 
 echo 'script execution ended at:'>>${ARMLOGPATH}
