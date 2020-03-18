@@ -334,10 +334,10 @@ echo $(date)>>${ARMLOGPATH}
 
 initialize_variables "$@"
 #setup_variables
-#install_apigee
-#setup_ssh_key_and_license
-#setup_ansible_config
-#run_ansible
+install_apigee
+setup_ssh_key_and_license
+setup_ansible_config
+run_ansible
 
 echo 'script execution ended at:'>>${ARMLOGPATH}
 echo $(date)>>${ARMLOGPATH}
