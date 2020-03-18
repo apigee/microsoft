@@ -292,7 +292,41 @@ run_ansible() {
 echo 'script execution started at:'>>${ARMLOGPATH}
 echo $(date)>>${ARMLOGPATH}
 
-setup_variables
+echo 'Initializing variables' >>${ARMLOGPATH}
+
+USER_NAME=$1
+APIGEE_ADMIN_EMAIL=$2
+APW=$3
+VHOST_ALIAS=$4
+VHOST_NAME='default'
+VHOST_PORT_PROD='9001'
+VHOST_PORT_TEST='9002'
+EDGE_VERSION='4.17.09'
+DEPLOYMENT_TOPOLOGY=$5
+LB_IP_ALIAS=$6
+HOST_NAMES=$7
+LICENSE_TEXT=$8
+SSH_KEY=$9
+ORG_NAME=${10}
+SMTPHOST=${11}
+SMTPPORT=${12}
+SMTPSSL=${13}
+SMTPMAILFROM=${14}
+SMTPUSER=${15}
+SMTPPASSWORD=${16}
+SKIP_SMTP="n"
+
+login_user=$USER_NAME
+MSIP=$(hostname -i)
+
+echo 'script execution started at:'>>${ARMLOGPATH}
+echo $(date)>>${ARMLOGPATH}
+
+echo "args: $*" >>${ARMLOGPATH}
+echo 'Inititalized variables, ' $VHOST_ALIAS, $EDGE_VERSION, $DEPLOYMENT_TOPOLOGY, $LB_IP_ALIAS, "Hosts: " $HOST_NAMES  >>${ARMLOGPATH}
+
+
+#setup_variables
 #install_apigee
 #setup_ssh_key_and_license
 #setup_ansible_config
