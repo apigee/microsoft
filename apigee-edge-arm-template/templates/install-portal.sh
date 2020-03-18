@@ -3,84 +3,181 @@
 mkdir -p /tmp/apigee/log
 ARMLOGPATH=/tmp/apigee/log/armextension.log
 echo 'executing the install script' >>${ARMLOGPATH}
-#echo "Changing the ansible log location"
-#sed -i "s|./ansible.log|/tmp/apigee/log/ansible.log|g" /tmp/apigee/ansible-scripts/playbook/ansible.cfg
-#echo "setting the installation log file to log directory"
-#ln -Ts /tmp/setup-root.log /tmp/apigee/log/setup-root.log
 
 
-echo 'Initializing variables' >>${ARMLOGPATH}
+initialize_variables() {
 
-USER_NAME=$1
-APIGEE_ADMIN_EMAIL=$2
-APW=$3
-MSIP=$4
-ORG_NAME=${5}
-SMTPHOST=${6}
-SMTPPORT=${7}
-SMTPSSL=${8}
-SMTPMAILFROM=${9}
-SMTPUSER=${10}
-SMTPPASSWORD=${11}
-SKIP_SMTP="n"
+	echo 'Initializing variables' >>${ARMLOGPATH}
 
-login_user=$USER_NAME
+	REPO_USER=$1
+	REPO_PASSWORD=$2
+	EDGE_VERSION=$3
+	FILE_BASEPATH=$4
+	REPO_HOST="software.apigee.com"
+    REPO_PROTOCOL="https"
+    REPO_STAGE="release"
 
-echo 'script execution started at:'>>${ARMLOGPATH}
-echo $(date)>>${ARMLOGPATH}
+	USER_NAME=$5
+	APIGEE_ADMIN_EMAIL=$6
+	APW=$7
+	MSIP=$8
+	ORG_NAME=${9}
+	SMTPHOST=${10}
+	SMTPPORT=${11}
+	SMTPSSL=${12}
+	SMTPMAILFROM=${13}
+	SMTPUSER=${14}
+	SMTPPASSWORD=${15}
+	SKIP_SMTP="n"
 
-echo "args: $*" >>${ARMLOGPATH}
+	login_user=$USER_NAME
 
-cd /tmp/apigee
-ssh-keygen -t rsa -N "" -C ${login_user} -f my.key
-mkdir -p ~/.ssh
-mv -f my.key ~/.ssh/id_rsa
-chmod 600 ~/.ssh/id_rsa
-mkdir -p /home/${login_user}/.ssh
-cat my.key.pub >>  /home/${login_user}/.ssh/authorized_keys
-echo "Copy the ssh key to id_rsa in home directory of root" >>${ARMLOGPATH}
-key_path=~/.ssh/id_rsa
-echo 'ssh key set to '$key_path >>${ARMLOGPATH}
+	echo 'script execution started at:'>>${ARMLOGPATH}
+	echo $(date)>>${ARMLOGPATH}
 
-echo "Changing configuration of dev portals"
-cd /tmp/apigee/ansible-scripts/config
+	echo "args: $*" >>${ARMLOGPATH}
+	echo 'Inititalized variables, ' $REPO_USER, $REPO_PASSWORD, $EDGE_VERSION, $FILE_BASEPATH, , "Hosts: " $HOST_NAMES  >>${ARMLOGPATH}
 
-sed -i.bak s/DEVPORTAL_ADMIN_USERNAME=/DEVPORTAL_ADMIN_USERNAME="${APIGEE_ADMIN_EMAIL}"/g dp-config.txt
-sed -i.bak s/DEVPORTAL_ADMIN_PWD=/DEVPORTAL_ADMIN_PWD="${APW}"/g dp-config.txt
-sed -i.bak s/DEVPORTAL_ADMIN_EMAIL=/DEVPORTAL_ADMIN_EMAIL="${APIGEE_ADMIN_EMAIL}"/g dp-config.txt
+}
 
-sed -i.bak s/DEVADMIN_USER=/DEVADMIN_USER="${APIGEE_ADMIN_EMAIL}"/g dp-config.txt
-sed -i.bak s/DEVADMIN_PWD=/DEVADMIN_PWD="${APW}"/g dp-config.txt
-sed -i.bak s/EDGE_ORG=/EDGE_ORG="${ORG_NAME}"/g dp-config.txt
-sed -i.bak s/MGMTIP/${MSIP}/g dp-config.txt
+install_apigee() {
 
-sed -i.bak s/SMTPHOST=.*/SMTPHOST=${SMTPHOST}/g dp-config.txt
-sed -i.bak s/SMTPMAILFROM=.*/SMTPMAILFROM="\"${SMTPMAILFROM}\""/g dp-config.txt
-sed -i.bak s/SMTPUSER=.*/SMTPUSER=${SMTPUSER}/g dp-config.txt
-sed -i.bak s/SMTPPASSWORD=.*/SMTPPASSWORD=${SMTPPASSWORD}/g dp-config.txt
-sed -i.bak s/SMTPSSL=.*/SMTPSSL=${SMTPSSL}/g dp-config.txt
-sed -i.bak s/SMTPPORT=.*/SMTPPORT="${SMTPPORT}"/g dp-config.txt
+	#Get ansible scripts in /tmp/apigee/ansible directory
+	mkdir -p /tmp/apigee/ansible-scripts
+	mkdir -p /tmp/apigee/ansible-scripts/inventory
+	mkdir -p /tmp/apigee/ansible-scripts/playbook
+	mkdir -p /tmp/apigee/ansible-scripts/config
 
-if ["$SMTPUSER" == "apiadmin@apigee.com"]; then
-	sed -i.bak s/SMTPUSER=.*//g /tmp/apigee/dp-config.txt
-fi
-if ["$SMTPUSER" == ""]; then
-	sed -i.bak s/SMTPUSER=.*//g /tmp/apigee/dp-config.txt
-fi
-if ["$SMTPPASSWORD" == ""]; then
-	sed -i.bak s/SMTPPASSWORD=.*//g /tmp/apigee/dp-config.txt
-fi
+	curl -o /tmp/apigee/ansible-scripts/inventory/hosts_EDGE_1node  $FILE_BASEPATH/ansible-scripts/inventory/hosts_EDGE_1node
+	curl -o /tmp/apigee/ansible-scripts/inventory/hosts_EDGE_5node  $FILE_BASEPATH/ansible-scripts/inventory/hosts_EDGE_5node
+	curl -o /tmp/apigee/ansible-scripts/inventory/hosts_EDGE_9node  $FILE_BASEPATH/ansible-scripts/inventory/hosts_EDGE_9node
 
-#Manually copy the dp config to /tmp/apigee folder
-cp -fr /tmp/apigee/ansible-scripts/config/dp-config.txt /tmp/apigee/dp-config.txt
-cd /tmp/apigee/ansible-scripts/playbook
+	curl -o /tmp/apigee/ansible-scripts/config/aio-config.txt  $FILE_BASEPATH/ansible-scripts/config/aio-config.txt
+	curl -o /tmp/apigee/ansible-scripts/config/dp-config.txt  $FILE_BASEPATH/ansible-scripts/config/dp-config.txt
+	curl -o /tmp/apigee/ansible-scripts/config/grafana.txt  $FILE_BASEPATH/ansible-scripts/config/grafana.txt
+	curl -o /tmp/apigee/ansible-scripts/config/config5.txt  $FILE_BASEPATH/ansible-scripts/config/config5.txt
+	curl -o /tmp/apigee/ansible-scripts/config/config9.txt  $FILE_BASEPATH/ansible-scripts/config/config9.txt
+	curl -o /tmp/apigee/ansible-scripts/config/setup-org-prod.txt  $FILE_BASEPATH/ansible-scripts/config/setup-org-prod.txt
+	curl -o /tmp/apigee/ansible-scripts/config/setup-org-test.txt  $FILE_BASEPATH/ansible-scripts/config/setup-org-test.txt
 
-#ansible-playbook -i ../inventory/hosts  dp-playbook.yaml  -u ${login_user} --private-key ${key_path}  >>/tmp/ansible_output.log
-/opt/apigee/apigee-setup/bin/setup.sh -p pdb -f /tmp/apigee/dp-config.txt
-/opt/apigee/apigee-setup/bin/setup.sh -p dp -f /tmp/apigee/dp-config.txt
+	curl -o /tmp/apigee/ansible-scripts/playbook/ansible.cfg  $FILE_BASEPATH/ansible-scripts/playbook/ansible.cfg
+	curl -o /tmp/apigee/ansible-scripts/playbook/dp-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/dp-playbook.yaml
+	curl -o /tmp/apigee/ansible-scripts/playbook/ds-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/ds-playbook.yaml
+	curl -o /tmp/apigee/ansible-scripts/playbook/rmp-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/rmp-playbook.yaml
+	curl -o /tmp/apigee/ansible-scripts/playbook/r-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/r-playbook.yaml
+	curl -o /tmp/apigee/ansible-scripts/playbook/mp-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/mp-playbook.yaml
+	curl -o /tmp/apigee/ansible-scripts/playbook/ps-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/ps-playbook.yaml
+	curl -o /tmp/apigee/ansible-scripts/playbook/qs-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/qs-playbook.yaml
+	curl -o /tmp/apigee/ansible-scripts/playbook/ms-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/ms-playbook.yaml
+	curl -o /tmp/apigee/ansible-scripts/playbook/orgsetup-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/orgsetup-playbook.yaml
+	curl -o /tmp/apigee/ansible-scripts/playbook/edge-prerequisite-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/edge-prerequisite-playbook.yaml
+	curl -o /tmp/apigee/ansible-scripts/playbook/edge-presetup-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/edge-presetup-playbook.yaml
+	curl -o /tmp/apigee/ansible-scripts/playbook/edge-components-setup-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/edge-components-setup-playbook.yaml
+	curl -o /tmp/apigee/ansible-scripts/playbook/edge-setup-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/edge-setup-playbook.yaml
+	curl -o /tmp/apigee/ansible-scripts/playbook/edge-dashboard-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/edge-dashboard-playbook.yaml
+	curl -o /tmp/apigee/ansible-scripts/playbook/edge-telegraf-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/edge-telegraf-playbook.yaml
+	curl -o /tmp/apigee/ansible-scripts/playbook/edge-uninstall-playbook.yaml  $FILE_BASEPATH/ansible-scripts/playbook/edge-uninstall-playbook.yaml
+
+}
+
+setup_ssh_key() {
+	cd /tmp/apigee
+	ssh-keygen -t rsa -N "" -C ${login_user} -f my.key
+	mkdir -p ~/.ssh
+	mv -f my.key ~/.ssh/id_rsa
+	chmod 600 ~/.ssh/id_rsa
+	mkdir -p /home/${login_user}/.ssh
+	cat my.key.pub >>  /home/${login_user}/.ssh/authorized_keys
+	echo "Copy the ssh key to id_rsa in home directory of root" >>${ARMLOGPATH}
+	key_path=~/.ssh/id_rsa
+	echo 'ssh key set to '$key_path >>${ARMLOGPATH}
+}
+
+setup_ansible() {
+
+	yum install wget -y
+	yum install unzip -y
+	yum install curl -y
+	#yum install ansible -y
+
+	rpm -e epel-release
+	sudo wget https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+	rpm -ivh epel-release-latest-7.noarch.rpm
 
 
-echo "Ansible Scripts Executed"  >>${ARMLOGPATH}
+	curl -O https://storage.googleapis.com/apigee/ansible-2.3.0.0-3.el7.noarch.rpm
+	yum install ansible-2.3.0.0-3.el7.noarch.rpm -y
+
+
+	setenforce 0 >> /tmp/setenforce.out
+	cat /etc/selinux/config > /tmp/beforeSelinux.out
+	sed -i 's^SELINUX=enforcing^SELINUX=disabled^g' /etc/selinux/config || true
+	cat /etc/selinux/config > /tmp/afterSeLinux.out
+
+	yum install -y iptables-services
+	systemctl mask firewalld
+	systemctl enable iptables
+	systemctl stop firewalld
+	systemctl start iptables
+	iptables --flush
+	service iptables save
+
+	echo "ALL ALL=(ALL:ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+}
+
+setup_ansible_config() {
+	echo "Changing configuration of dev portals"
+	cd /tmp/apigee/ansible-scripts/config
+
+	sed -i.bak s/DEVPORTAL_ADMIN_USERNAME=/DEVPORTAL_ADMIN_USERNAME="${APIGEE_ADMIN_EMAIL}"/g dp-config.txt
+	sed -i.bak s/DEVPORTAL_ADMIN_PWD=/DEVPORTAL_ADMIN_PWD="${APW}"/g dp-config.txt
+	sed -i.bak s/DEVPORTAL_ADMIN_EMAIL=/DEVPORTAL_ADMIN_EMAIL="${APIGEE_ADMIN_EMAIL}"/g dp-config.txt
+
+	sed -i.bak s/DEVADMIN_USER=/DEVADMIN_USER="${APIGEE_ADMIN_EMAIL}"/g dp-config.txt
+	sed -i.bak s/DEVADMIN_PWD=/DEVADMIN_PWD="${APW}"/g dp-config.txt
+	sed -i.bak s/EDGE_ORG=/EDGE_ORG="${ORG_NAME}"/g dp-config.txt
+	sed -i.bak s/MGMTIP/${MSIP}/g dp-config.txt
+
+	sed -i.bak s/SMTPHOST=.*/SMTPHOST=${SMTPHOST}/g dp-config.txt
+	sed -i.bak s/SMTPMAILFROM=.*/SMTPMAILFROM="\"${SMTPMAILFROM}\""/g dp-config.txt
+	sed -i.bak s/SMTPUSER=.*/SMTPUSER=${SMTPUSER}/g dp-config.txt
+	sed -i.bak s/SMTPPASSWORD=.*/SMTPPASSWORD=${SMTPPASSWORD}/g dp-config.txt
+	sed -i.bak s/SMTPSSL=.*/SMTPSSL=${SMTPSSL}/g dp-config.txt
+	sed -i.bak s/SMTPPORT=.*/SMTPPORT="${SMTPPORT}"/g dp-config.txt
+
+	if ["$SMTPUSER" == "apiadmin@apigee.com"]; then
+		sed -i.bak s/SMTPUSER=.*//g /tmp/apigee/dp-config.txt
+	fi
+	if ["$SMTPUSER" == ""]; then
+		sed -i.bak s/SMTPUSER=.*//g /tmp/apigee/dp-config.txt
+	fi
+	if ["$SMTPPASSWORD" == ""]; then
+		sed -i.bak s/SMTPPASSWORD=.*//g /tmp/apigee/dp-config.txt
+	fi
+
+	#Manually copy the dp config to /tmp/apigee folder
+	cp -fr /tmp/apigee/ansible-scripts/config/dp-config.txt /tmp/apigee/dp-config.txt
+}
+
+run_ansible() {
+	
+	cd /tmp/apigee/ansible-scripts/playbook
+
+	#ansible-playbook -i ../inventory/hosts  dp-playbook.yaml  -u ${login_user} --private-key ${key_path}  >>/tmp/ansible_output.log
+	/opt/apigee/apigee-setup/bin/setup.sh -p pdb -f /tmp/apigee/dp-config.txt
+	/opt/apigee/apigee-setup/bin/setup.sh -p dp -f /tmp/apigee/dp-config.txt
+
+	echo "Ansible Scripts Executed"  >>${ARMLOGPATH}
+
+}
+
+initialize_variables "$@"
+install_apigee
+setup_ssh_key
+setup_ansible
+setup_ansible_config
+run_ansible
 
 
 echo 'script execution ended at:'>>${ARMLOGPATH}
