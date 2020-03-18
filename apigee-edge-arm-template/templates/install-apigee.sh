@@ -332,7 +332,7 @@ echo 'script execution started at:'>>${ARMLOGPATH}
 echo $(date)>>${ARMLOGPATH}
 
 
-initialize_variables
+initialize_variables "$@"
 #setup_variables
 #install_apigee
 #setup_ssh_key_and_license
