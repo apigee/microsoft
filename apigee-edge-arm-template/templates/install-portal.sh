@@ -161,8 +161,11 @@ setup_ansible_config() {
 }
 
 run_ansible() {
-	
+
 	cd /tmp/apigee/ansible-scripts/playbook
+
+	ansible-playbook -i ../inventory/hosts  edge-prerequisite-playbook.yaml  -u ${login_user} --private-key ${key_path} >>/tmp/ansible_output.log
+	ansible-playbook --extra-vars "apigee_user=$REPO_USER apigee_password=$REPO_PASSWORD repohost=$REPO_HOST repoprotocol=$REPO_PROTOCOL repostage=$REPO_STAGE version=$EDGE_VERSION" -i ../inventory/hosts  -u ${login_user} --private-key ${key_path} edge-presetup-playbook.yaml >>/tmp/ansible_output.log
 
 	#ansible-playbook -i ../inventory/hosts  dp-playbook.yaml  -u ${login_user} --private-key ${key_path}  >>/tmp/ansible_output.log
 	/opt/apigee/apigee-setup/bin/setup.sh -p pdb -f /tmp/apigee/dp-config.txt
