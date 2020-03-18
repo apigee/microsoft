@@ -84,7 +84,7 @@ setup_variables() {
 	MSIP=$(hostname -i)
 
 	echo "args: $*" >>${ARMLOGPATH}
-	echo 'Inititalized variables, ' $VHOST_ALIAS, $EDGE_VERSION, $DEPLOYMENT_TOPOLOGY, $LB_IP_ALIAS, "Hosts: " $HOST_NAMES  >>${ARMLOGPATH}
+	echo 'Inititalized variables, '$REPO_USER, $REPO_PASSWORD, $REPO_HOST, $FILE_BASEPATH, $VHOST_ALIAS, $EDGE_VERSION, $DEPLOYMENT_TOPOLOGY, $LB_IP_ALIAS, "Hosts: " $HOST_NAMES  >>${ARMLOGPATH}
 }
 
 
