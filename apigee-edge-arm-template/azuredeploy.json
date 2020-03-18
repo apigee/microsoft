@@ -46,6 +46,18 @@
         "description": "VM Size of the Apigee deployment"
       }
     },
+    "ftpUserName": {
+      "type": "string",
+      "defaultValue": "apigeese"
+    },
+    "ftpPassword": {
+      "type": "securestring",
+      "defaultValue": ""
+    },
+    "apigeeVersion": {
+      "type": "string",
+      "defaultValue": "4.19.06"
+    },
     "apigeeDeploymentName": {
       "type": "string",
       "defaultValue": "apigeetrial"
@@ -550,6 +562,15 @@
           },
           "tshirtSize": {
             "value": "[parameters('tshirtSize')]"
+          },
+          "ftpUserName": {
+            "value": "[parameters('ftpUserName')]"
+          },
+          "ftpPassword": {
+            "value": "[parameters('ftpPassword')]"
+          },
+          "apigeeVersion": {
+            "value": "[parameters('apigeeVersion')]"
           },
           "apigeeAdminEmail": {
             "value": "[parameters('apigeeAdminEmail')]"

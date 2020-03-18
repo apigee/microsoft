@@ -1,0 +1,94 @@
+---
+- hosts: apigee
+  vars:
+    apigee_license_file_name: license.txt
+    apigee_source_path: ../config
+    apigee_dest_path: /tmp/apigee
+    apigee_config_file_name: config.txt
+    apigee_prod_config_file_name: setup-org-prod.txt
+    apigee_test_config_file_name: setup-org-test.txt
+    apigee_grafana_config_file_name: grafana.txt
+    apigee_dp_config_file_name: dp-config.txt
+  tasks:
+  - name: Create dest folder
+    command: "mkdir -p {{ apigee_dest_path }}"
+    sudo: yes
+  - name: Log Files
+    command: "{{ item }}"
+    with_items:
+    - "mkdir -p {{ apigee_dest_path }}/log"
+    - "ln -Ts /tmp/setup-root.log {{ apigee_dest_path }}/log/setup-root.log"
+    sudo: yes
+    ignore_errors: true
+  - name: copy license file
+    copy: src={{apigee_source_path}}/{{apigee_license_file_name}}
+        dest={{apigee_dest_path}}/{{apigee_license_file_name}} force=yes
+    sudo: yes
+    ignore_errors: true
+  - name: copy config file
+    copy: src={{apigee_source_path}}/{{apigee_config_file_name}}
+        dest={{apigee_dest_path}}/{{apigee_config_file_name}} force=yes
+    sudo: yes
+    ignore_errors: true
+  - name: copy setup-org prod file
+    copy: src={{apigee_source_path}}/{{apigee_prod_config_file_name}}
+        dest={{apigee_dest_path}}/{{apigee_prod_config_file_name}} force=yes
+    sudo: yes
+    ignore_errors: true
+  - name: copy setup-org test file
+    copy: src={{apigee_source_path}}/{{apigee_test_config_file_name}}
+        dest={{apigee_dest_path}}/{{apigee_test_config_file_name}} force=yes
+    sudo: yes
+    ignore_errors: true
+  - name: copy grafana config file
+    copy: src={{apigee_source_path}}/{{apigee_grafana_config_file_name}}
+        dest={{apigee_dest_path}}/{{apigee_grafana_config_file_name}} force=yes
+    sudo: yes
+    ignore_errors: true
+  - name: copy dp config file
+    copy: src={{apigee_source_path}}/{{apigee_dp_config_file_name}}
+        dest={{apigee_dest_path}}/{{apigee_dp_config_file_name}} force=yes
+    sudo: yes
+    ignore_errors: true
+  - name: yum clean all
+    command: "yum clean all"
+    sudo: yes
+  - name: yum repolist
+    command: "yum repolist"
+    sudo: yes
+    register: task_result
+    until: task_result.rc == 0
+    retries: 3
+    delay: 1
+  - name: yum install libselinux-python
+    command: "yum install libselinux-python -y"
+    sudo: yes
+  - name: Limits change
+    become_method: sudo
+    lineinfile:
+      dest=/etc/security/limits.conf
+      line='{{ item }}'
+    with_items:
+      - 'apigee soft memlock unlimited'
+      - 'apigee hard memlock unlimited'
+      - 'apigee soft nofile 32768'
+      - 'apigee hard nofile 65536'
+      - 'apigee soft as unlimited'
+      - 'apigee hard as unlimited'
+    sudo: yes
+    ignore_errors: true
+  - name: Selinux status
+    shell: selinuxenabled && echo enabled || echo disabled
+    register: selinuxstatus
+    sudo: yes
+    ignore_errors: true
+  - name: Print selinux status
+    debug: msg="selinux version is {{ selinuxstatus.stdout }}"
+    ignore_errors: true
+    when: selinuxstatus.changed
+    sudo: yes  
+  - name: disable SElinux in Shell
+    command: "setenforce 0"
+    ignore_errors: true
+    sudo: yes
+

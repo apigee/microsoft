@@ -1,0 +1,24 @@
+---
+- hosts: apigee
+  vars:
+    apigee_dest_path: /tmp/apigee
+  tasks:
+  - name: Get BootstrapFile
+    command: "curl -o {{apigee_dest_path}}/bootstrap_{{ version }}.sh {{repoprotocol}}://{{repohost}}/bootstrap_{{ version }}.sh -u {{apigee_user}}:{{apigee_password}}"
+    sudo: yes
+  - name: install apigee service
+    command: "bash {{apigee_dest_path}}/bootstrap_{{ version }}.sh apigeeuser={{ apigee_user }} apigeepassword={{ apigee_password }} JAVA_FIX=I apigeestage={{repostage}} apigeerepohost={{repohost}}"
+    retries: 3
+    delay: 1
+    sudo: yes
+  - name: Install Apigee setup
+    command: "/opt/apigee/apigee-service/bin/apigee-service apigee-setup install"
+    sudo: yes
+  - name: Change Default Port timeout to higher value
+    lineinfile:
+      path: /opt/apigee/customer/defaults.sh
+      line: PORT_TIMEOUT=300
+      owner: apigee
+      group: apigee
+      create: yes
+    sudo: yes

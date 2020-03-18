@@ -1,0 +1,30 @@
+- hosts: rmp
+  vars:
+    apigee_source_path: ../config
+    apigee_dest_path: /tmp/apigee
+    apigee_config_file_name: config.txt
+  tasks:
+  - name: Run Setup with rmp profile
+    command: "/opt/apigee/apigee-setup/bin/setup.sh -p rmp -f {{apigee_dest_path}}/{{apigee_config_file_name}}"
+    register: task_result
+    until: task_result.rc == 0
+    retries: 3
+    delay: 1
+    sudo: yes
+  - name: Default MP Properties
+    command: "{{ item }}"
+    with_items:
+    - "mkdir -p /opt/apigee/customer"
+    - "mkdir -p /opt/apigee/customer/application"
+    sudo: yes
+  - name: add SNI Properties
+    lineinfile:
+       path: /opt/apigee/customer/application/message-processor.properties
+       line: conf_system_jsse.enableSNIExtension=true
+       owner: apigee
+       group: apigee
+       create: yes
+    sudo: yes
+  - name: Restart RMP
+    command: "/opt/apigee/apigee-service/bin/apigee-all restart"
+    sudo: yes

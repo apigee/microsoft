@@ -12,6 +12,15 @@
     "apigeeDeploymentName": {
       "value": "apigeeedge1node"
     },
+    "ftpUserName": {
+      "value": ""
+    },
+    "ftpPassword": {
+      "value": ""
+    },
+    "apigeeVersion": {
+      "value": ""
+    },
     "adminUserName": {
       "value": "apigeetrial"
     },

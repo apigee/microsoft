@@ -1,0 +1,5 @@
+---
+- include: edge-prerequisite-playbook.yaml
+- include: edge-presetup-playbook.yaml
+- include: edge-components-setup-playbook.yaml
+- include: edge-postsetup-playbook.yaml
