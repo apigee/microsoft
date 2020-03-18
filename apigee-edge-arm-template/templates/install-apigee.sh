@@ -329,6 +329,10 @@ initialize_variables() {
 	REPO_PASSWORD=$2
 	EDGE_VERSION=$3
 	FILE_BASEPATH=$4
+	REPO_HOST="software.apigee.com"
+    REPO_PROTOCOL="https"
+    REPO_STAGE="release"
+    
 	USER_NAME=$5
 	APIGEE_ADMIN_EMAIL=$6
 	APW=$7
