@@ -133,7 +133,6 @@ setup_ssh_key_and_license() {
 		#sed '$d' ssh_key.pem | sed '$d' | sed '$d'| sed '$d'| tail -n+5  >> tmp.pem
 		#echo '-----END RSA PRIVATE KEY-----'>>tmp.pem
 		#rm -rf ssh_key.pem
-		SSH_KEY=`echo ${SSH_KEY} | base64 --decode`
 		echo $SSH_KEY > ssh_key_ori.pem
 		sed -E 's/(-+(BEGIN|END) (RSA|OPENSSH) PRIVATE KEY-+) *| +/\1\n/g' <<< "$SSH_KEY" > tmp.pem
 
