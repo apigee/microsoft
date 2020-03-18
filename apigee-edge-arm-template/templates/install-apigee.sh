@@ -125,14 +125,18 @@ setup_ssh_key_and_license() {
 
 		cd /tmp/apigee
 		yum install dos2unix -y
-		echo $SSH_KEY | tr " " "\n" > ssh_key.pem
-		dos2unix ssh_key.pem
+		#echo $SSH_KEY | tr " " "\n" > ssh_key.pem
+		#dos2unix ssh_key.pem
 
 		#This is all because the spaces in the bellow lines are also converted to new lines!
-		echo '-----BEGIN RSA PRIVATE KEY-----' > tmp.pem
-		sed '$d' ssh_key.pem | sed '$d' | sed '$d'| sed '$d'| tail -n+5  >> tmp.pem
-		echo '-----END RSA PRIVATE KEY-----'>>tmp.pem
-		rm -rf ssh_key.pem
+		#echo '-----BEGIN RSA PRIVATE KEY-----' > tmp.pem
+		#sed '$d' ssh_key.pem | sed '$d' | sed '$d'| sed '$d'| tail -n+5  >> tmp.pem
+		#echo '-----END RSA PRIVATE KEY-----'>>tmp.pem
+		#rm -rf ssh_key.pem
+		SSH_KEY=`echo ${SSH_KEY} | base64 --decode`
+		echo $SSH_KEY > ssh_key_ori.pem
+		sed -E 's/(-+(BEGIN|END) (RSA|OPENSSH) PRIVATE KEY-+) *| +/\1\n/g' <<< "$SSH_KEY" > tmp.pem
+
 		mkdir -p ~/.ssh
 		mv tmp.pem ~/.ssh/id_rsa
 		chmod 600 ~/.ssh/id_rsa
@@ -332,7 +336,7 @@ initialize_variables() {
 	REPO_HOST="software.apigee.com"
     REPO_PROTOCOL="https"
     REPO_STAGE="release"
-    
+
 	USER_NAME=$5
 	APIGEE_ADMIN_EMAIL=$6
 	APW=$7
