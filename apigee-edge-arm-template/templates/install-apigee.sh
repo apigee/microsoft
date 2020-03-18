@@ -289,46 +289,50 @@ run_ansible() {
 	echo "Ansible Scripts Executed"  >>${ARMLOGPATH}
 }
 
+initialize_variables() {
+
+	echo 'Initializing variables' >>${ARMLOGPATH}
+
+	REPO_USER=$1
+	REPO_PASSWORD=$2
+	EDGE_VERSION=$3
+	FILE_BASEPATH=$4
+	USER_NAME=$5
+	APIGEE_ADMIN_EMAIL=$6
+	APW=$7
+	VHOST_ALIAS=$8
+	VHOST_NAME='default'
+	VHOST_PORT_PROD='9001'
+	VHOST_PORT_TEST='9002'
+	DEPLOYMENT_TOPOLOGY=$9
+	LB_IP_ALIAS=${10}
+	HOST_NAMES=${11}
+	LICENSE_TEXT=${12}
+	SSH_KEY=${13}
+	ORG_NAME=${14}
+	SMTPHOST=${15}
+	SMTPPORT=${16}
+	SMTPSSL=${17}
+	SMTPMAILFROM=${18}
+	SMTPUSER=${19}
+	SMTPPASSWORD=${20}
+	SKIP_SMTP="n"
+
+	login_user=$USER_NAME
+	MSIP=$(hostname -i)
+
+	echo 'script execution started at:'>>${ARMLOGPATH}
+	echo $(date)>>${ARMLOGPATH}
+
+	echo "args: $*" >>${ARMLOGPATH}
+	echo 'Inititalized variables, ' $REPO_USER, $REPO_PASSWORD, $EDGE_VERSION, $FILE_BASEPATH, $VHOST_ALIAS, $EDGE_VERSION, $DEPLOYMENT_TOPOLOGY, $LB_IP_ALIAS, "Hosts: " $HOST_NAMES  >>${ARMLOGPATH}
+
+}
 echo 'script execution started at:'>>${ARMLOGPATH}
 echo $(date)>>${ARMLOGPATH}
 
-echo 'Initializing variables' >>${ARMLOGPATH}
 
-REPO_USER=$1
-REPO_PASSWORD=$2
-EDGE_VERSION=$3
-FILE_BASEPATH=$4
-USER_NAME=$5
-APIGEE_ADMIN_EMAIL=$6
-APW=$7
-VHOST_ALIAS=$8
-VHOST_NAME='default'
-VHOST_PORT_PROD='9001'
-VHOST_PORT_TEST='9002'
-DEPLOYMENT_TOPOLOGY=$9
-LB_IP_ALIAS=${10}
-HOST_NAMES=${11}
-LICENSE_TEXT=${12}
-SSH_KEY=${13}
-ORG_NAME=${14}
-SMTPHOST=${15}
-SMTPPORT=${16}
-SMTPSSL=${17}
-SMTPMAILFROM=${18}
-SMTPUSER=${19}
-SMTPPASSWORD=${20}
-SKIP_SMTP="n"
-
-login_user=$USER_NAME
-MSIP=$(hostname -i)
-
-echo 'script execution started at:'>>${ARMLOGPATH}
-echo $(date)>>${ARMLOGPATH}
-
-echo "args: $*" >>${ARMLOGPATH}
-echo 'Inititalized variables, ' $REPO_USER, $REPO_PASSWORD, $EDGE_VERSION, $FILE_BASEPATH, $VHOST_ALIAS, $EDGE_VERSION, $DEPLOYMENT_TOPOLOGY, $LB_IP_ALIAS, "Hosts: " $HOST_NAMES  >>${ARMLOGPATH}
-
-
+initialize_variables
 #setup_variables
 #install_apigee
 #setup_ssh_key_and_license
