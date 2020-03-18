@@ -4,7 +4,6 @@ mkdir -p /tmp/apigee/log
 ARMLOGPATH=/tmp/apigee/log/armextension.log
 echo 'executing the install script' >>${ARMLOGPATH}
 
-echo 'Initializing variables' >>${ARMLOGPATH}
 
 install_apigee() {
 
@@ -47,6 +46,8 @@ install_apigee() {
 }
 
 setup_variables() {
+
+	echo 'Initializing variables' >>${ARMLOGPATH}
 
     REPO_USER=$1
     REPO_PASSWORD=$2
@@ -292,10 +293,10 @@ echo 'script execution started at:'>>${ARMLOGPATH}
 echo $(date)>>${ARMLOGPATH}
 
 setup_variables
-install_apigee
-setup_ssh_key_and_license
-setup_ansible_config
-run_ansible
+#install_apigee
+#setup_ssh_key_and_license
+#setup_ansible_config
+#run_ansible
 
 echo 'script execution ended at:'>>${ARMLOGPATH}
 echo $(date)>>${ARMLOGPATH}
