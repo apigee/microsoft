@@ -92,6 +92,19 @@ get_ansible_files() {
 }
 
 setup_ssh_key() {
+	cd /tmp/apigee
+	ssh-keygen -t rsa -N "" -C ${login_user} -f my.key
+	mkdir -p ~/.ssh
+	mv -f my.key ~/.ssh/id_rsa
+	chmod 600 ~/.ssh/id_rsa
+	mkdir -p /home/${login_user}/.ssh
+	cat my.key.pub >>  /home/${login_user}/.ssh/authorized_keys
+	echo "Copy the ssh key to id_rsa in home directory of root" >>${ARMLOGPATH}
+	key_path=~/.ssh/id_rsa
+	echo 'ssh key set to '$key_path >>${ARMLOGPATH}
+}
+
+setup_ssh_key2() {
 
 	SSH_KEY=`echo ${SSH_KEY} | base64 --decode`
 
