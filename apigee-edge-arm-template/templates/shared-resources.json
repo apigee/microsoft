@@ -47,9 +47,9 @@
     "publicDevPortalIPDNSName": "[concat(parameters('vmDnsName'), '-devportal')]",
     "devportalPublicIPDNSName": "[concat(parameters('vmDnsName'), uniqueString(resourceGroup().id, deployment().name), '-devportal')]",
     
-    "publicUEAddressName": "[concat('ApigeeDevportalPublicIP-',parameters('vmDnsName'))]",
+    "publicUEIPAddressName": "[concat('ApigeeUEPublicIP-',parameters('vmDnsName'))]",
     "publicUEIPDNSName": "[concat(parameters('vmDnsName'), '-ue')]",
-    "UEPublicIPDNSName": "[concat(parameters('vmDnsName'), uniqueString(resourceGroup().id, deployment().name), '-ue')]",
+    "uePublicIPDNSName": "[concat(parameters('vmDnsName'), uniqueString(resourceGroup().id, deployment().name), '-ue')]",
     
 
     "runtimePublicIPAddressName": "[concat('ApigeeRuntimePublicIP-',parameters('vmDnsName'))]",
