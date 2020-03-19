@@ -1,0 +1,35 @@
+- hosts: sso
+  vars:
+    apigee_source_path: ../config
+    apigee_dest_path: /tmp/apigee
+    apigee_sso_config_file_name: sso-config.txt
+  tasks:
+  - name: Setup JWT Keys
+    command: "{{ item }}"
+    with_items:
+    - "mkdir -p /opt/apigee/customer/application/apigee-sso/jwt-keys"
+    - "cd /opt/apigee/customer/application/apigee-sso/jwt-keys/"
+    - "openssl genrsa -out privkey.pem 2048"
+    - "openssl rsa -pubout -in privkey.pem -out pubkey.pem"
+    - "chown apigee:apigee *.pem"
+    sudo: yes
+  - name: Run Setup with Apigee SSO profile
+    command: "/opt/apigee/apigee-setup/bin/setup.sh -p sso -f {{apigee_dest_path}}/{{apigee_sso_config_file_name}}"
+    register: task_result
+    until: task_result.rc == 0
+    retries: 3
+    delay: 1
+    sudo: yes
+- hosts: ue
+  vars:
+    apigee_source_path: ../config
+    apigee_dest_path: /tmp/apigee
+    apigee_sso_config_file_name: ue-config.txt
+  tasks:
+  - name: Run Setup with Apigee SSO profile
+    command: "/opt/apigee/apigee-setup/bin/setup.sh -p ue -f {{apigee_dest_path}}/{{apigee_ue_config_file_name}}"
+    register: task_result
+    until: task_result.rc == 0
+    retries: 3
+    delay: 1
+    sudo: yes

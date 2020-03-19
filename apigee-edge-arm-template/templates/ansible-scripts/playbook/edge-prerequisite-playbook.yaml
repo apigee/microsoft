@@ -9,6 +9,9 @@
     apigee_test_config_file_name: setup-org-test.txt
     apigee_grafana_config_file_name: grafana.txt
     apigee_dp_config_file_name: dp-config.txt
+    apigee_sso_config_file_name: sso-config.txt
+    apigee_ue_config_file_name: ue-config.txt
+
   tasks:
   - name: Create dest folder
     command: "mkdir -p {{ apigee_dest_path }}"
@@ -48,6 +51,16 @@
   - name: copy dp config file
     copy: src={{apigee_source_path}}/{{apigee_dp_config_file_name}}
         dest={{apigee_dest_path}}/{{apigee_dp_config_file_name}} force=yes
+    sudo: yes
+    ignore_errors: true
+  - name: copy sso config file
+    copy: src={{apigee_source_path}}/{{apigee_sso_config_file_name}}
+        dest={{apigee_dest_path}}/{{apigee_sso_config_file_name}} force=yes
+    sudo: yes
+    ignore_errors: true
+  - name: copy ue config file
+    copy: src={{apigee_source_path}}/{{apigee_ue_config_file_name}}
+        dest={{apigee_dest_path}}/{{apigee_ue_config_file_name}} force=yes
     sudo: yes
     ignore_errors: true
   - name: yum clean all
