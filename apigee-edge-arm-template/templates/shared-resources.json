@@ -286,7 +286,7 @@
       "type": "string"
     },
     "ueDNSName": {
-      "value": "[reference(variables('publicUEAddressName')).dnsSettings.fqdn]",
+      "value": "[reference(variables('publicUEIPAddressName')).dnsSettings.fqdn]",
       "type": "string"
     },
     "storageBlobBaseUrl" : {
