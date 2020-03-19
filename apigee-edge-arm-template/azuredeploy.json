@@ -797,6 +797,9 @@
           "vmtypeprefix": {
             "value": "ue"
           },
+          "tshirtSize": {
+            "value": "[parameters('tshirtSize')]"
+          },
           "ftpUserName": {
             "value": "[parameters('ftpUserName')]"
           },
