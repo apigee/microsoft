@@ -31,12 +31,13 @@ initialize_variables() {
 	SKIP_SMTP="n"
 
 	login_user=$USER_NAME
+	HOST_NAMES=$(hostname -i)
 
 	echo 'script execution started at:'>>${ARMLOGPATH}
 	echo $(date)>>${ARMLOGPATH}
 
 	echo "args: $*" >>${ARMLOGPATH}
-	echo 'Inititalized variables, ' $REPO_USER, $REPO_PASSWORD, $EDGE_VERSION, $FILE_BASEPATH, , "Hosts: " $HOST_NAMES  >>${ARMLOGPATH}
+	echo 'Inititalized variables, ' $REPO_USER, $REPO_PASSWORD, $EDGE_VERSION, $FILE_BASEPATH, "Hosts: " $HOST_NAMES  >>${ARMLOGPATH}
 
 }
 
@@ -51,6 +52,8 @@ install_apigee() {
 	curl -o /tmp/apigee/ansible-scripts/inventory/hosts_EDGE_1node  $FILE_BASEPATH/ansible-scripts/inventory/hosts_EDGE_1node
 	curl -o /tmp/apigee/ansible-scripts/inventory/hosts_EDGE_5node  $FILE_BASEPATH/ansible-scripts/inventory/hosts_EDGE_5node
 	curl -o /tmp/apigee/ansible-scripts/inventory/hosts_EDGE_9node  $FILE_BASEPATH/ansible-scripts/inventory/hosts_EDGE_9node
+	curl -o /tmp/apigee/ansible-scripts/inventory/hosts_EDGE_dpnode  $FILE_BASEPATH/ansible-scripts/inventory/hosts_EDGE_dpnode
+
 
 	curl -o /tmp/apigee/ansible-scripts/config/aio-config.txt  $FILE_BASEPATH/ansible-scripts/config/aio-config.txt
 	curl -o /tmp/apigee/ansible-scripts/config/dp-config.txt  $FILE_BASEPATH/ansible-scripts/config/dp-config.txt
@@ -156,6 +159,25 @@ setup_ansible_config() {
 		sed -i.bak s/SMTPPASSWORD=.*//g /tmp/apigee/dp-config.txt
 	fi
 
+	cp -fr  /tmp/apigee/ansible-scripts/inventory/hosts_EDGE_dpnode /tmp/apigee/ansible-scripts/inventory/hosts
+
+	IFS=:
+	hosts_ary=($HOST_NAMES)
+	hosts_ary_length=${#hosts_ary[@]}
+	echo $hosts_ary_length  >>${ARMLOGPATH}
+
+	c=1
+	for i in "${hosts_ary[@]}"
+	do
+		if [[ ${i} != 'empty' ]]; then
+			key='HOST'$c'_INTERNALIP'
+			echo $key  >>${ARMLOGPATH}
+			sed -i.bak s/${key}/${i}/g /tmp/apigee/ansible-scripts/inventory/hosts
+			echo $i  >>${ARMLOGPATH}
+			((c++))
+		fi
+	done
+
 	#Manually copy the dp config to /tmp/apigee folder
 	cp -fr /tmp/apigee/ansible-scripts/config/dp-config.txt /tmp/apigee/dp-config.txt
 }
@@ -167,9 +189,9 @@ run_ansible() {
 	ansible-playbook -i ../inventory/hosts  edge-prerequisite-playbook.yaml  -u ${login_user} --private-key ${key_path} >>/tmp/ansible_output.log
 	ansible-playbook --extra-vars "apigee_user=$REPO_USER apigee_password=$REPO_PASSWORD repohost=$REPO_HOST repoprotocol=$REPO_PROTOCOL repostage=$REPO_STAGE version=$EDGE_VERSION" -i ../inventory/hosts  -u ${login_user} --private-key ${key_path} edge-presetup-playbook.yaml >>/tmp/ansible_output.log
 
-	#ansible-playbook -i ../inventory/hosts  dp-playbook.yaml  -u ${login_user} --private-key ${key_path}  >>/tmp/ansible_output.log
-	/opt/apigee/apigee-setup/bin/setup.sh -p pdb -f /tmp/apigee/dp-config.txt
-	/opt/apigee/apigee-setup/bin/setup.sh -p dp -f /tmp/apigee/dp-config.txt
+	ansible-playbook -i ../inventory/hosts  dp-playbook.yaml  -u ${login_user} --private-key ${key_path}  >>/tmp/ansible_output.log
+	#/opt/apigee/apigee-setup/bin/setup.sh -p pdb -f /tmp/apigee/dp-config.txt
+	#/opt/apigee/apigee-setup/bin/setup.sh -p dp -f /tmp/apigee/dp-config.txt
 
 	echo "Ansible Scripts Executed"  >>${ARMLOGPATH}
 
