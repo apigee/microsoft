@@ -677,6 +677,15 @@
           "vmtypeprefix": {
             "value": "devportal"
           },
+          "ftpUserName": {
+            "value": "[parameters('ftpUserName')]"
+          },
+          "ftpPassword": {
+            "value": "[parameters('ftpPassword')]"
+          },
+          "apigeeVersion": {
+            "value": "[parameters('apigeeVersion')]"
+          },
           "adminUserName": {
             "value": "[parameters('adminUserName')]"
           },
