@@ -5,7 +5,7 @@ IP1=HOST1_INTERNALIP
 # IP of the New Edge experience node.
 IP2=HOST2_INTERNALIP
 IP3=HOST3_EXTERNALIP
-IP4=HOST4_EXTERNALIP
+IP4=HOST3_EXTERNALIP
 
 # Edge sys admin credentials.
 ADMIN_EMAIL=
@@ -33,7 +33,7 @@ SHOEHORN_PORT=9098
 EDGEUI_ENABLE_UNIFIED_UI=y
 # Specify IP and port for the New Edge experience.
 MANAGEMENT_UI_PORT=3001
-MANAGEMENT_UI_IP=$IP2
+MANAGEMENT_UI_IP=$IP3
 # Specify a Private Cloud deployment.
 MANAGEMENT_UI_APP_ENV=OPDK
 # Disable TLS on the New Edge experience.

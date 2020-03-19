@@ -13,7 +13,7 @@ APIGEE_ADMINPW=
 MS_SCHEME=http
 
 ## Postgres configuration. 
-PG_HOST=$IP1
+PG_HOST=$IP2
 PG_PORT=5432
 # Postgres username and password as set when you installed Edge.
 PG_USER=apigee

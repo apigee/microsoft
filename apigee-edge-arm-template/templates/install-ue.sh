@@ -144,6 +144,12 @@ setup_ssh_key() {
 		echo 'ssh key set to '$key_path >>${ARMLOGPATH}
 
 	fi
+
+	sudo mkdir -p /opt/apigee/customer/application/apigee-sso/jwt-keys
+	cd /opt/apigee/customer/application/apigee-sso/jwt-keys/
+	sudo openssl genrsa -out privkey.pem 2048
+	sudo openssl rsa -pubout -in privkey.pem -out pubkey.pem
+	sudo -R chown apigee:apigee /opt/apigee/customer/application/apigee-sso/jwt-keys
 }
 
 setup_ansible() {
@@ -228,12 +234,11 @@ setup_ansible_config() {
 
     sed -i.bak s/HOST1_INTERNALIP/${MSIP}/g ue-config.txt
     sed -i.bak s/HOST2_INTERNALIP/${HOST_NAMES}/g ue-config.txt
-    sed -i.bak s/HOST3_EXTERNALIP/${MSPUBLICIP}/g ue-config.txt
-    sed -i.bak s/HOST4_EXTERNALIP/${UEPUBLICIP}/g ue-config.txt
+    sed -i.bak s/HOST3_EXTERNALIP/${UEPUBLICIP}/g ue-config.txt
 
 	cp -fr  /tmp/apigee/ansible-scripts/inventory/hosts_EDGE_uenode /tmp/apigee/ansible-scripts/inventory/hosts
 
-	sed -i.bak s/HOST1_INTERNALIP/${MSIP}/g /tmp/apigee/ansible-scripts/inventory/hosts
+	sed -i.bak s/HOST1_INTERNALIP/${HOST_NAMES}/g /tmp/apigee/ansible-scripts/inventory/hosts
 	sed -i.bak s/HOST2_INTERNALIP/${HOST_NAMES}/g /tmp/apigee/ansible-scripts/inventory/hosts
 	
 }
@@ -244,11 +249,8 @@ run_ansible() {
 
 	ansible-playbook -i ../inventory/hosts  edge-prerequisite-playbook.yaml  -u ${login_user} --private-key ${key_path} >>/tmp/ansible_output.log
 	ansible-playbook --extra-vars "apigee_user=$REPO_USER apigee_password=$REPO_PASSWORD repohost=$REPO_HOST repoprotocol=$REPO_PROTOCOL repostage=$REPO_STAGE version=$EDGE_VERSION" -i ../inventory/hosts  -u ${login_user} --private-key ${key_path} edge-presetup-playbook.yaml >>/tmp/ansible_output.log
-
-	ansible-playbook -i ../inventory/hosts  dp-playbook.yaml  -u ${login_user} --private-key ${key_path}  >>/tmp/ansible_output.log
-	#/opt/apigee/apigee-setup/bin/setup.sh -p pdb -f /tmp/apigee/dp-config.txt
-	#/opt/apigee/apigee-setup/bin/setup.sh -p dp -f /tmp/apigee/dp-config.txt
-
+	ansible-playbook -i ../inventory/hosts  ue-playbook.yaml  -u ${login_user} --private-key ${key_path}  >>/tmp/ansible_output.log
+	
 	echo "Ansible Scripts Executed"  >>${ARMLOGPATH}
 
 }
