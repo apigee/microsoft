@@ -3,7 +3,6 @@
     apigee_source_path: ../config
     apigee_dest_path: /tmp/apigee
     apigee_sso_config_file_name: sso-config.txt
-    apigee_ue_config_file_name: ue-config.txt
   tasks:
   - name: Run Setup with Apigee SSO profile
     command: "/opt/apigee/apigee-setup/bin/setup.sh -p sso -f {{apigee_dest_path}}/{{apigee_sso_config_file_name}}"
@@ -16,7 +15,7 @@
   vars:
     apigee_source_path: ../config
     apigee_dest_path: /tmp/apigee
-    apigee_sso_config_file_name: ue-config.txt
+    apigee_ue_config_file_name: ue-config.txt
   tasks:
   - name: Run Setup with Apigee SSO profile
     command: "/opt/apigee/apigee-setup/bin/setup.sh -p ue -f {{apigee_dest_path}}/{{apigee_ue_config_file_name}}"
