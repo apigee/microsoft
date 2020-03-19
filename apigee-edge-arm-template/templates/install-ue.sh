@@ -230,7 +230,7 @@ setup_ansible_config() {
 
     sed -i.bak s/HOST1_INTERNALIP/${MSIP}/g sso-config.txt
     sed -i.bak s/HOST2_INTERNALIP/${PGIP}/g sso-config.txt
-    sed -i.bak s/HOST3_EXTERNALIP/${MSPUBLICIP}/g sso-config.txt
+    sed -i.bak s/HOST3_EXTERNALIP/${UEPUBLICIP}/g sso-config.txt
 
     sed -i.bak s/HOST1_INTERNALIP/${MSIP}/g ue-config.txt
     sed -i.bak s/HOST2_INTERNALIP/${HOST_NAMES}/g ue-config.txt

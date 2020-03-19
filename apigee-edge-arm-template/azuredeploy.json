@@ -709,6 +709,9 @@
           "sshKey": {
             "value": "[parameters('sshKey')]"
           },
+          "sshPrivateKey": {
+            "value": "[parameters('sshPrivateKey')]"
+          },
           "apigeeAdminEmail": {
             "value": "[parameters('apigeeAdminEmail')]"
           },
@@ -821,6 +824,9 @@
           },
           "sshKey": {
             "value": "[parameters('sshKey')]"
+          },
+          "sshPrivateKey": {
+            "value": "[parameters('sshPrivateKey')]"
           },
           "apigeeAdminEmail": {
             "value": "[parameters('apigeeAdminEmail')]"
