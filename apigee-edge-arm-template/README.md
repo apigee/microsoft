@@ -37,14 +37,32 @@ Edge Topology- 9 node
           ```
             sh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDMQYOx.....2OA0jecyUx+3+Okp2dzhw== apigeetrial
           ```
+    - In case you are using the command line to deploy, use following command to get the key in one line.
+    ```
+    cat apigeetrial.key | tr '\n' ' '
+    ```
+    You don't have to do this if you are deploying it in portal
+
 - Deploy to Azure using link below
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fapigee%2Fmicrosoft%2Fmaster%2Fapigee-edge-arm-template%2Fazuredeploy.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fapigee%2Fmicrosoft%2F19xue%2Fapigee-edge-arm-template%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
 </a>
 
+- Deploy using command line
+  
+  - Make appropriate changes in azuredeploy.parameters.json
+  - Deploy using deploy.sh command
+
+  ```
+     ./deploy.sh <<RESOURCE NAME>>
+     for ex:
+     ./deploy.sh apigee
+  ```
+
    - This template allows you to create a Apigee Instance in Azure.Once the deployment is successful, you can access Apigee Edge. You need to get the public IP/DNS of Managment server and Devportal machine.
   ```
-     Edge UI  :  http://<FQDN name or public IP>:9000/
+     Edge UI  :  http://<FQDN of Mgmt Server Node>:9000/
+     Edge UE  :  http://<FQDN of UE Node>:3001/
      Magemement Server : http://<FQDN name or public IP>:8080/
      Developer Portal :  http://<FQDN name or public IP>:8079/
    ```
