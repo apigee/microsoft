@@ -4,34 +4,34 @@
   "parameters": {
     
     "location": {
-      "value": "West US"
+      "value": "Central US"
     },
     "tshirtSize": {
-      "value": "XSmall"
+      "value": "Medium"
     },
     "apigeeDeploymentName": {
       "value": "apigeeedge1node"
     },
     "ftpUserName": {
-      "value": ""
+      "value": "apigeese"
     },
     "ftpPassword": {
       "value": ""
     },
     "apigeeVersion": {
-      "value": ""
+      "value": "4.19.06"
     },
     "adminUserName": {
       "value": "apigeetrial"
     },
     "authenticationType": {
-      "value": "password"
+      "value": "sshPublicKey"
     },
     "password": {
-      "value": "iLovaeapi$"
+      "value": "iLoveapi$"
     },
     "sshKey": {
-      "value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCmvtlQ96ttoFR8YexnBfQSRu5c2M2xpu2nTUv6KVT3p7vBqORIfvTN69yRKvJyk0KWqM7LchPCRM3CQ77U5YPMNm6Df5iodsUoF/cT7IzteZEJZPez7Z+g9B7RjzP4fLHtXMMrDmOBVsXb4LEPKJWch1N/63X011EI38rXUK36Ta+r5ZWTarp2gkd49cPvFqdgcdFK/WbTeZPCYDGBNNbG1kcvDbSMfPwSa4HJi2Q5lmoxpEkxL0yhLfdhM9PjvD4bZkH2U82uMEjhCcR12YA5Elqg6GzjFR0bLu6b7SejdEeITvpvqnoJZx7zy0hzDPSNQDh7uOZlR5HNYdQxGbfFm3L5wkGfkPasgvBnNHKHUhbnqpwHTnMBlFETNnwIfRAjW5KHo4cnvvAcUhX5Cfoylp1oVnr9hZ5mn29rGTSkQN1npcZDbXJD+DlWRj6AdUA1bMLH3A8c8w6ETLcJhEylHb5gslKbpVi+xEZjBXmH4aslIgWWOxmMDp1iW2lCj7yUNbFLzovhwYTOetALK0ZZc2qxjsNKFCoIMjJSGpGIA07afozcEHtlL4DVRIH+SJjOLvxbxhBi+I7xMRDyr1D6w3UEpC/oxrbJ39MIy1a8ltdZ9Ct6OpE6syz7EfO4n4qMTYs1quXKgM4Dd3xlgzXoKnj2sguDs5nLjoD8aWSMqw== apigeetrial"
+      "value": "ssh-rsa AAAAB3NzaaWSMqw== apigeetrial"
     },
     "apigeeAdminEmail": {
       "value": "opdk@apigee.com"
@@ -55,16 +55,16 @@
       "value" : "youremail@gmail.com"
     },
     "smtp-password": {
-      "value" : "App Password in Gmail"
+      "value" : "xxxx"
     },
     "smtp-mailfrom": {
       "value" : "apiadmin@apigee.com"
     },
     "licenseFileText": {
-      "value": "JakHrOe9fuHhHyJzxqJ5uXlQrzk/vo/PaJpEg/NXN1kKKGQuBkv0o1BVnoRsGlMMxGK3DmShvQlFFHYWJIqCcJ2woZn3TfuFf0t7LSmWSoPxpPRUVM7NS3mXv3UtVp5XjFajEiByyGaejNrShgOiKmveJkczmcWq3g9UbfeIjhxTVpuh4fgzHOeUoPGg/gzlgYlAaU7MgNKonGKIYq23huUBYfiIB6ZoLjwy+EBBLLYmf38Gw1gxdjtbcxpAfVgVykecudT60zaqD1iUJxluJYF8NtiKkIvW01Oa6PZcuaWZql8UV6KicnWnZJZzdLhTZskwz+DqcwNf0R1+UaFaPg=="
+      "value": "copy License here"
     },
     "sshPrivateKey": {
-      "value": "-----BEGIN OPENSSH PRIVATE KEY-----b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABFwAAAAdzc2gtcnNhAAAAAwEAAQAAAQEA3mQd60vbPNwPTHfmFM0ZEarlXom658s6CRgCURwNZaePzeSRhlBJX3QY2EVlu+phAjhy9JaA3nu4jyyomQciAl6f1RvOftYHi4bFAJLw98D74trVWrZTvoQFtNBw3COFR1bxB6yWnSdtf+SBrV860xg+46guHhkdMgiQQHajKhbbWvDCDUvoW5UsfzDXAB89nIqvVnHQeLorOHpPKwOheOSeuYuQcrd4jY7wi+8vH7UAXIb2ZXtVH9q5IViX/OdgsctbkI4gYqDoUuLKQS7aLyFDF8NSn6p7LA9nOrAB8XADwF9KbmulTKApCYV/jWrFBww4xMI1E3NxCS/+F6k4DQAAA8hH6j7TR+o+0wAAAAdzc2gtcnNhAAABAQDeZB3rS9s83A9Md+YUzRkRquVeibrnyzoJGAJRHA1lp4/N5JGGUElfdBjYRWW76mECOHL0loDee7iPLKiZByICXp/VG85+1geLhsUAkvD3wPvi2tVatlO+hAW00HDcI4VHVvEHrJadJ21/5IGtXzrTGD7jqC4eGR0yCJBAdqMqFtta8MINS+hblSx/MNcAHz2ciq9WcdB4uis4ek8rA6F45J65i5Byt3iNjvCL7y8ftQBchvZle1Uf2rkhWJf852Cxy1uQjiBioOhS4spBLtovIUMXw1KfqnssD2c6sAHxcAPAX0pua6VMoCkJhX+NasUHDDjEwjUTc3EJL/4XqTgNAAAAAwEAAQAAAQEAh+r8djA4X+vG1d95mUD4j1m5MZxPxRbp82DfGZ9heL1+IEIPxt0O2u3juVpAoSbP/0Fs0JujS1amJ6sNp+k6GeSnHuINxGse1WGayY0FBQbHa5B/UR+Z8xhRPH8gWwrCjCVQznXm30mXnNCViNZo51csKItDFFYZB9lAAIYBltiZWhQE8ZSLvZmy+WBQilaccMj9LvfQufbmizU0/z0gXw581FL56KxzKo6MioGIkk3DCnPK2uUEA4Ln6FdRCKG8bPvfez6eXixRz4lTvIRJjRGTS003aDDkeIZ0jr0OUVr6usHtrQmKcAc8NnAM6LPJc81NZlA3LpgCX12VeA8v6QAAAIAQOUue7IhCCEbuyEbkI09hJVOdXdDJViibq4heaPPFc6mLPkq774Hl2xq/5vsxayjYR/TGLi/rhQos+PvZ8oFggxr/uVvPlPoL/jCjx3OEPvw6LtznoHHwkKCKZl9ELX5TxHxzpg+5WZ9YgxsEjuh4xKCaybvCPTnZ+irz7V89RgAAAIEA+o+51GxI0pso1WkKA5NU2jXq0jn+Xpg4VNhLgYSPdRtSfpfFhCxsPCH4OOMKsMsDUineqTNB2KBztPvFbzk7QlG9N5mpUebjjb57RXWpekxmf+u4LFHaSfHQ0RGJeKDky/ffenCxzIoqoCxJN1EahDogi62RrDejazXNyA7KXhMAAACBAOM32+8jzu+LCIQc/rbTZzBwn8zM9iM2oHy3hCB3fT0fXU7Vuva85xWRK/y+ZIS/sj9BTRacBzS7Ys02G5532lwfwZGiGu5iT3Xvib4m9K+t/lep36U6RDrUwaDaLmQZ90ui8HoPMTPaKREURrrXQu65oGqcKHwVYOInMAVL3FVfAAAAC2FwaWdlZXRyaWFsAQIDBAUGBw==-----END OPENSSH PRIVATE KEY-----"
+      "value": "ssh private key"
     }
 
   }

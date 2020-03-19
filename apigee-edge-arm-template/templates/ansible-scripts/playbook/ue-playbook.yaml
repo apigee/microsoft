@@ -17,7 +17,7 @@
     apigee_dest_path: /tmp/apigee
     apigee_ue_config_file_name: ue-config.txt
   tasks:
-  - name: Run Setup with Apigee SSO profile
+  - name: Run Setup with Apigee UE profile
     command: "/opt/apigee/apigee-setup/bin/setup.sh -p ue -f {{apigee_dest_path}}/{{apigee_ue_config_file_name}}"
     register: task_result
     until: task_result.rc == 0
