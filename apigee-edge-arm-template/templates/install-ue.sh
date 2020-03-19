@@ -102,6 +102,12 @@ setup_ssh_key() {
 	echo "Copy the ssh key to id_rsa in home directory of root" >>${ARMLOGPATH}
 	key_path=~/.ssh/id_rsa
 	echo 'ssh key set to '$key_path >>${ARMLOGPATH}
+
+	sudo mkdir -p /opt/apigee/customer/application/apigee-sso/jwt-keys
+	cd /opt/apigee/customer/application/apigee-sso/jwt-keys/
+	sudo openssl genrsa -out privkey.pem 2048
+	sudo openssl rsa -pubout -in privkey.pem -out pubkey.pem
+	sudo -R chown apigee:apigee /opt/apigee/customer/application/apigee-sso/jwt-keys
 }
 
 setup_ssh_key2() {
