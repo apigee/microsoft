@@ -79,7 +79,7 @@
     },
     "password": {
       "type": "securestring",
-      "defaultValue": "Apigee@123",
+      "defaultValue": "iLoveapi$",
       "metadata": {
         "descritpion": "Password for non SSH login (supported only for XSmall)"
       }
@@ -93,14 +93,14 @@
     },
     "apigeeAdminEmail": {
       "type": "string",
-      "defaultValue": "apigeetrial@apigee.com",
+      "defaultValue": "opdk@apigee.com",
       "metadata": {
         "description": "email address used as super admin of Apigee deployment"
       }
     },
     "apigeeAdminPassword": {
       "type": "securestring",
-      "defaultValue": "Apigee@123"
+      "defaultValue": "Secret123"
     },
     "sshPrivateKey": {
       "type": "securestring",
