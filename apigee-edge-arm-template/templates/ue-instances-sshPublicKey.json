@@ -36,6 +36,11 @@
     "password": {
       "type": "securestring"
     },
+    "tshirtSize": {
+      "type": "string",
+      "defaultValue": "XSmall"
+
+    },
     "sshKey": {
       "type": "string"
     },
