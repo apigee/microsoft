@@ -81,9 +81,8 @@ Edge Topology- 9 node
     | Tshirt Size              | Choose XSmall for 1 node, Medium for 5 node and Large for 5 node installation                           |
     | Ftp User Name              |  Ftp user to access software.apigee.com             |
     | Ftp Password              |     Ftp password                     |
-    | Apigee Version              |   Apigee Edge Version                      |
-
-    | Apigee Deployment Name           | Name of the deployment. All the resources will be prefixed or suffixed with this name.      |
+    | Apigee Version              |   Apigee Edge Version              |
+    | Apigee Deployment Name           | Name of the deployment. |
     | Admin User Name| Admin user name of machine. If you change the default value, you must create the key pair for that user as described above.                        |
     | Authentication Type    | Choose from possible case of password or sshPublicKey. For Medium and Large it always has to be sshKey                    |
     | password     | If you have choosen authentication type as password, please provide the machine password. Please give 6 - 72 characters with 1 capital, 1 numeric and 1 special characters.                          |
