@@ -62,7 +62,7 @@ Edge Topology- 9 node
      ./deploy.sh apigee
   ```
 
-   - This template allows you to create a Apigee Instance in Azure.Once the deployment is successful, you can access Apigee Edge. You need to get the public IP/DNS of Managment server and Devportal machine.
+   - This template allows you to create a Apigee Instance in Azure.Once the deployment is successful, you can access Apigee Edge. You need to get the public IP/DNS of Managment server, Devportal machine and  UE machine.
   ```
      Edge UI  :  http://<FQDN of Mgmt Server Node>:9000/
      Edge UE  :  http://<FQDN of UE Node>:3001/
@@ -70,8 +70,9 @@ Edge Topology- 9 node
      Developer Portal :  http://<FQDN name or public IP>:8079/
    ```
 
-- Understanding Parameters
+## Understanding Parameters
 
+-  Parameter References
 
     | properties        | Description                                    |
     | ----------------- |:-----------------------------------------------| 
@@ -99,7 +100,7 @@ Edge Topology- 9 node
     | smtp-password       | SMTP password|
     | smtp-mailfrom       | SMTP mail from|
     
-- An example of parameters reference would be 
+- Example parameters  
 
 
     | properties        | Description                                    |
