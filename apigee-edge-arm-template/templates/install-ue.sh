@@ -26,13 +26,13 @@ initialize_variables() {
 	UEPUBLICIP=${11}
 	SSH_KEY=${12}
 	ORG_NAME=${13}
-	DEPLOYMENT_TOPOLOGY=${14}
-	SMTPHOST=${15}
-	SMTPPORT=${16}
-	SMTPSSL=${17}
-	SMTPMAILFROM=${18}
-	SMTPUSER=${19}
-	SMTPPASSWORD=${20}
+	#DEPLOYMENT_TOPOLOGY=${14}
+	SMTPHOST=${14}
+	SMTPPORT=${15}
+	SMTPSSL=${16}
+	SMTPMAILFROM=${17}
+	SMTPUSER=${18}
+	SMTPPASSWORD=${19}
 	SKIP_SMTP="n"
 
 	login_user=$USER_NAME
@@ -92,7 +92,7 @@ get_ansible_files() {
 
 }
 
-setup_ssh_key2() {
+setup_ssh_key() {
 	cd /tmp/apigee
 	ssh-keygen -t rsa -N "" -C ${login_user} -f my.key
 	mkdir -p ~/.ssh
@@ -111,7 +111,7 @@ setup_ssh_key2() {
 	sudo -R chown apigee:apigee /opt/apigee/customer/application/apigee-sso/jwt-keys
 }
 
-setup_ssh_key() {
+setup_ssh_key2() {
 
 	SSH_KEY=`echo ${SSH_KEY} | base64 --decode`
 
