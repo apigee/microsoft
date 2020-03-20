@@ -28,20 +28,23 @@ Edge Topology- 9 node
 
 
 ## Getting Started
-- Create a ssh key pair with the user apigeetrial. Replace -C parameter if your machine's admin user is different than apigeetrial.
+- Create a ssh key pair with the user apigeetrial.
     ```
     ssh-keygen -t rsa -b 4096 -C "apigeetrial" -N "" -f apigeetrial.key
     ```
     This generates a key pair file apigeetrial.key and apigeetrial.key.pub
-    - so the public key file should like  
+    - The public key file should like  
           ```
             sh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDMQYOx.....2OA0jecyUx+3+Okp2dzhw== apigeetrial
           ```
-    - In case you are using the command line to deploy, use following command to get the key in one line.
+    - In case you are deploying using command line, use following command to get the ssh key in one string.
     ```
     cat apigeetrial.key | tr '\n' ' '
     ```
-    You don't have to do this if you are deploying it in portal
+    - For license text, use this command to generate the license text in one string. 
+    ```
+    cat license.txt | tr '\n'
+    ```
 
 - Deploy to Azure using link below
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fapigee%2Fmicrosoft%2F19xue%2Fapigee-edge-arm-template%2Fazuredeploy.json" target="_blank">
@@ -68,7 +71,6 @@ Edge Topology- 9 node
    ```
 
 - Understanding Parameters
-![Understanding Parameters](/images/azuredeploy.png)
 
 
     | properties        | Description                                    |
@@ -77,7 +79,11 @@ Edge Topology- 9 node
     | Location          | azure location. Choose from the dropdown.    | 
     | Location          | Type in the same location you had choosen from the dropdown                                   |
     | Tshirt Size              | Choose XSmall for 1 node, Medium for 5 node and Large for 5 node installation                           |
-    | Apigee Deployment Name           | Name of the deployment      |
+    | Ftp User Name              |  Ftp user to access software.apigee.com             |
+    | Ftp Password              |     Ftp password                     |
+    | Apigee Version              |   Apigee Edge Version                      |
+
+    | Apigee Deployment Name           | Name of the deployment. All the resources will be prefixed or suffixed with this name.      |
     | Admin User Name| Admin user name of machine. If you change the default value, you must create the key pair for that user as described above.                        |
     | Authentication Type    | Choose from possible case of password or sshPublicKey. For Medium and Large it always has to be sshKey                    |
     | password     | If you have choosen authentication type as password, please provide the machine password. Please give 6 - 72 characters with 1 capital, 1 numeric and 1 special characters.                          |

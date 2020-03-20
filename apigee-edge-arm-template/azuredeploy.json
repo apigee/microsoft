@@ -825,6 +825,9 @@
           "sshPrivateKey": {
             "value": "[parameters('sshPrivateKey')]"
           },
+          "tshirtSize": {
+            "value": "[parameters('tshirtSize')]"
+          },
           "apigeeAdminEmail": {
             "value": "[parameters('apigeeAdminEmail')]"
           },
