@@ -244,7 +244,7 @@
         ]
       },
       "protectedSettings": {
-          "commandToExecute": "[concat('sh install-ue.sh',' ',parameters('ftpUserName'),' ',parameters('ftpPassword'),' ',parameters('apigeeVersion'),' ',parameters('templateBaseUrl'),' ', parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',parameters('msip'),' ',parameters('mspublicip'),' ',parameters('pgip'),' ',parameters('uepublicip'),' ',base64(parameters('sshPrivateKey')),' ',parameters('org'),' ',parameters('smtp-host'),' ',parameters('smtp-port'),' ', parameters('smtp-ssl'), ' ', parameters('smtp-mailfrom'), ' ' , parameters('smtp-username'),' ',parameters('smtp-password'))]"
+          "commandToExecute": "[concat('sh install-ue.sh',' ',parameters('ftpUserName'),' ',parameters('ftpPassword'),' ',parameters('apigeeVersion'),' ',parameters('templateBaseUrl'),' ', parameters('adminUserName'),' ',parameters('apigeeAdminEmail'),' ',parameters('apigeeAdminPassword'),' ',parameters('msip'),' ',parameters('mspublicip'),' ',parameters('pgip'),' ',parameters('uepublicip'),' ',base64(parameters('sshPrivateKey')),' ',parameters('org'),' ',parameters('tshirtSize'),' ',parameters('smtp-host'),' ',parameters('smtp-port'),' ', parameters('smtp-ssl'), ' ', parameters('smtp-mailfrom'), ' ' , parameters('smtp-username'),' ',parameters('smtp-password'))]"
         }
     }
   }

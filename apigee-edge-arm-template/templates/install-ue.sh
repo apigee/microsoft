@@ -26,13 +26,13 @@ initialize_variables() {
 	UEPUBLICIP=${11}
 	SSH_KEY=${12}
 	ORG_NAME=${13}
-	#DEPLOYMENT_TOPOLOGY=${14}
-	SMTPHOST=${14}
-	SMTPPORT=${15}
-	SMTPSSL=${16}
-	SMTPMAILFROM=${17}
-	SMTPUSER=${18}
-	SMTPPASSWORD=${19}
+	DEPLOYMENT_TOPOLOGY=${14}
+	SMTPHOST=${15}
+	SMTPPORT=${16}
+	SMTPSSL=${17}
+	SMTPMAILFROM=${18}
+	SMTPUSER=${19}
+	SMTPPASSWORD=${20}
 	SKIP_SMTP="n"
 
 	login_user=$USER_NAME
@@ -92,7 +92,7 @@ get_ansible_files() {
 
 }
 
-setup_ssh_key() {
+setup_ssh_key2() {
 	cd /tmp/apigee
 	ssh-keygen -t rsa -N "" -C ${login_user} -f my.key
 	mkdir -p ~/.ssh
@@ -111,18 +111,9 @@ setup_ssh_key() {
 	sudo -R chown apigee:apigee /opt/apigee/customer/application/apigee-sso/jwt-keys
 }
 
-setup_ssh_key2() {
+setup_ssh_key() {
 
 	SSH_KEY=`echo ${SSH_KEY} | base64 --decode`
-
-	echo "Copy license file to /tmp/apigee/ansible-scripts/config location" >> ${ARMLOGPATH}
-	cd /tmp/apigee/ansible-scripts/config
-	rm -rf license.txt
-
-	#Replace space with new lines before writing to file
-	echo $LICENSE_TEXT | tr " " "\n"> license.txt
-
-	echo 'License file Set' >>${ARMLOGPATH}
 
 	echo 'Setting ssh key' >>${ARMLOGPATH}
 
