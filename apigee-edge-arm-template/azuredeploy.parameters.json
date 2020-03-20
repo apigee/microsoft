@@ -65,6 +65,12 @@
     },
     "sshPrivateKey": {
       "value": "ssh private key"
+    },
+    "installDevportal": {
+      "value": "n"
+    },
+    "installUE": {
+      "value": "y"
     }
 
   }

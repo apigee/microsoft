@@ -164,6 +164,28 @@
       "metadata": {
         "description": "SMTP Mail From"
       }
+    },
+    "installDevportal": {
+      "type": "string",
+      "defaultValue": "n",
+      "allowedValues": [
+        "y",
+        "n"
+      ],
+      "metadata": {
+        "description": "Install Dev portal?"
+      }
+    },
+    "installUE": {
+      "type": "string",
+      "defaultValue": "y",
+      "allowedValues": [
+        "y",
+        "n"
+      ],
+      "metadata": {
+        "description": "Install UE?"
+      }
     }
   },
   "variables": {
@@ -659,6 +681,7 @@
     },
     {
       "name": "devportalInstances",
+      "condition": "[equals(parameters('installDevportal'),'y')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2017-05-10",
       "dependsOn": [
@@ -772,6 +795,7 @@
     },
     {
       "name": "ueInstances",
+      "condition": "[equals(parameters('installUE'),'y')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2017-05-10",
       "dependsOn": [
