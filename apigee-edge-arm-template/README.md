@@ -84,8 +84,8 @@ Edge Topology- 9 node
     | Apigee Version              |   Apigee Edge Version              |
     | Apigee Deployment Name           | Name of the deployment. |
     | Admin User Name| Admin user name of machine. If you change the default value, you must create the key pair for that user as described above.                        |
-    | Authentication Type    | Choose from possible case of password or sshPublicKey. For Medium and Large it always has to be sshKey                    |
-    | password     | If you have choosen authentication type as password, please provide the machine password. Please give 6 - 72 characters with 1 capital, 1 numeric and 1 special characters.                          |
+    | Authentication Type    | Choose from possible case of password or sshPublicKey. For Medium and Large it always has to be sshKey. This specifies how vms are authenticated. You can log in to machine as ssh -i {{Ssh Key Path}} {{Admin User Name}}@{{VM Public IP}}                |
+    | password     | If you have choosen authentication type as password, please provide the machine password. Please give 6 - 72 characters with 1 upper case, 1 numeric and 1 special characters.                          |
     | Ssh Key          | The ssh Public Key. If you have choosen authenticationType as sshPublicKey, please copy and paste the contents from apigeetrial.key.pub here.                                |
     | Apigee Admin Email         | Apigee Edge system user email address               |
     | Apigee Admin Password          | Apigee Edge system user password                                     |
