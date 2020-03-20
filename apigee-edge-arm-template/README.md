@@ -109,6 +109,9 @@ Edge Topology- 9 node
     | Location          | Central US                                   |
     | Tshirt Size              | Medium                         |
     | Apigee Deployment Name           | driveapigee      |
+    | Ftp User Name              |  apigeese             |
+    | Ftp Password              |     xxxxx                     |
+    | Apigee Version              |   4.19.06              |
     | Admin User Name| apigeetrial                        |
     | Authentication Type    | sshPublicKey                  |
     | password     | iLoveapi$123                          |
